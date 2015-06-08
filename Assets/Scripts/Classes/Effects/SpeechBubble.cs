@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class SpeechBubble : MonoBehaviour {
+	public GameObject speechBubbleUI = null;
+	
 	// Use this for initialization
 	void Start() {
 	}
