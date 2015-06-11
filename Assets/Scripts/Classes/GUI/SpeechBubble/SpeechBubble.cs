@@ -11,8 +11,11 @@ public class SpeechBubble : MonoBehaviour {
     void Awake() {
         Initialize();
     }
+    
     // Use this for initialization
     void Start() {
+		// by default the speech bubble is hidden on start
+        Hide(float.Epsilon);
     }
     
     // Update is called once per frame
@@ -46,6 +49,16 @@ public class SpeechBubble : MonoBehaviour {
         }
     }
     
+    public bool IsHidden() {
+        bool foundObjectShowing = false;
+        foreach(UI2DSprite sprite in sprites) {
+            if(sprite.alpha > 0f) {
+                foundObjectShowing = true;
+            }
+        }
+        return !foundObjectShowing;
+    }
+    
     protected void UpdateAnimator() {
         if(animatorReference != null) {
             foreach(SpeechBubbleImage iterationSpeechBubble in SpeechBubbleImage.GetValues(typeof(SpeechBubbleImage))) {
@@ -63,10 +76,8 @@ public class SpeechBubble : MonoBehaviour {
         tweens.Clear();
     }
     
-    public SpeechBubble Show() {
+    public SpeechBubble Show(float duration = 1f) {
         ClearTweens();
-        
-        float duration = 1f;
         foreach(UI2DSprite sprite in sprites) {
             tweens.Add(sprite.alphaTo(duration, 1f));
         }
@@ -74,10 +85,8 @@ public class SpeechBubble : MonoBehaviour {
         return this;
     }
     
-    public SpeechBubble Hide() {
+    public SpeechBubble Hide(float duration = 1f) {
         ClearTweens();
-        
-        float duration = 1f;
         foreach(UI2DSprite sprite in sprites) {
             tweens.Add(sprite.alphaTo(duration, 0f));
         }
