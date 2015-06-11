@@ -6,6 +6,7 @@ public class SpeechBubble : MonoBehaviour {
     public Animator animatorReference = null;
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     public List<UI2DSprite> sprites = null;
+    public List<GoTween> tweens = null;
     
     void Awake() {
         Initialize();
@@ -36,14 +37,17 @@ public class SpeechBubble : MonoBehaviour {
             Debug.LogError("animatorReference is null, please set it to a reference");
         }
         
-		if (sprites == null) {
-			sprites = new List<UI2DSprite>();
-		}
+        if(sprites == null) {
+            sprites = new List<UI2DSprite>();
+        }
+        
+        if(tweens == null) {
+            tweens = new List<GoTween>();
+        }
     }
     
     protected void UpdateAnimator() {
         if(animatorReference != null) {
-            // SpeechBubbleImage[] speechBubbleTypes = (SpeechBubbleImage[])SpeechBubbleImage.GetValues(typeof(SpeechBubbleImage));
             foreach(SpeechBubbleImage iterationSpeechBubble in SpeechBubbleImage.GetValues(typeof(SpeechBubbleImage))) {
                 animatorReference.SetBool(iterationSpeechBubble.ToString(), false);
             }
@@ -51,33 +55,31 @@ public class SpeechBubble : MonoBehaviour {
         }
     }
     
+    public void ClearTweens() {
+        foreach(GoTween tween in tweens) {
+            tween.pause();
+            tween.destroy();
+        }
+        tweens.Clear();
+    }
+    
     public SpeechBubble Show() {
+        ClearTweens();
+        
         float duration = 1f;
         foreach(UI2DSprite sprite in sprites) {
-            // UIPanel panelToModify = this.gameObject.GetComponent<UIPanel>();
-            // UIPanel panelToModify = speechBubblePanel.GetComponent<UIPanel>();
-            // Go.to(sprite,
-            //       duration,
-            //       new GoTweenConfig()
-            //       .floatProp("alpha", 1f));
-            // sprite.alphaTo(sprite, duration, 1f);
-            sprite.alphaTo(duration, 1f);
+            tweens.Add(sprite.alphaTo(duration, 1f));
         }
+        
         return this;
     }
     
     public SpeechBubble Hide() {
-        // sprite2D
+        ClearTweens();
+        
         float duration = 1f;
         foreach(UI2DSprite sprite in sprites) {
-            // UIPanel panelToModify = this.gameObject.GetComponent<UIPanel>();
-            // UIPanel panelToModify = speechBubblePanel.GetComponent<UIPanel>();
-            // Go.to(sprite,
-            //       duration,
-            //       new GoTweenConfig()
-            //       .floatProp("alpha", 0f));
-            // UI2DSpriteGoKitTweenExtensions.alphaTo(sprite, duration, 1f);
-			sprite.alphaTo(duration, 0f);
+            tweens.Add(sprite.alphaTo(duration, 0f));
         }
         return this;
     }
