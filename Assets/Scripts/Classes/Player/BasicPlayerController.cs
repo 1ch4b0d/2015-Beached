@@ -6,8 +6,10 @@ public class BasicPlayerController : MonoBehaviour {
     
     public Vector2 movementSpeed = new Vector2(5f, 5f);
     
-    public bool movingLeft = false;
+    public bool movingUp = false;
     public bool movingRight = false;
+    public bool movingDown = false;
+    public bool movingLeft = false;
     public bool actionButtonPressed = false;
     
     // Use this for initialization
@@ -57,12 +59,13 @@ public class BasicPlayerController : MonoBehaviour {
         }
     }
     
-    // TODO: Extract movement logic to its own caluclation and instead use this
-    //       method to for detecting player input
     protected void PerformInputLogic() {
         // Up
-        if(Input.GetKey(KeyCode.W)) {
-            // movementOffset.y += movementSpeed.y;
+        if(Input.GetKeyDown(KeyCode.W)) {
+            movingUp = true;
+        }
+        if(Input.GetKeyUp(KeyCode.W)) {
+            movingUp = false;
         }
         
         // Right
@@ -75,8 +78,11 @@ public class BasicPlayerController : MonoBehaviour {
         }
         
         // Down
-        if(Input.GetKey(KeyCode.S)) {
-            // movementOffset.y -= movementSpeed.y;
+        if(Input.GetKeyDown(KeyCode.S)) {
+            movingDown = true;
+        }
+        if(Input.GetKeyUp(KeyCode.S)) {
+            movingDown = false;
         }
         
         // Left
@@ -88,6 +94,7 @@ public class BasicPlayerController : MonoBehaviour {
             movingLeft = false;
         }
         
+        // Action
         if(Input.GetKeyDown(KeyCode.Space)) {
             actionButtonPressed = true;
         }
@@ -97,17 +104,17 @@ public class BasicPlayerController : MonoBehaviour {
         Vector3 movementOffset = Vector3.zero;
         
         // Top
-        // if(Input.GetKey(KeyCode.W)) {
-        //     movementOffset.y += movementSpeed;
-        // }
+        if(movingUp) {
+            movementOffset.y += movementSpeed.y;
+        }
         // Right
         if(movingRight) {
             movementOffset.x += movementSpeed.x;
         }
         // Down
-        // if(Input.GetKey(KeyCode.S)) {
-        //     movementOffset.y -= movementSpeed;
-        // }
+        if(movingDown) {
+            movementOffset.y -= movementSpeed.y;
+        }
         // Left
         if(movingLeft) {
             movementOffset.x -= movementSpeed.x;
