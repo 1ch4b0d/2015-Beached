@@ -12,6 +12,9 @@ public class SpeechBubble : MonoBehaviour {
     
     public Queue<string> textSet = new Queue<string>();
     
+    public bool hasFinishedTextSet = false;
+    public CustomEvents<System.Action> onFinshedTextSet = null;
+    
     void Awake() {
         Initialize();
     }
@@ -28,6 +31,10 @@ public class SpeechBubble : MonoBehaviour {
         DebugInfo();
     }
     
+    public bool HasFinished() {
+        return false;
+    }
+    
     protected void Initialize() {
         if(rootPanel == null) {
             rootPanel = this.gameObject.GetComponent<UIPanel>();
@@ -39,6 +46,8 @@ public class SpeechBubble : MonoBehaviour {
         if(tweens == null) {
             tweens = new List<GoTween>();
         }
+        
+        onFinshedTextSet = new CustomEvents<System.Action>();
     }
     
     void DebugInfo() {
@@ -57,6 +66,13 @@ public class SpeechBubble : MonoBehaviour {
         }
     }
     
+    public void PerformFinishCheck() {
+        if(!hasFinishedTextSet) {
+            if(textSet.Count == 0) {
+            }
+        }
+    }
+    
     public string PopText() {
         if(textSet.Count > 0) {
             return textSet.Dequeue();
@@ -70,12 +86,16 @@ public class SpeechBubble : MonoBehaviour {
     public void PopTextAndUpdateSpeechBubbleText() {
         TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
         
-        if(!typewriterEffect.isActive) {
-            if(textSet.Count > 0) {
+        if(textSet.Count > 0) {
+            if(typewriterEffect != null
+                && !typewriterEffect.isActive) {
                 SetSpeechBubbleText(PopText());
             }
-            else {
-                SetSpeechBubbleText(label.text, false);
+        }
+        else {
+            if(!hasFinishedTextSet) {
+                hasFinishedTextSet = true;
+                onFinshedTextSet.Execute();
             }
         }
     }
@@ -98,6 +118,7 @@ public class SpeechBubble : MonoBehaviour {
     /// This sets the text set to be iterated through
     /// </summary>
     public void SetTextSet(params string[] newText) {
+        hasFinishedTextSet = false;
         textSet.Clear();
         foreach(string text in newText) {
             textSet.Enqueue(text);
