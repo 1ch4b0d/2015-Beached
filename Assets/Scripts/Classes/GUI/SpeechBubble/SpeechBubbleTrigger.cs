@@ -17,7 +17,7 @@ public class SpeechBubbleTrigger : InteractionTrigger {
     }
     
     public override void Entered(GameObject gameObjectEntering) {
-        Debug.Log("SpeechBubble Trigger Entered");
+        // Debug.Log("SpeechBubble Trigger Entered");
         if(speechBubble != null) {
             speechBubble.Show(0.25f);
             speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
