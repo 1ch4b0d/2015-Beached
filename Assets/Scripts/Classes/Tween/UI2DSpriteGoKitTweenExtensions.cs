@@ -9,3 +9,12 @@ public static class UI2DSpriteGoKitTweenExtensions {
                      new GoTweenConfig().floatProp("alpha", endValue));
     }
 }
+
+public static class UIRectGoKitTweenExtensions {
+    // to tweens
+    public static GoTween alphaTo(this UIRect self, float duration, float endValue) {
+        return Go.to(self,
+                     duration,
+                     new GoTweenConfig().floatProp("alpha", endValue));
+    }
+}

@@ -13,31 +13,26 @@ public class SpeechBubbleTrigger : InteractionTrigger {
     void Update() {
     }
     
-    // public void OnTriggerEnter2D(Collider2D collider) {
-    // }
-    // public void OnTrigger2D(Collider2D collider) {
-    // }
-    // public void OnTriggerExit2D(Collider2D collider) {
-    // }
-    
     public void Initialize() {
     }
     
-    public override void Entered() {
-        // Debug.Log("SpeechBubble Trigger Entered");
+    public override void Entered(GameObject gameObjectEntering) {
+        Debug.Log("SpeechBubble Trigger Entered");
         if(speechBubble != null) {
             speechBubble.Show(0.25f);
+            speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
         }
     }
     
-    public override void Exited() {
+    public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("SpeechBubble Trigger Exited");
         if(speechBubble != null) {
             speechBubble.Hide(0.25f);
         }
     }
     
-    public override void Interact() {
-        Debug.Log("SpeechBubble Triggered Interaction");
+    public override void Interact(GameObject gameObjectInteracting) {
+        // Debug.Log("SpeechBubble Triggered Interaction");
+        speechBubble.PopTextAndUpdateSpeechBubbleText();
     }
 }

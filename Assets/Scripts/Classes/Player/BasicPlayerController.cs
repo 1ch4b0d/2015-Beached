@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class BasicPlayerController : MonoBehaviour {
-    public InteractionTrigger interactionTrigger = null;
-    
     public Vector2 movementSpeed = new Vector2(5f, 5f);
     
     public bool movingUp = false;
@@ -18,45 +16,19 @@ public class BasicPlayerController : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        PerformLogic();
+        // PerformLogic();
+    }
+    void LateUpdate() {
+        actionButtonPressed = false;
+    }
+    
+    public bool IsActionButtonPressed() {
+        return actionButtonPressed;
     }
     
     public void PerformLogic() {
         PerformInputLogic();
-        
-        Vector3 movementOffset = Vector3.zero;
-        movementOffset = CalculateMovementOffset();
-        movementOffset.z = 0f;
-        movementOffset = movementOffset * Time.deltaTime;
-        this.transform.position += movementOffset;
-        
-        if(actionButtonPressed) {
-            PerformActionLogic();
-        }
-        
-        // this is reset everytime at the end of the logic, same goes for jumping
-        actionButtonPressed = false;
-    }
-    
-    public void OnTriggerEnter2D(Collider2D collider) {
-        InteractionTrigger colliderInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
-        if(colliderInteractionTrigger != null) {
-            interactionTrigger = colliderInteractionTrigger;
-            interactionTrigger.Entered();
-        }
-    }
-    
-    public void OnTrigger2D(Collider2D collider) {
-    }
-    
-    public void OnTriggerExit2D(Collider2D collider) {
-        if(interactionTrigger != null) {
-            // if the object being exited is the same as the one assigned
-            if(collider.gameObject.GetInstanceID() == interactionTrigger.gameObject.GetInstanceID()) {
-                interactionTrigger.Exited();
-                interactionTrigger = null;
-            }
-        }
+        PerformMovementLogic();
     }
     
     protected void PerformInputLogic() {
@@ -70,7 +42,6 @@ public class BasicPlayerController : MonoBehaviour {
         
         // Right
         if(Input.GetKeyDown(KeyCode.D)) {
-            movingLeft = false;
             movingRight = true;
         }
         if(Input.GetKeyUp(KeyCode.D)) {
@@ -88,7 +59,6 @@ public class BasicPlayerController : MonoBehaviour {
         // Left
         if(Input.GetKeyDown(KeyCode.A)) {
             movingLeft = true;
-            movingRight = false;
         }
         if(Input.GetKeyUp(KeyCode.A)) {
             movingLeft = false;
@@ -97,6 +67,9 @@ public class BasicPlayerController : MonoBehaviour {
         // Action
         if(Input.GetKeyDown(KeyCode.Space)) {
             actionButtonPressed = true;
+        }
+        if(Input.GetKeyUp(KeyCode.Space)) {
+            actionButtonPressed = false;
         }
     }
     
@@ -125,13 +98,11 @@ public class BasicPlayerController : MonoBehaviour {
         return movementOffset;
     }
     
-    protected void UpdateAnimator() {
-    }
-    
-    protected void PerformActionLogic() {
-        Debug.Log("Performing Action");
-        if(interactionTrigger != null) {
-            interactionTrigger.Interact();
-        }
+    protected void PerformMovementLogic() {
+        Vector3 movementOffset = Vector3.zero;
+        movementOffset = CalculateMovementOffset();
+        movementOffset.z = 0f;
+        movementOffset = movementOffset * Time.deltaTime;
+        this.transform.position += movementOffset;
     }
 }

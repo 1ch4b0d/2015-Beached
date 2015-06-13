@@ -16,12 +16,12 @@ public class InteractionTrigger : MonoBehaviour {
     void Update() {
     }
     
-    public virtual void Entered() {
+    public virtual void Entered(GameObject gameObjectEntering) {
     }
     
-    public virtual void Exited() {
+    public virtual void Exited(GameObject gameObjectExiting) {
     }
     
-    public virtual void Interact() {
+    public virtual void Interact(GameObject gameObjectInteracting) {
     }
 }
