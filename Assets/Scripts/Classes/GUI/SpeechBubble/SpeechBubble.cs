@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpeechBubble : MonoBehaviour {
-    UIPanel rootPanel = null;
+    public UIPanel rootPanel = null;
     
     public Animator animatorReference = null;
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
@@ -11,7 +11,7 @@ public class SpeechBubble : MonoBehaviour {
     public UILabel label = null;
     
     public Queue<string> textSet = new Queue<string>();
-    
+    public bool isInUse = false;
     public bool hasFinishedTextSet = false;
     public CustomEvents<System.Action> onFinshedTextSet = null;
     
@@ -23,16 +23,14 @@ public class SpeechBubble : MonoBehaviour {
     void Start() {
         // by default the speech bubble is hidden on start
         Hide(float.Epsilon);
+        SetSpeechBubbleImageToDevice();
     }
     
     // Update is called once per frame
     void Update() {
+        PerformLogic();
         UpdateAnimator();
         DebugInfo();
-    }
-    
-    public bool HasFinished() {
-        return false;
     }
     
     protected void Initialize() {
@@ -66,11 +64,147 @@ public class SpeechBubble : MonoBehaviour {
         }
     }
     
-    public void PerformFinishCheck() {
-        if(!hasFinishedTextSet) {
+    // From here:
+    // http://docs.unity3d.com/ScriptReference/RuntimePlatform.html
+    public void SetSpeechBubbleImageToDevice() {
+        switch(Application.platform) {
+        case(RuntimePlatform.OSXEditor):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.OSXPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WindowsPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.OSXWebPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.OSXDashboardPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WindowsWebPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WindowsEditor):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.IPhonePlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.TouchInteractButton);
+            break;
+        case(RuntimePlatform.XBOX360):
+            SetSpeechBubbleImage(SpeechBubbleImage.XBoxInteractButton);
+            break;
+        case(RuntimePlatform.PS3):
+            SetSpeechBubbleImage(SpeechBubbleImage.PS3InteractButton);
+            break;
+        case(RuntimePlatform.Android):
+            SetSpeechBubbleImage(SpeechBubbleImage.TouchInteractButton);
+            break;
+        case(RuntimePlatform.LinuxPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WebGLPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WSAPlayerX86):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WSAPlayerX64):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WSAPlayerARM):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.WP8Player):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.TizenPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        case(RuntimePlatform.PSP2):
+            SetSpeechBubbleImage(SpeechBubbleImage.PS3InteractButton);
+            break;
+        case(RuntimePlatform.PS4):
+            SetSpeechBubbleImage(SpeechBubbleImage.PS3InteractButton);
+            break;
+        case(RuntimePlatform.XboxOne):
+            SetSpeechBubbleImage(SpeechBubbleImage.XBoxInteractButton);
+            break;
+        case(RuntimePlatform.SamsungTVPlayer):
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        default:
+            SetSpeechBubbleImage(SpeechBubbleImage.DesktopInteractButton);
+            break;
+        }
+    }
+    
+    public void SetSpeechBubbleImage(SpeechBubbleImage newSpeechBubbleImage) {
+        switch(newSpeechBubbleImage) {
+        case(SpeechBubbleImage.None):
+            break;
+        case(SpeechBubbleImage.DesktopInteractButton):
+            label.text = "";
+            break;
+        case(SpeechBubbleImage.PS3InteractButton):
+            label.text = "";
+            break;
+        case(SpeechBubbleImage.TouchInteractButton):
+            label.text = "";
+            break;
+        case(SpeechBubbleImage.VitaInteractButton):
+            label.text = "";
+            break;
+        case(SpeechBubbleImage.WiiInteractButton):
+            label.text = "";
+            break;
+        case(SpeechBubbleImage.XBoxInteractButton):
+            label.text = "";
+            break;
+        default:
+            break;
+        }
+        
+        speechBubbleImage = newSpeechBubbleImage;
+    }
+    
+    protected void PerformLogic() {
+        if(isInUse) {
             if(textSet.Count == 0) {
+                TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
+                if(typewriterEffect != null) {
+                    if(!typewriterEffect.isActive) {
+                        hasFinishedTextSet = true;
+                    }
+                }
+                else {
+                    hasFinishedTextSet = true;
+                }
             }
         }
+    }
+    
+    public void StartInteraction() {
+        isInUse = true;
+        SetSpeechBubbleImage(SpeechBubbleImage.None);
+    }
+    public void FinishInteraction() {
+        isInUse = false;
+        onFinshedTextSet.Execute();
+        SetSpeechBubbleImageToDevice();
+    }
+    
+    public bool HasFinished() {
+        return hasFinishedTextSet;
+    }
+    public bool IsInUse() {
+        return isInUse;
+    }
+    
+    public SpeechBubble OnFinish(System.Action newOnFinish, bool loop = false) {
+        onFinshedTextSet.Add(newOnFinish, loop);
+        return this;
     }
     
     public string PopText() {
@@ -82,6 +216,11 @@ public class SpeechBubble : MonoBehaviour {
         }
     }
     
+    // Dumb convenience method
+    public void MoveToNextText() {
+        PopTextAndUpdateSpeechBubbleText();
+    }
+    
     // I don't know if this is necessarily needed, but fuggit you know
     public void PopTextAndUpdateSpeechBubbleText() {
         TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
@@ -91,12 +230,24 @@ public class SpeechBubble : MonoBehaviour {
                 && !typewriterEffect.isActive) {
                 SetSpeechBubbleText(PopText());
             }
+            else {
+                SetSpeechBubbleText(PopText());
+            }
         }
         else {
-            if(!hasFinishedTextSet) {
-                hasFinishedTextSet = true;
-                onFinshedTextSet.Execute();
-            }
+            // if(!hasFinishedTextSet) {
+            //     if(typewriterEffect != null
+            //         && !typewriterEffect.isActive) {
+            //         hasFinishedTextSet = true;
+            //         onFinshedTextSet.Execute();
+            //         Debug.Log("speech bubble finished");
+            //     }
+            //     else {
+            //         hasFinishedTextSet = true;
+            //         onFinshedTextSet.Execute();
+            //         Debug.Log("speech bubble finished");
+            //     }
+            // }
         }
     }
     
@@ -117,13 +268,14 @@ public class SpeechBubble : MonoBehaviour {
     /// <summary>
     /// This sets the text set to be iterated through
     /// </summary>
-    public void SetTextSet(params string[] newText) {
+    public SpeechBubble SetTextSet(params string[] newText) {
         hasFinishedTextSet = false;
         textSet.Clear();
         foreach(string text in newText) {
             textSet.Enqueue(text);
         }
         PopTextAndUpdateSpeechBubbleText();
+        return this;
     }
     
     public bool IsHidden() {
