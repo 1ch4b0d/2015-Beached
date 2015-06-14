@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestPlayer : MonoBehaviour {
+public class Player : MonoBehaviour {
     public InteractionTrigger currentInteractionTrigger = null;
     public BasicPlayerController playerController = null;
     
     // Use this for initialization
     void Start() {
-    
     }
     
     // Update is called once per frame
@@ -25,9 +24,8 @@ public class TestPlayer : MonoBehaviour {
     }
     
     public void OnTriggerEnter2D(Collider2D collider) {
-        InteractionTrigger colliderInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
-        if(colliderInteractionTrigger != null) {
-            currentInteractionTrigger = colliderInteractionTrigger;
+        currentInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
+        if(currentInteractionTrigger != null) {
             currentInteractionTrigger.Entered(this.gameObject);
         }
     }
@@ -45,7 +43,20 @@ public class TestPlayer : MonoBehaviour {
         }
     }
     
-    protected void UpdateAnimator() {
+    public void UpdateAnimator() {
     }
     
+    public void StartInteraction() {
+        playerController.disableController = true;
+        playerController.Reset();
+    }
+    
+    public void StartGameplayState() {
+        playerController.disableController = false;
+        playerController.Reset();
+    }
+    
+    public void FinishInteractionState() {
+        playerController.disableController = false;
+    }
 }

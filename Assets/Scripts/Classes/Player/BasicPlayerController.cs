@@ -10,6 +10,8 @@ public class BasicPlayerController : MonoBehaviour {
     public bool movingLeft = false;
     public bool actionButtonPressed = false;
     
+    public bool disableController = false;
+    
     // Use this for initialization
     void Start() {
     }
@@ -19,6 +21,14 @@ public class BasicPlayerController : MonoBehaviour {
         // PerformLogic();
     }
     void LateUpdate() {
+        actionButtonPressed = false;
+    }
+    
+    public void Reset() {
+        movingUp = false;
+        movingRight = false;
+        movingDown = false;
+        movingLeft = false;
         actionButtonPressed = false;
     }
     
@@ -32,36 +42,38 @@ public class BasicPlayerController : MonoBehaviour {
     }
     
     protected void PerformInputLogic() {
-        // Up
-        if(Input.GetKeyDown(KeyCode.W)) {
-            movingUp = true;
-        }
-        if(Input.GetKeyUp(KeyCode.W)) {
-            movingUp = false;
-        }
-        
-        // Right
-        if(Input.GetKeyDown(KeyCode.D)) {
-            movingRight = true;
-        }
-        if(Input.GetKeyUp(KeyCode.D)) {
-            movingRight = false;
-        }
-        
-        // Down
-        if(Input.GetKeyDown(KeyCode.S)) {
-            movingDown = true;
-        }
-        if(Input.GetKeyUp(KeyCode.S)) {
-            movingDown = false;
-        }
-        
-        // Left
-        if(Input.GetKeyDown(KeyCode.A)) {
-            movingLeft = true;
-        }
-        if(Input.GetKeyUp(KeyCode.A)) {
-            movingLeft = false;
+        if(!disableController) {
+            // Up
+            if(Input.GetKeyDown(KeyCode.W)) {
+                movingUp = true;
+            }
+            if(Input.GetKeyUp(KeyCode.W)) {
+                movingUp = false;
+            }
+            
+            // Right
+            if(Input.GetKeyDown(KeyCode.D)) {
+                movingRight = true;
+            }
+            if(Input.GetKeyUp(KeyCode.D)) {
+                movingRight = false;
+            }
+            
+            // Down
+            if(Input.GetKeyDown(KeyCode.S)) {
+                movingDown = true;
+            }
+            if(Input.GetKeyUp(KeyCode.S)) {
+                movingDown = false;
+            }
+            
+            // Left
+            if(Input.GetKeyDown(KeyCode.A)) {
+                movingLeft = true;
+            }
+            if(Input.GetKeyUp(KeyCode.A)) {
+                movingLeft = false;
+            }
         }
         
         // Action

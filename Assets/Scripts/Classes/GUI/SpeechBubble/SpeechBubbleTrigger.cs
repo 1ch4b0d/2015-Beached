@@ -20,7 +20,6 @@ public class SpeechBubbleTrigger : InteractionTrigger {
         // Debug.Log("SpeechBubble Trigger Entered");
         if(speechBubble != null) {
             speechBubble.Show(0.25f);
-            speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
         }
     }
     
@@ -33,6 +32,28 @@ public class SpeechBubbleTrigger : InteractionTrigger {
     
     public override void Interact(GameObject gameObjectInteracting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
-        speechBubble.PopTextAndUpdateSpeechBubbleText();
+        Player player = gameObjectInteracting.GetComponent<Player>();
+        if(player != null
+            && speechBubble != null) {
+            if(!speechBubble.IsInUse()) {
+                // speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
+                speechBubble.SetTextSet("lol", "for real though");
+                speechBubble.OnFinish(() => { Debug.Log("FINISHED SPEECH BUBBLE."); });
+                // speechBubble.OnFinish(() => { player.StartGameplayState(); });
+                
+                player.StartInteraction();
+                speechBubble.StartInteraction();
+            }
+            else {
+                if(!speechBubble.HasFinished()) {
+                    speechBubble.MoveToNextText();
+                }
+                else {
+                    speechBubble.FinishInteraction();
+                    player.StartGameplayState();
+                    Debug.Log("Finished finished");
+                }
+            }
+        }
     }
 }
