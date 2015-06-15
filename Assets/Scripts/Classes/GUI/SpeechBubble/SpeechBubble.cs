@@ -5,6 +5,9 @@ using System.Collections.Generic;
 public class SpeechBubble : MonoBehaviour {
     public UIPanel rootPanel = null;
     
+    public GameObject speechBubbleGameObject = null;
+    public GameObject speechBubbleAnchorGameObject = null;
+    
     public Animator animatorReference = null;
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     public List<GoTween> tweens = null;
@@ -15,6 +18,15 @@ public class SpeechBubble : MonoBehaviour {
     public bool isInUse = false;
     public bool hasFinishedTextSet = false;
     public CustomEvents<System.Action> onFinshedTextSet = null;
+    
+    public static GameObject Create() {
+        GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
+        newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
+        newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
+        return newSpeechBubbleGameObject;
+    }
+    
+    public SpeechBubbleTrigger speechBubbleTrigger = null;
     
     void Awake() {
         Initialize();
@@ -35,15 +47,65 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     protected void Initialize() {
+        //----------------------------------------------------------------------
+        // Creates the Speech Bubble
+        //----------------------------------------------------------------------
+        if(speechBubbleGameObject == null) {
+            speechBubbleGameObject = Create();
+            Transform labelTransform = speechBubbleGameObject.transform.Find("Sprites/TextPanel/Text");
+            if(labelTransform != null) {
+                label = labelTransform.gameObject.GetComponent<UILabel>();
+                if(label == null) {
+                    Debug.LogError("COULD NOT FIND THE SPEECH BUBBLE'S LABEL");
+                }
+            }
+            else {
+                Debug.LogError("COULD NOT FIND THE SPEECH BUBBLE'S LABEL GAME OBJECT");
+            }
+        }
+        //----------------------------------------------------------------------
+        // Root Panel
+        //----------------------------------------------------------------------
         if(rootPanel == null) {
-            rootPanel = this.gameObject.GetComponent<UIPanel>();
+            rootPanel = speechBubbleGameObject.GetComponent<UIPanel>();
+            if(rootPanel == null) {
+                Debug.LogError("Could not find the speech bubble's: UIPanel");
+            }
         }
+        //----------------------------------------------------------------------
+        // Animator
+        //----------------------------------------------------------------------
         if(animatorReference == null) {
-            Debug.LogError("animatorReference is null, please set it to a reference");
+            animatorReference = speechBubbleGameObject.GetComponent<Animator>();
+            if(animatorReference == null) {
+                Debug.LogError("Could not find the speech bubble's: Animator");
+            }
         }
-        
+        //----------------------------------------------------------------------
+        // Tweens
+        //----------------------------------------------------------------------
         if(tweens == null) {
             tweens = new List<GoTween>();
+        }
+        //----------------------------------------------------------------------
+        // Configure Speech Bubble's UIFollowTarget
+        //----------------------------------------------------------------------
+        UIFollowTarget speechBubbleFollowTarget = speechBubbleGameObject.GetComponent<UIFollowTarget>();
+        if(speechBubbleFollowTarget != null) {
+            speechBubbleFollowTarget.target = speechBubbleAnchorGameObject.transform;
+            speechBubbleFollowTarget.gameCamera = Camera.main;
+            speechBubbleFollowTarget.uiCamera = NGUIManager.Instance.Camera();
+        }
+        else {
+            Debug.LogError("Could not find the speech bubble's: UIFollowTarget");
+        }
+        //----------------------------------------------------------------------
+        // Configure Speech Bubble's Trigger If Needed
+        //----------------------------------------------------------------------
+        // This is optional and does not need to be configured
+        if(speechBubbleTrigger) {
+            speechBubbleTrigger.rootGameObject = rootPanel.gameObject;
+            speechBubbleTrigger.speechBubble = this;
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();

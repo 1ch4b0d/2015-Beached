@@ -1,8 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpeechBubbleTrigger : InteractionTrigger {
+    public List<string> textSet = null;
     public SpeechBubble speechBubble = null;
+    
+    void Awake() {
+        if(textSet == null) {
+            textSet = new List<string>();
+        }
+    }
     
     // Use this for initialization
     void Start() {
@@ -36,8 +44,9 @@ public class SpeechBubbleTrigger : InteractionTrigger {
         if(player != null
             && speechBubble != null) {
             if(!speechBubble.IsInUse()) {
-                speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
-                speechBubble.OnFinish(() => { Debug.Log("FINISHED SPEECH BUBBLE."); });
+                // speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
+                // speechBubble.OnFinish(() => { Debug.Log("FINISHED SPEECH BUBBLE."); });
+                speechBubble.SetTextSet(textSet.ToArray());
                 
                 player.StartInteraction();
                 speechBubble.StartInteraction();
