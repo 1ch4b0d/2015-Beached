@@ -19,14 +19,14 @@ public class SpeechBubble : MonoBehaviour {
     public bool hasFinishedTextSet = false;
     public CustomEvents<System.Action> onFinshedTextSet = null;
     
+    public SpeechBubbleTrigger speechBubbleTrigger = null;
+    
     public static GameObject Create() {
         GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
         newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
         newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
         return newSpeechBubbleGameObject;
     }
-    
-    public SpeechBubbleTrigger speechBubbleTrigger = null;
     
     void Awake() {
         Initialize();
@@ -92,6 +92,9 @@ public class SpeechBubble : MonoBehaviour {
         //----------------------------------------------------------------------
         UIFollowTarget speechBubbleFollowTarget = speechBubbleGameObject.GetComponent<UIFollowTarget>();
         if(speechBubbleFollowTarget != null) {
+            if(speechBubbleAnchorGameObject == null) {
+                speechBubbleAnchorGameObject = this.gameObject;
+            }
             speechBubbleFollowTarget.target = speechBubbleAnchorGameObject.transform;
             speechBubbleFollowTarget.gameCamera = Camera.main;
             speechBubbleFollowTarget.uiCamera = NGUIManager.Instance.Camera();
@@ -103,7 +106,9 @@ public class SpeechBubble : MonoBehaviour {
         // Configure Speech Bubble's Trigger If Needed
         //----------------------------------------------------------------------
         // This is optional and does not need to be configured
-        if(speechBubbleTrigger) {
+        if(speechBubbleTrigger == null) {
+            speechBubbleTrigger = Utility.GetFirstChildOfType<SpeechBubbleTrigger>(this.gameObject);
+            Debug.Log(speechBubbleTrigger);
             speechBubbleTrigger.rootGameObject = rootPanel.gameObject;
             speechBubbleTrigger.speechBubble = this;
         }
