@@ -234,12 +234,10 @@ public class SpeechBubble : MonoBehaviour {
             if(labelTypeWriterEffect != null) {
                 if(!labelTypeWriterEffect.isActive) {
                     SetSpeechBubbleText(PopText());
-                    Debug.Log("typewriter testing");
                 }
             }
             else {
                 SetSpeechBubbleText(PopText());
-                Debug.Log("non testing");
             }
         }
     }
