@@ -9,6 +9,7 @@ public class SpeechBubble : MonoBehaviour {
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     public List<GoTween> tweens = null;
     public UILabel label = null;
+    public TypewriterEffect labelTypeWriterEffect = null;
     
     public Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
@@ -45,6 +46,7 @@ public class SpeechBubble : MonoBehaviour {
             tweens = new List<GoTween>();
         }
         
+        labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
         onFinshedTextSet = new CustomEvents<System.Action>();
     }
     
@@ -170,15 +172,19 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     protected void PerformLogic() {
-        if(isInUse) {
-            if(textSet.Count == 0) {
-                TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
-                if(typewriterEffect != null) {
-                    if(!typewriterEffect.isActive) {
-                        hasFinishedTextSet = true;
-                    }
-                }
-                else {
+        PerformHasFinishedCheck();
+    }
+    
+    protected void PerformHasFinishedCheck() {
+        if(isInUse
+            && !hasFinishedTextSet) {
+            if(labelTypeWriterEffect != null
+                && !labelTypeWriterEffect.isActive
+                && textSet.Count == 0) {
+                hasFinishedTextSet = true;
+            }
+            else {
+                if(textSet.Count == 0) {
                     hasFinishedTextSet = true;
                 }
             }
@@ -196,7 +202,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public bool HasFinished() {
-        return hasFinishedTextSet;
+        return (hasFinishedTextSet && textSet.Count == 0) ? true : false;
     }
     public bool IsInUse() {
         return isInUse;
@@ -223,31 +229,18 @@ public class SpeechBubble : MonoBehaviour {
     
     // I don't know if this is necessarily needed, but fuggit you know
     public void PopTextAndUpdateSpeechBubbleText() {
-        TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
-        
+        // Pops the next text node
         if(textSet.Count > 0) {
-            if(typewriterEffect != null
-                && !typewriterEffect.isActive) {
-                SetSpeechBubbleText(PopText());
+            if(labelTypeWriterEffect != null) {
+                if(!labelTypeWriterEffect.isActive) {
+                    SetSpeechBubbleText(PopText());
+                    Debug.Log("typewriter testing");
+                }
             }
             else {
                 SetSpeechBubbleText(PopText());
+                Debug.Log("non testing");
             }
-        }
-        else {
-            // if(!hasFinishedTextSet) {
-            //     if(typewriterEffect != null
-            //         && !typewriterEffect.isActive) {
-            //         hasFinishedTextSet = true;
-            //         onFinshedTextSet.Execute();
-            //         Debug.Log("speech bubble finished");
-            //     }
-            //     else {
-            //         hasFinishedTextSet = true;
-            //         onFinshedTextSet.Execute();
-            //         Debug.Log("speech bubble finished");
-            //     }
-            // }
         }
     }
     
@@ -255,13 +248,11 @@ public class SpeechBubble : MonoBehaviour {
     /// This sets the UILabel's text
     /// </summary>
     public void SetSpeechBubbleText(string newText, bool resetTypeWriter = true) {
-        TypewriterEffect typewriterEffect = label.GetComponent<TypewriterEffect>();
-        
         label.text = newText;
         
-        if(typewriterEffect != null
+        if(labelTypeWriterEffect != null
             && resetTypeWriter) {
-            typewriterEffect.ResetToBeginning();
+            labelTypeWriterEffect.ResetToBeginning();
         }
     }
     

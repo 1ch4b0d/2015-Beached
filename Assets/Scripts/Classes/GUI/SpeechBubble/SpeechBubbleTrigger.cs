@@ -36,10 +36,8 @@ public class SpeechBubbleTrigger : InteractionTrigger {
         if(player != null
             && speechBubble != null) {
             if(!speechBubble.IsInUse()) {
-                // speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
-                speechBubble.SetTextSet("lol", "for real though");
+                speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
                 speechBubble.OnFinish(() => { Debug.Log("FINISHED SPEECH BUBBLE."); });
-                // speechBubble.OnFinish(() => { player.StartGameplayState(); });
                 
                 player.StartInteraction();
                 speechBubble.StartInteraction();
@@ -51,7 +49,6 @@ public class SpeechBubbleTrigger : InteractionTrigger {
                 else {
                     speechBubble.FinishInteraction();
                     player.StartGameplayState();
-                    Debug.Log("Finished finished");
                 }
             }
         }
