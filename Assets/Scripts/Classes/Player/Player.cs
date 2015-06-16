@@ -23,13 +23,16 @@ public class Player : MonoBehaviour {
         if(interactionController == null) {
             Debug.LogError("Could not find the " + gameObject.name + ": interactionController");
         }
-        if(playerController == null) {
-            Debug.LogError("Could not find the " + gameObject.name + ": playerController");
-        }
+        // if(playerController == null) {
+        // Debug.LogError("Could not find the " + gameObject.name + ": playerController");
+        // }
     }
     
     protected void PerformLogic() {
-        playerController.PerformLogic();
+        if(playerController != null) {
+            playerController.PerformLogic();
+        }
+        //-----------------------------------
         interactionController.PerformLogic();
         if(interactionController.IsActionButtonPressed()) {
             if(currentInteractionTrigger != null) {
