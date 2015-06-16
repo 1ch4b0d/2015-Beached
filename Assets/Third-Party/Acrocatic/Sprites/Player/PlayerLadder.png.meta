@@ -1,6 +1,12 @@
 fileFormatVersion: 2
 guid: 11a27d1c270904364b3ce39124193dfb
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: PlayerLadder_0
+    21300002: PlayerLadder_1
+    21300004: PlayerLadder_2
+    21300006: PlayerLadder_3
+    21300008: PlayerLadder_4
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -19,6 +25,9 @@ TextureImporter:
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
   maxTextureSize: 1024
@@ -29,6 +38,7 @@ TextureImporter:
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
+  rGBM: 0
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
@@ -94,3 +104,5 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

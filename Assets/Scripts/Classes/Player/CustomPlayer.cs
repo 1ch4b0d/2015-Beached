@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class CustomPlayer : MonoBehaviour {
     public InteractionTrigger currentInteractionTrigger = null;
     public BasicPlayerController playerController = null;
     

@@ -77,10 +77,10 @@ public class BasicPlayerController : MonoBehaviour {
         }
         
         // Action
-        if(Input.GetKeyDown(KeyCode.Space)) {
+        if(Input.GetKeyDown(KeyCode.J)) {
             actionButtonPressed = true;
         }
-        if(Input.GetKeyUp(KeyCode.Space)) {
+        if(Input.GetKeyUp(KeyCode.J)) {
             actionButtonPressed = false;
         }
     }
