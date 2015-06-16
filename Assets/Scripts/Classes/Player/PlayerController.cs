@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasicPlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     public Vector2 movementSpeed = new Vector2(5f, 5f);
     
     public bool movingUp = false;
     public bool movingRight = false;
     public bool movingDown = false;
     public bool movingLeft = false;
-    public bool actionButtonPressed = false;
     
     public bool disableController = false;
     
@@ -20,8 +19,8 @@ public class BasicPlayerController : MonoBehaviour {
     void Update() {
         // PerformLogic();
     }
+    
     void LateUpdate() {
-        actionButtonPressed = false;
     }
     
     public void Reset() {
@@ -29,11 +28,6 @@ public class BasicPlayerController : MonoBehaviour {
         movingRight = false;
         movingDown = false;
         movingLeft = false;
-        actionButtonPressed = false;
-    }
-    
-    public bool IsActionButtonPressed() {
-        return actionButtonPressed;
     }
     
     public void PerformLogic() {
@@ -74,14 +68,6 @@ public class BasicPlayerController : MonoBehaviour {
             if(Input.GetKeyUp(KeyCode.A)) {
                 movingLeft = false;
             }
-        }
-        
-        // Action
-        if(Input.GetKeyDown(KeyCode.J)) {
-            actionButtonPressed = true;
-        }
-        if(Input.GetKeyUp(KeyCode.J)) {
-            actionButtonPressed = false;
         }
     }
     

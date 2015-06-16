@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CustomPlayer : MonoBehaviour {
+public class Player : MonoBehaviour {
     public InteractionTrigger currentInteractionTrigger = null;
-    public BasicPlayerController playerController = null;
+    public InteractionController interactionController = null;
+    public PlayerController playerController = null;
+    
+    void Awake() {
+        Initialize();
+    }
     
     // Use this for initialization
     void Start() {
@@ -14,9 +19,19 @@ public class CustomPlayer : MonoBehaviour {
         PerformLogic();
     }
     
+    protected void Initialize() {
+        if(interactionController == null) {
+            Debug.LogError("Could not find the " + gameObject.name + ": interactionController");
+        }
+        if(playerController == null) {
+            Debug.LogError("Could not find the " + gameObject.name + ": playerController");
+        }
+    }
+    
     protected void PerformLogic() {
         playerController.PerformLogic();
-        if(playerController.IsActionButtonPressed()) {
+        interactionController.PerformLogic();
+        if(interactionController.IsActionButtonPressed()) {
             if(currentInteractionTrigger != null) {
                 currentInteractionTrigger.Interact(this.gameObject);
             }
@@ -47,16 +62,16 @@ public class CustomPlayer : MonoBehaviour {
     }
     
     public void StartInteraction() {
-        playerController.disableController = true;
-        playerController.Reset();
+        interactionController.disableController = true;
+        interactionController.Reset();
     }
     
     public void StartGameplayState() {
-        playerController.disableController = false;
-        playerController.Reset();
+        interactionController.disableController = false;
+        interactionController.Reset();
     }
     
     public void FinishInteractionState() {
-        playerController.disableController = false;
+        interactionController.disableController = false;
     }
 }
