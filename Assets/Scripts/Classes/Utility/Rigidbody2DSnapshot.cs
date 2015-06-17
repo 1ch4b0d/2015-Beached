@@ -11,7 +11,6 @@ public class Rigidbody2DSnapshot {
         newGameObjectToPause.GetComponent<Rigidbody2D>().isKinematic = true;
     }
     
-    
     public void Unpause(GameObject newGameObjectToPause, bool enableIsKinematic = false) {
         newGameObjectToPause.GetComponent<Rigidbody2D>().velocity = savedVelocity;
         newGameObjectToPause.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
