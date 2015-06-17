@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
     public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
     public PlayerController playerController = null;
+    public Rigidbody2DSnapshot rigidbody2DSnapshot = null;
     
     void Awake() {
         Initialize();
@@ -61,20 +62,41 @@ public class Player : MonoBehaviour {
         }
     }
     
+    public void ToggleAcrocatic(GameObject acrocaticGameObject, bool enabled)  {
+        acrocaticGameObject.GetComponent<Acrocatic.Player>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerRun>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerJump>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerWall>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerDash>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerHitbox>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerCrouch>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerPlatform>().enabled = enabled;
+        acrocaticGameObject.GetComponent<Acrocatic.PlayerLadder>().enabled = enabled;
+    }
+    
     public void UpdateAnimator() {
     }
     
-    public void StartInteraction() {
-        interactionController.disableController = true;
+    public void Pause() {
+        if(rigidbody2DSnapshot == null) {
+            rigidbody2DSnapshot = new Rigidbody2DSnapshot();
+        }
+        rigidbody2DSnapshot.Pause(this.gameObject);
+        ToggleAcrocatic(this.gameObject, false);
         interactionController.Reset();
+    }
+    
+    public void Unpause() {
+        rigidbody2DSnapshot.Unpause(this.gameObject);
+        ToggleAcrocatic(this.gameObject, true);
+        interactionController.Reset();
+    }
+    
+    public void StartInteraction() {
+        Pause();
     }
     
     public void StartGameplayState() {
-        interactionController.disableController = false;
-        interactionController.Reset();
-    }
-    
-    public void FinishInteractionState() {
-        interactionController.disableController = false;
+        Unpause();
     }
 }

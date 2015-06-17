@@ -4,8 +4,6 @@ using System.Collections;
 public class InteractionController : MonoBehaviour {
     public bool interactionButtonPressed = false;
     
-    public bool disableController = false;
-    
     // Use this for initialization
     void Start() {
     }

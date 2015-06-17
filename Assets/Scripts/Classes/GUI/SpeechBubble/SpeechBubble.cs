@@ -108,7 +108,6 @@ public class SpeechBubble : MonoBehaviour {
         // This is optional and does not need to be configured
         if(speechBubbleTrigger == null) {
             speechBubbleTrigger = Utility.GetFirstChildOfType<SpeechBubbleTrigger>(this.gameObject);
-            Debug.Log(speechBubbleTrigger);
             speechBubbleTrigger.rootGameObject = rootPanel.gameObject;
             speechBubbleTrigger.speechBubble = this;
         }
@@ -259,13 +258,19 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public void StartInteraction() {
+        // Debug.Log("Started Interaction");
         isInUse = true;
         SetSpeechBubbleImage(SpeechBubbleImage.None);
     }
     public void FinishInteraction() {
+        // Debug.Log("Finished Interaction");
         isInUse = false;
         onFinshedTextSet.Execute();
         SetSpeechBubbleImageToDevice();
+        // You need to finish the typewriter effect first before setting it to
+        // an empty string
+        labelTypeWriterEffect.Finish();
+        label.text = "";
     }
     
     public bool HasFinished() {
