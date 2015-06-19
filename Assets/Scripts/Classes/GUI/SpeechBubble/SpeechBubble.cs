@@ -108,7 +108,6 @@ public class SpeechBubble : MonoBehaviour {
         // This is optional and does not need to be configured
         if(speechBubbleTrigger == null) {
             speechBubbleTrigger = Utility.GetFirstChildOfType<SpeechBubbleTrigger>(this.gameObject);
-            speechBubbleTrigger.rootGameObject = rootPanel.gameObject;
             speechBubbleTrigger.speechBubble = this;
         }
         
@@ -244,10 +243,12 @@ public class SpeechBubble : MonoBehaviour {
     protected void PerformHasFinishedCheck() {
         if(isInUse
             && !hasFinishedTextSet) {
-            if(labelTypeWriterEffect != null
-                && !labelTypeWriterEffect.isActive
-                && textSet.Count == 0) {
-                hasFinishedTextSet = true;
+            if(labelTypeWriterEffect != null) {
+                if(!labelTypeWriterEffect.isActive) {
+                    if(textSet.Count == 0) {
+                        hasFinishedTextSet = true;
+                    }
+                }
             }
             else {
                 if(textSet.Count == 0) {

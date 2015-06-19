@@ -52,12 +52,12 @@ public class SpeechBubbleTrigger : InteractionTrigger {
                 speechBubble.StartInteraction();
             }
             else {
-                if(!speechBubble.HasFinished()) {
-                    speechBubble.MoveToNextText();
-                }
-                else {
+                if(speechBubble.HasFinished()) {
                     speechBubble.FinishInteraction();
                     player.StartGameplayState();
+                }
+                else {
+                    speechBubble.MoveToNextText();
                 }
             }
         }
