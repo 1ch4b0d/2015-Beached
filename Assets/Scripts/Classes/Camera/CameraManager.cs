@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class CameraManager : MonoBehaviour {
 
-    public GameObject mainCamera = null;
-    public GameObject guiCamera = null;
+    public Camera mainCamera = null;
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION
     private static volatile CameraManager _instance;
@@ -45,10 +44,13 @@ public class CameraManager : MonoBehaviour {
     void Update() {
     }
     
-    public GameObject GetMainCamera() {
+    public Camera MainCamera() {
+        if(mainCamera == null) {
+            mainCamera = Camera.main;
+        }
         return mainCamera;
     }
-    public GameObject GetGUICamera() {
-        return guiCamera;
+    public Camera GUICamera() {
+        return NGUIManager.Instance.Camera();
     }
 }

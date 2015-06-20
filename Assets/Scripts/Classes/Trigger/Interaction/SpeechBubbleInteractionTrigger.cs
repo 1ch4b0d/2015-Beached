@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class SpeechBubbleTrigger : InteractionTrigger {
+public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     public List<string> textSet = null;
     public SpeechBubble speechBubble = null;
     
@@ -39,8 +39,12 @@ public class SpeechBubbleTrigger : InteractionTrigger {
     }
     
     public override void Interact(GameObject gameObjectInteracting) {
+        Execute(gameObjectInteracting);
+    }
+    
+    public override void Execute(GameObject gameObjectExecuting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
-        Player player = gameObjectInteracting.GetComponent<Player>();
+        Player player = gameObjectExecuting.GetComponent<Player>();
         if(player != null
             && speechBubble != null) {
             if(!speechBubble.IsInUse()) {
@@ -62,4 +66,5 @@ public class SpeechBubbleTrigger : InteractionTrigger {
             }
         }
     }
+    
 }

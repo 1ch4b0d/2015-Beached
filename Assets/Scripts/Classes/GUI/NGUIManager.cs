@@ -49,7 +49,6 @@ public class NGUIManager : MonoBehaviour {
         if(guiCamera == null) {
             guiCamera = UIRoot().transform.Find("Camera").GetComponent<Camera>();
         }
-        // return UIRoot().transform.Find("Camera").GetComponent<Camera>();
         return guiCamera;
     }
 }

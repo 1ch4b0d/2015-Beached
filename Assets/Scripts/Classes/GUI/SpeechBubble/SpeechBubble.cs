@@ -3,23 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpeechBubble : MonoBehaviour {
-    public UIPanel rootPanel = null;
+    UIPanel rootPanel = null;
     
-    public GameObject speechBubbleGameObject = null;
+    GameObject speechBubbleGameObject = null;
     public GameObject speechBubbleAnchorGameObject = null;
     
-    public Animator animatorReference = null;
-    public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
-    public List<GoTween> tweens = null;
-    public UILabel label = null;
-    public TypewriterEffect labelTypeWriterEffect = null;
+    Animator animatorReference = null;
+    SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
+    List<GoTween> tweens = null;
+    UILabel label = null;
+    TypewriterEffect labelTypeWriterEffect = null;
     
-    public Queue<string> textSet = new Queue<string>();
+    Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
     public bool hasFinishedTextSet = false;
-    public CustomEvents<System.Action> onFinshedTextSet = null;
+    CustomEvents<System.Action> onFinshedTextSet = null;
     
-    public SpeechBubbleTrigger speechBubbleTrigger = null;
+    SpeechBubbleInteractionTrigger speechBubbleInteractionTrigger = null;
     
     public static GameObject Create() {
         GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
@@ -106,9 +106,9 @@ public class SpeechBubble : MonoBehaviour {
         // Configure Speech Bubble's Trigger If Needed
         //----------------------------------------------------------------------
         // This is optional and does not need to be configured
-        if(speechBubbleTrigger == null) {
-            speechBubbleTrigger = Utility.GetFirstChildOfType<SpeechBubbleTrigger>(this.gameObject);
-            speechBubbleTrigger.speechBubble = this;
+        if(speechBubbleInteractionTrigger == null) {
+            speechBubbleInteractionTrigger = Utility.GetFirstChildOfType<SpeechBubbleInteractionTrigger>(this.gameObject);
+            speechBubbleInteractionTrigger.speechBubble = this;
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();

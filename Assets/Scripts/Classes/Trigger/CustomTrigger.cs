@@ -1,11 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-public class InteractionTrigger : MonoBehaviour {
-    void Awake() {
-    }
-    
+//TODO: REMOVE NGUI TRIGGER FUNCTIONALITY OR GIVE THIS A
+//      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
+//      NAME CUSTOM TRIGGER IS DUMB
+public class CustomTrigger : MonoBehaviour {
     // Use this for initialization
     void Start() {
     }
@@ -20,6 +19,6 @@ public class InteractionTrigger : MonoBehaviour {
     public virtual void Exited(GameObject gameObjectExiting) {
     }
     
-    public virtual void Interact(GameObject gameObjectInteracting) {
+    public virtual void Execute(GameObject gameObjectInteracting) {
     }
 }
