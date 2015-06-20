@@ -5,6 +5,9 @@ using System.Collections;
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
 //      NAME CUSTOM TRIGGER IS DUMB
 public class CustomTrigger : MonoBehaviour {
+    bool loop = false;
+    int currentIteration = 0;
+    
     // Use this for initialization
     void Start() {
     }
@@ -14,11 +17,20 @@ public class CustomTrigger : MonoBehaviour {
     }
     
     public virtual void Entered(GameObject gameObjectEntering) {
+        // By default the trigger is executed on enter, but in other classes
+        // you can override this method in order to determine where you would
+        // actually like to execute it
+        Execute(gameObjectEntering);
     }
     
     public virtual void Exited(GameObject gameObjectExiting) {
     }
     
-    public virtual void Execute(GameObject gameObjectInteracting) {
+    public virtual void Execute(GameObject gameObjectExecuting) {
+        // Perform only if it's the first iteration, or it should loop
+        if(currentIteration < 1
+            || loop) {
+            currentIteration++;
+        }
     }
 }
