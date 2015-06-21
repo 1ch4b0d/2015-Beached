@@ -5,7 +5,7 @@ public class MainMenuStart : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        CameraManager.Instance.MainCamera().GetComponent<CameraFollow>().enabled = false;
+        CameraManager.Instance.CameraFollow().enabled = false;
     }
     
     // Update is called once per frame

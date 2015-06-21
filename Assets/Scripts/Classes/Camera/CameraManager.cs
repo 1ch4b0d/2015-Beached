@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class CameraManager : MonoBehaviour {
 
     public Camera mainCamera = null;
+    //---------
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION
     private static volatile CameraManager _instance;
@@ -44,13 +45,32 @@ public class CameraManager : MonoBehaviour {
     void Update() {
     }
     
-    public Camera MainCamera() {
+    public Camera GetCamera() {
         if(mainCamera == null) {
             mainCamera = Camera.main;
         }
+        if(mainCamera == null) {
+            Debug.LogError("The mainCamera is returning null, fix it.");
+        }
         return mainCamera;
     }
+    
+    public CameraFollow CameraFollow() {
+        return GetCamera().GetComponent<CameraFollow>();
+    }
+    
+    public CameraPan CameraPan() {
+        return GetCamera().GetComponent<CameraPan>();
+    }
+    
     public Camera GUICamera() {
         return NGUIManager.Instance.Camera();
+    }
+    
+    public void PanTo(Vector3 positionToPanTo) {
+        CameraPan cameraPan = CameraPan();
+        if(cameraPan != null) {
+            cameraPan.PanTo(positionToPanTo);
+        }
     }
 }

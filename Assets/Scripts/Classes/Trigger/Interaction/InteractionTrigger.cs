@@ -15,5 +15,6 @@ public class InteractionTrigger : CustomTrigger {
     }
     
     public virtual void Interact(GameObject gameObjectInteracting) {
+        Execute(gameObjectInteracting);
     }
 }

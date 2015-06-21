@@ -26,11 +26,15 @@ public class CustomTrigger : MonoBehaviour {
     public virtual void Exited(GameObject gameObjectExiting) {
     }
     
-    public virtual void Execute(GameObject gameObjectExecuting) {
+    public virtual void Execute(GameObject gameObjectToExecute) {
         // Perform only if it's the first iteration, or it should loop
         if(currentIteration < 1
             || loop) {
+            ExecuteLogic(gameObjectToExecute);
             currentIteration++;
         }
+    }
+    
+    public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
     }
 }

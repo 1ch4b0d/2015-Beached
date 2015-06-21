@@ -2,8 +2,11 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
+    public CinematicTrigger currentCinematicTrigger = null;
+    
     public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
+    
     public PlayerController playerController = null;
     public Rigidbody2DSnapshot rigidbody2DSnapshot = null;
     
@@ -47,10 +50,15 @@ public class Player : MonoBehaviour {
         if(currentInteractionTrigger != null) {
             currentInteractionTrigger.Entered(this.gameObject);
         }
+        //--------------
+        // currentCinematicTrigger = collider.gameObject.GetComponent<CinematicTrigger>();
+        // if(currentCinematicTrigger != null) {
+        //     currentCinematicTrigger.Entered(this.gameObject);
+        // }
     }
     
-    public void OnTrigger2D(Collider2D collider) {
-    }
+    // public void OnTrigger2D(Collider2D collider) {
+    // }
     
     public void OnTriggerExit2D(Collider2D collider) {
         if(currentInteractionTrigger != null) {
@@ -60,6 +68,18 @@ public class Player : MonoBehaviour {
                 currentInteractionTrigger = null;
             }
         }
+        //--------------
+        // if(currentCinematicTrigger != null) {
+        //     // if the object being exited is the same as the one assigned
+        //     if(collider.gameObject.GetInstanceID() == currentCinematicTrigger.gameObject.GetInstanceID()) {
+        //         currentCinematicTrigger.Exited(this.gameObject);
+        //         currentCinematicTrigger = null;
+        //     }
+        // }
+    }
+    
+    public void PerformCinematicTrigerCheck(Collider2D collider) {
+    
     }
     
     public void ToggleAcrocatic(GameObject acrocaticGameObject, bool enabled)  {

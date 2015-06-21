@@ -38,11 +38,11 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         }
     }
     
-    public override void Interact(GameObject gameObjectInteracting) {
-        Execute(gameObjectInteracting);
+    public override void Execute(GameObject gameObjectInteracting) {
+        ExecuteLogic(gameObjectInteracting);
     }
     
-    public override void Execute(GameObject gameObjectExecuting) {
+    public override void ExecuteLogic(GameObject gameObjectExecuting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
         Player player = gameObjectExecuting.GetComponent<Player>();
         if(player != null
