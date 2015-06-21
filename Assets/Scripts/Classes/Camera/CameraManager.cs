@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class CameraManager : MonoBehaviour {
 
     public Camera mainCamera = null;
-    //---------
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION
     private static volatile CameraManager _instance;
@@ -45,6 +44,22 @@ public class CameraManager : MonoBehaviour {
     void Update() {
     }
     
+    public float GetLeftBoundWorldPosition() {
+        return GetCamera().OrthographicBounds().min.x;
+    }
+    
+    public float GetBottomBoundWorldPosition() {
+        return GetCamera().OrthographicBounds().min.y;
+    }
+    
+    public float GetRightBoundWorldPosition() {
+        return GetCamera().OrthographicBounds().max.x;
+    }
+    
+    public float GetTopBoundWorldPosition() {
+        return GetCamera().OrthographicBounds().max.y;
+    }
+    
     public Camera GetCamera() {
         if(mainCamera == null) {
             mainCamera = Camera.main;
@@ -59,18 +74,7 @@ public class CameraManager : MonoBehaviour {
         return GetCamera().GetComponent<CameraFollow>();
     }
     
-    public CameraPan CameraPan() {
-        return GetCamera().GetComponent<CameraPan>();
-    }
-    
     public Camera GUICamera() {
         return NGUIManager.Instance.Camera();
-    }
-    
-    public void PanTo(Vector3 positionToPanTo) {
-        CameraPan cameraPan = CameraPan();
-        if(cameraPan != null) {
-            cameraPan.PanTo(positionToPanTo);
-        }
     }
 }

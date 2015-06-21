@@ -14,6 +14,7 @@ public class CameraPan : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
+        PerformPanLogic();
     }
     
     public Transform GetCameraTransform() {
@@ -37,7 +38,25 @@ public class CameraPan : MonoBehaviour {
     }
     
     public Vector3 CalculateMovementOffset() {
-        return moveSpeed;
+        Vector3 movementOffset = Vector3.zero;
+        // X
+        if(cameraToPan.transform.position.x < targetPosition.x) {
+            movementOffset.x = moveSpeed.x;
+        }
+        else if(cameraToPan.transform.position.x < targetPosition.x) {
+            movementOffset.x = -moveSpeed.x;
+        }
+        // Y
+        if(cameraToPan.transform.position.y < targetPosition.y) {
+            movementOffset.y = moveSpeed.y;
+        }
+        else if(cameraToPan.transform.position.y < targetPosition.y) {
+            movementOffset.y = -moveSpeed.y;
+        }
+        // Z
+        // Don't care about Z for now
+        
+        return movementOffset;
     }
     
     public Vector3 PerformMovementLogic(Vector3 startPosition, Vector3 movementOffset) {

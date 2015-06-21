@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
-    public CinematicTrigger currentCinematicTrigger = null;
+    public List<CustomTrigger> customTriggers = new List<CustomTrigger>();
+    // public CinematicTrigger currentCinematicTrigger = null;
     
     public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
@@ -46,36 +48,35 @@ public class Player : MonoBehaviour {
     }
     
     public void OnTriggerEnter2D(Collider2D collider) {
-        currentInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
-        if(currentInteractionTrigger != null) {
-            currentInteractionTrigger.Entered(this.gameObject);
+        CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
+        if(customTrigger != null) {
+            if(!customTriggers.Contains(customTrigger)) {
+                customTriggers.Add(customTrigger);
+                customTrigger.Entered(this.gameObject);
+            }
         }
-        //--------------
-        // currentCinematicTrigger = collider.gameObject.GetComponent<CinematicTrigger>();
-        // if(currentCinematicTrigger != null) {
-        //     currentCinematicTrigger.Entered(this.gameObject);
-        // }
+        currentInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
     }
     
     // public void OnTrigger2D(Collider2D collider) {
     // }
     
     public void OnTriggerExit2D(Collider2D collider) {
-        if(currentInteractionTrigger != null) {
-            // if the object being exited is the same as the one assigned
-            if(collider.gameObject.GetInstanceID() == currentInteractionTrigger.gameObject.GetInstanceID()) {
-                currentInteractionTrigger.Exited(this.gameObject);
-                currentInteractionTrigger = null;
+        CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
+        if(customTrigger != null) {
+            if(customTriggers.Contains(customTrigger)) {
+                customTriggers.Remove(customTrigger);
+                customTrigger.Exited(this.gameObject);
             }
         }
         //--------------
-        // if(currentCinematicTrigger != null) {
-        //     // if the object being exited is the same as the one assigned
-        //     if(collider.gameObject.GetInstanceID() == currentCinematicTrigger.gameObject.GetInstanceID()) {
-        //         currentCinematicTrigger.Exited(this.gameObject);
-        //         currentCinematicTrigger = null;
-        //     }
-        // }
+        if(currentInteractionTrigger != null) {
+            // if the object being exited is the same as the one assigned
+            if(collider.gameObject.GetInstanceID() == currentInteractionTrigger.gameObject.GetInstanceID()) {
+                // currentInteractionTrigger.Exited(this.gameObject);
+                currentInteractionTrigger = null;
+            }
+        }
     }
     
     public void PerformCinematicTrigerCheck(Collider2D collider) {

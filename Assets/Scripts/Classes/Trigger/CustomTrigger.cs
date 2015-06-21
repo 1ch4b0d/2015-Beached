@@ -32,6 +32,10 @@ public class CustomTrigger : MonoBehaviour {
             || loop) {
             ExecuteLogic(gameObjectToExecute);
             currentIteration++;
+            
+            if(loop == false) {
+                this.GetComponent<Collider2D>().enabled = false;
+            }
         }
     }
     
