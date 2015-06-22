@@ -5,8 +5,8 @@ using System.Collections;
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
 //      NAME CUSTOM TRIGGER IS DUMB
 public class CustomTrigger : MonoBehaviour {
-    bool loop = false;
-    int currentIteration = 0;
+    public bool loop = false;
+    public int currentIteration = 0;
     
     // Use this for initialization
     void Start() {

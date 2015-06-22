@@ -23,6 +23,7 @@ public class StartMenuPanToPlayer: CustomTrigger {
     // }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
+        // OrthographicWidth
         gameObjectExecuting.GetComponent<Player>().ToggleAcrocatic(gameObjectExecuting, false);
         if(startTransform != null) {
             gameObjectExecuting.transform.position = startTransform.position;
@@ -40,19 +41,25 @@ public class StartMenuPanToPlayer: CustomTrigger {
         .onComplete(complete => {
             CameraFollow mainCameraFollow = CameraManager.Instance.CameraFollow();
             
-            GameObject blockingColliderGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Colliders/BlockingCollider") as GameObject);
+            GameObject blockingColliderGameObject = LevelManager.Instance.leftWorldBorder;
+            if(blockingColliderGameObject == null) {
+                blockingColliderGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Colliders/BlockingCollider") as GameObject);
+            }
             BoxCollider2D blockingCollider = blockingColliderGameObject.GetComponent<BoxCollider2D>();
             
             gameObjectExecuting.GetComponent<Player>().ToggleAcrocatic(gameObjectExecuting, true);
             
+            float rightWorldBorderXPosition = LevelManager.Instance.rightWorldBorder.transform.position.x - CameraManager.Instance.GetCamera().OrthographicWidth() / 2;
+            
             mainCameraFollow.enabled = true;
             mainCameraFollow.minXAndY = new Vector2(targetPosition.x, mainCameraFollow.minXAndY.y);
+            mainCameraFollow.maxXAndY = new Vector2(rightWorldBorderXPosition, mainCameraFollow.maxXAndY.y);
             
             float leftCameraBoundWorldPosition = CameraManager.Instance.GetLeftBoundWorldPosition();
             float bottomCameraBoundWorldPosition = CameraManager.Instance.GetBottomBoundWorldPosition();
-            Debug.Log("Player x: " + PlayerManager.Instance.transform.position.x);
-            Debug.Log("Left bound: " + leftCameraBoundWorldPosition);
-            Debug.Log("Left: " + CameraManager.Instance.GetLeftBoundWorldPosition());
+            // Debug.Log("Player x: " + PlayerManager.Instance.transform.position.x);
+            // Debug.Log("Left bound: " + leftCameraBoundWorldPosition);
+            // Debug.Log("Left: " + CameraManager.Instance.GetLeftBoundWorldPosition());
             
             // Create a collider that blocks the player from moving left
             blockingColliderGameObject.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1000f);

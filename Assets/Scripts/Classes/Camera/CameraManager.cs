@@ -60,6 +60,7 @@ public class CameraManager : MonoBehaviour {
         return GetCamera().OrthographicBounds().max.y;
     }
     
+    
     public Camera GetCamera() {
         if(mainCamera == null) {
             mainCamera = Camera.main;

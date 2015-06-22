@@ -38,8 +38,18 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         }
     }
     
-    public override void Execute(GameObject gameObjectInteracting) {
-        ExecuteLogic(gameObjectInteracting);
+    public override void Execute(GameObject gameObjectToExecute) {
+        // Perform only if it's the first iteration, or it should loop
+        if(currentIteration < 1
+            || loop) {
+            ExecuteLogic(gameObjectToExecute);
+            // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
+            // currentIteration++;
+            
+            if(loop == false) {
+                this.GetComponent<Collider2D>().enabled = false;
+            }
+        }
     }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
@@ -59,6 +69,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 if(speechBubble.HasFinished()) {
                     speechBubble.FinishInteraction();
                     player.StartGameplayState();
+                    currentIteration++;
                 }
                 else {
                     speechBubble.MoveToNextText();
