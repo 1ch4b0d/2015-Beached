@@ -29,7 +29,6 @@ namespace Acrocatic {
 		[HideInInspector]
 		public bool onLadder = false;				// Determines if the player is on a ladder.
 		[HideInInspector]
-		public bool facingUp = false;
 		public GameObject frontCheckTop;			// A position marking to check if the player's front.
 		[HideInInspector]
 		public GameObject frontCheckBot;			// A position marking to check if the player's front.
@@ -163,7 +162,6 @@ namespace Acrocatic {
 			animator.SetBool("wall", stuckToWall);
 			animator.SetBool("onLadder", onLadder);
 			animator.SetBool("jumpingThrough", jumpingThrough);
-			animator.SetBool("facingUp", facingUp);
 			animator.SetFloat("horizontal", Mathf.Abs(hor));
 			animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody.velocity.x));
 			animator.SetFloat("ySpeed", rigidbody.velocity.y);
