@@ -5,30 +5,26 @@ using Acrocatic;
 public class PlayerFaceUp : MonoBehaviour {
 
     private GameObject playerGameObject;
-    private Player playerReference;
-    private Animator playerAnimation;
-    
-    public AudioClip shootSound;
+    private Acrocatic.Player player;
     
     // Use this for initialization
     void Start() {
-        // Setting up references.
+        // Grabs from the same object this script is attached to if isn't
+        // declared ahead of time
         if(playerGameObject == null) {
-            playerGameObject = GameObject.Find("Player");
+            playerGameObject = this.gameObject;
         }
-        playerReference = playerGameObject.GetComponent<Player>();
-        playerAnimation = playerGameObject.GetComponent<Animator>();
+        player = playerGameObject.GetComponent<Acrocatic.Player>();
     }
     
     
     // Update is called once per frame
     void Update() {
         if(Input.GetKeyDown(KeyCode.W)) {
-            playerReference.facingUp = true;
-            playerAnimation.SetBool("facingRight", true);
+            player.FacingUp(true);
         }
         else if(Input.GetKeyUp(KeyCode.W)) {
-            playerReference.facingUp = false;
+            player.FacingUp(false);
         }
     }
 }
