@@ -39,13 +39,14 @@ public class StartMenuPanToPlayer: CustomTrigger {
               new GoTweenConfig().position(targetPosition).setEaseType(GoEaseType.BackIn)
         .onComplete(complete => {
             CameraFollow mainCameraFollow = CameraManager.Instance.CameraFollow();
+            
             GameObject blockingColliderGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Colliders/BlockingCollider") as GameObject);
             BoxCollider2D blockingCollider = blockingColliderGameObject.GetComponent<BoxCollider2D>();
             
             gameObjectExecuting.GetComponent<Player>().ToggleAcrocatic(gameObjectExecuting, true);
             
             mainCameraFollow.enabled = true;
-            mainCameraFollow.minXAndY = new Vector2(PlayerManager.Instance.transform.position.x, mainCameraFollow.minXAndY.y);
+            mainCameraFollow.minXAndY = new Vector2(targetPosition.x, mainCameraFollow.minXAndY.y);
             
             float leftCameraBoundWorldPosition = CameraManager.Instance.GetLeftBoundWorldPosition();
             float bottomCameraBoundWorldPosition = CameraManager.Instance.GetBottomBoundWorldPosition();
@@ -55,7 +56,7 @@ public class StartMenuPanToPlayer: CustomTrigger {
             
             // Create a collider that blocks the player from moving left
             blockingColliderGameObject.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1000f);
-            blockingColliderGameObject.transform.position = new Vector3(leftCameraBoundWorldPosition + blockingCollider.size.x / 2, bottomCameraBoundWorldPosition, 0);
+            blockingColliderGameObject.transform.position = new Vector3(leftCameraBoundWorldPosition + blockingCollider.size.x / 4, bottomCameraBoundWorldPosition, 0);
         }));
     }
 }
