@@ -40,7 +40,7 @@ public class SpeechBubbleTrigger : InteractionTrigger {
     
     public override void Interact(GameObject gameObjectInteracting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
-        Player player = gameObjectInteracting.GetComponent<Player>();
+        CPlayer player = gameObjectInteracting.GetComponent<CPlayer>();
         if(player != null
             && speechBubble != null) {
             if(!speechBubble.IsInUse()) {
