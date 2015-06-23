@@ -21,7 +21,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     void Update() {
     }
     
-    public void Initialize() {
+    public override void Initialize() {
     }
     
     public override void Entered(GameObject gameObjectEntering) {
@@ -54,16 +54,10 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
-<<<<<<< HEAD:Assets/Scripts/Classes/Trigger/Interaction/SpeechBubbleInteractionTrigger.cs
         Player player = gameObjectExecuting.GetComponent<Player>();
-=======
-        CPlayer player = gameObjectInteracting.GetComponent<CPlayer>();
->>>>>>> 22e3f7e5223f14d1f08fcc8f04d41c93ff8babee:Assets/Scripts/Classes/GUI/SpeechBubble/SpeechBubbleTrigger.cs
         if(player != null
             && speechBubble != null) {
             if(!speechBubble.IsInUse()) {
-                // speechBubble.SetTextSet("lol", "for real though", "ELL.", "OH.", "ELL.");
-                // speechBubble.OnFinish(() => { Debug.Log("FINISHED SPEECH BUBBLE."); });
                 speechBubble.SetTextSet(textSet.ToArray());
                 
                 player.StartInteraction();
@@ -73,6 +67,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 if(speechBubble.HasFinished()) {
                     speechBubble.FinishInteraction();
                     player.StartGameplayState();
+                    
                     currentIteration++;
                 }
                 else {

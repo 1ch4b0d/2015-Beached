@@ -5,7 +5,7 @@ using System.Collections;
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
 //      NAME CUSTOM TRIGGER IS DUMB
 public class CustomTrigger : MonoBehaviour {
-    public bool loop = false;
+    public bool loop = true;
     public int currentIteration = 0;
     
     // Use this for initialization
@@ -14,6 +14,9 @@ public class CustomTrigger : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
+    }
+    
+    public virtual void Initialize() {
     }
     
     public virtual void Entered(GameObject gameObjectEntering) {

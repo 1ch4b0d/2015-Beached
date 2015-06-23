@@ -12,6 +12,8 @@ public class Player : MonoBehaviour {
     public PlayerController playerController = null;
     public Rigidbody2DSnapshot rigidbody2DSnapshot = null;
     
+    public CarryItem carryItem = null;
+    
     void Awake() {
         Initialize();
     }
@@ -27,7 +29,16 @@ public class Player : MonoBehaviour {
     
     protected void Initialize() {
         if(interactionController == null) {
-            Debug.LogError("Could not find the " + gameObject.name + ": interactionController");
+            interactionController = this.gameObject.GetComponent<InteractionController>();
+            if(interactionController == null) {
+                Debug.LogWarning("Could not find the " + this.gameObject.name + ": interactionController");
+            }
+        }
+        if(carryItem == null) {
+            carryItem = this.gameObject.GetComponent<CarryItem>();
+            if(carryItem == null) {
+                Debug.LogError(" The component 'carryItem' has not been assigned. Please assign it before using this script.");
+            }
         }
         // if(playerController == null) {
         // Debug.LogError("Could not find the " + gameObject.name + ": playerController");
@@ -42,7 +53,12 @@ public class Player : MonoBehaviour {
         interactionController.PerformLogic();
         if(interactionController.IsActionButtonPressed()) {
             if(currentInteractionTrigger != null) {
-                currentInteractionTrigger.Interact(this.gameObject);
+                if(carryItem.IsCarryingItem()) {
+                    carryItem.DropItem();
+                }
+                else {
+                    currentInteractionTrigger.Interact(this.gameObject);
+                }
             }
         }
     }
@@ -102,13 +118,13 @@ public class Player : MonoBehaviour {
         if(rigidbody2DSnapshot == null) {
             rigidbody2DSnapshot = new Rigidbody2DSnapshot();
         }
-        rigidbody2DSnapshot.Pause(this.gameObject);
+        rigidbody2DSnapshot.Capture(this.gameObject);
         ToggleAcrocatic(this.gameObject, false);
         interactionController.Reset();
     }
     
     public void Unpause() {
-        rigidbody2DSnapshot.Unpause(this.gameObject);
+        rigidbody2DSnapshot.Restore(this.gameObject);
         ToggleAcrocatic(this.gameObject, true);
         interactionController.Reset();
     }
