@@ -19,7 +19,7 @@ public class SpeechBubble : MonoBehaviour {
     public bool hasFinishedTextSet = false;
     CustomEvents<System.Action> onFinshedTextSet = null;
     
-    SpeechBubbleInteractionTrigger speechBubbleInteractionTrigger = null;
+    InteractionTrigger interactionTrigger = null;
     
     public static GameObject Create() {
         GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
@@ -106,9 +106,9 @@ public class SpeechBubble : MonoBehaviour {
         // Configure Speech Bubble's Trigger If Needed
         //----------------------------------------------------------------------
         // This is optional and does not need to be configured
-        if(speechBubbleInteractionTrigger == null) {
-            speechBubbleInteractionTrigger = Utility.GetFirstChildOfType<SpeechBubbleInteractionTrigger>(this.gameObject);
-            speechBubbleInteractionTrigger.speechBubble = this;
+        if(interactionTrigger == null) {
+            interactionTrigger = Utility.GetFirstChildOfType<InteractionTrigger>(this.gameObject);
+            interactionTrigger.speechBubble = this;
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class ItemInteractionTrigger : InteractionTrigger {
     public GameObject itemGameObject = null;
+    // public SpeechBubble speechBubble = null;
+    public float speechBubbleFadeSpeed = 0.25f;
+    
     void Awake() {
     }
     
@@ -18,46 +21,48 @@ public class ItemInteractionTrigger : InteractionTrigger {
     
     public override void Initialize() {
         if(itemGameObject == null) {
-            Debug.LogError("Could not find the " + this.gameObject.name + ": itemGameObject");
+            itemGameObject = Utility.GetFirstParentOfType<Item>(this.gameObject).gameObject;
+            if(itemGameObject == null) {
+                Debug.LogError("Could not find the " + this.gameObject.name + ": itemGameObject");
+            }
         }
     }
     
     public override void Entered(GameObject gameObjectEntering) {
-        Debug.Log("Item Trigger Entered");
-        // if(speechBubble != null) {
-        //     speechBubble.Show(0.25f);
-        // }
+        // Debug.Log("Item Trigger Entered");
+        CarryItem carryItem = gameObjectEntering.GetComponent<CarryItem>();
+        if(carryItem != null) {
+            if(carryItem.itemBeingCarried == null) {
+                ShowSpeechBubble(speechBubbleFadeSpeed);
+            }
+        }
+        else {
+            ShowSpeechBubble(speechBubbleFadeSpeed);
+        }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
-        Debug.Log("Item Trigger Exited");
-        // if(speechBubble != null) {
-        //     speechBubble.Hide(0.25f);
-        // }
+        // Debug.Log("Item Trigger Exited");
+        CarryItem carryItem = gameObjectExiting.GetComponent<CarryItem>();
+        if(carryItem != null) {
+            if(carryItem.itemBeingCarried == null) {
+                HideSpeechBubble(speechBubbleFadeSpeed);
+            }
+        }
+        else {
+            HideSpeechBubble(speechBubbleFadeSpeed);
+        }
     }
-    
-    // public override void Execute(GameObject gameObjectToExecute) {
-    // Perform only if it's the first iteration, or it should loop
-    // if(currentIteration < 1
-    //     || loop) {
-    //     ExecuteLogic(gameObjectToExecute);
-    //     // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
-    //     // currentIteration++;
-    
-    //     if(loop == false) {
-    //         this.GetComponent<Collider2D>().enabled = false;
-    //     }
-    // }
-    // }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         // Debug.Log("Item Triggered Interaction");
-        
         CarryItem carryItem = gameObjectExecuting.GetComponent<CarryItem>();
-        if(carryItem != null
+        if(itemGameObject != null
+            && carryItem != null
             && carryItem.itemBeingCarried == null) {
             // Debug.Log("give this player an item!!!");
             carryItem.PickUpItem(itemGameObject);
+            HideSpeechBubble(speechBubbleFadeSpeed);
         }
     }
 }

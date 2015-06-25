@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     public List<string> textSet = null;
-    public SpeechBubble speechBubble = null;
     
     void Awake() {
         if(textSet == null) {
@@ -26,16 +25,12 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
-        if(speechBubble != null) {
-            speechBubble.Show(0.25f);
-        }
+        ShowSpeechBubble(0.25f);
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("SpeechBubble Trigger Exited");
-        if(speechBubble != null) {
-            speechBubble.Hide(0.25f);
-        }
+        HideSpeechBubble(0.25f);
     }
     
     public override void Execute(GameObject gameObjectToExecute) {

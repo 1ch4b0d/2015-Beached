@@ -18,6 +18,10 @@ public class CarryItem : MonoBehaviour {
     
     }
     
+    public GameObject GetItemBeingCarried() {
+        return itemBeingCarried;
+    }
+    
     public bool IsCarryingItem() {
         if(itemBeingCarried != null) {
             return true;
@@ -27,12 +31,17 @@ public class CarryItem : MonoBehaviour {
         }
     }
     
+    // TODO: Consider removing this and placing it in the item class so that each
+    //       item handles its own logic for picking itself up. Make a method signature
+    //       that handles it in terms of player and so forth
     public void PickUpItem(GameObject itemToPickUp) {
         Item item = itemToPickUp.GetComponent<Item>();
         if(item != null) {
-            Debug.Log("picking up");
-            itemBeingCarried = itemToPickUp;
+            // Debug.Log("picking up");
+            // item.DisableColliders();
+            item.DisableTriggers();
             
+            itemBeingCarried = itemToPickUp;
             // Track the item's scale before it's set up
             Vector3 previousScale = itemToPickUp.transform.localScale;
             itemBeingCarried.transform.parent = carryItemAnchor.transform;
@@ -43,10 +52,41 @@ public class CarryItem : MonoBehaviour {
         }
     }
     
-    public void DropItem() {
-        Debug.Log("dropping");
-        ItemManager.Instance.Add(itemBeingCarried);
-        itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
-        itemBeingCarried = null;
+    public void DropItem(Vector3 itemVelocity) {
+        Item item = itemBeingCarried.GetComponent<Item>();
+        if(item != null) {
+            // Debug.Log("dropping");
+            // item.EnableColliders();
+            item.EnableTriggers();
+            
+            // Flips the item on drop so it looks the right way
+            if(this.gameObject.transform.localScale.x < 0) {
+                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
+            }
+            ItemManager.Instance.Add(itemBeingCarried);
+            itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
+            itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
+            itemBeingCarried = null;
+            
+        }
+    }
+    
+    public void ThrowItem(Vector3 itemVelocity) {
+        itemVelocity.z = 0;
+        Item item = itemBeingCarried.GetComponent<Item>();
+        if(item != null) {
+            // Debug.Log("throwing");
+            // item.EnableColliders();
+            item.EnableTriggers();
+            
+            // Flips the item on drop so it looks the right way
+            if(this.gameObject.transform.localScale.x < 0) {
+                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
+            }
+            ItemManager.Instance.Add(itemBeingCarried);
+            itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
+            itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity * 2;
+            itemBeingCarried = null;
+        }
     }
 }

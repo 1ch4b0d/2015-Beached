@@ -20,4 +20,25 @@ public static class Utility {
         }
         return default(T);
     }
+    
+    public static T GetFirstParentOfType<T>(GameObject gameObjectToSearch) {
+        GameObject currentParentGameObject = gameObjectToSearch.transform.parent.gameObject;
+        T currentTypeCheck = currentParentGameObject.gameObject.GetComponent<T>();
+        
+        // Debug.Log("-------------------------------------");
+        // Debug.Log("Checking: " + gameObjectToSearch.name);
+        // Debug.Log("Current Parent: " + currentParentGameObject.name);
+        
+        if(currentTypeCheck != null) {
+            return currentTypeCheck;
+        }
+        else {
+            T parentOfType = GetFirstParentOfType<T>(currentParentGameObject);
+            if(parentOfType != null) {
+                return parentOfType;
+            }
+        }
+        
+        return default(T);
+    }
 }

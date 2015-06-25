@@ -9,7 +9,8 @@ public class Player : MonoBehaviour {
     public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
     
-    public PlayerController playerController = null;
+    // public PlayerController playerController = null;
+    public Acrocatic.Player playerController = null;
     public Rigidbody2DSnapshot rigidbody2DSnapshot = null;
     
     public CarryItem carryItem = null;
@@ -40,27 +41,32 @@ public class Player : MonoBehaviour {
                 Debug.LogError(" The component 'carryItem' has not been assigned. Please assign it before using this script.");
             }
         }
-        // if(playerController == null) {
-        // Debug.LogError("Could not find the " + gameObject.name + ": playerController");
-        // }
+        if(playerController == null) {
+            playerController = this.gameObject.GetComponent<Acrocatic.Player>();
+            if(playerController == null) {
+                Debug.LogError("Could not find the " + gameObject.name + ": playerController");
+            }
+        }
+    }
+    
+    public bool IsMoving(Rigidbody2D rigidbody) {
+        if(rigidbody != null
+            && (rigidbody.velocity.x > 0
+                || rigidbody.velocity.y > 0)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
     protected void PerformLogic() {
-        if(playerController != null) {
-            playerController.PerformLogic();
-        }
+        // if(playerController != null) {
+        //     playerController.PerformLogic();
+        // }
         //-----------------------------------
         interactionController.PerformLogic();
-        if(interactionController.IsActionButtonPressed()) {
-            if(currentInteractionTrigger != null) {
-                if(carryItem.IsCarryingItem()) {
-                    carryItem.DropItem();
-                }
-                else {
-                    currentInteractionTrigger.Interact(this.gameObject);
-                }
-            }
-        }
+        PerformCarryItemReleaseCheck();
     }
     
     public void OnTriggerEnter2D(Collider2D collider) {
@@ -95,8 +101,44 @@ public class Player : MonoBehaviour {
         }
     }
     
-    public void PerformCinematicTrigerCheck(Collider2D collider) {
+    public void PerformCarryItemReleaseCheck() {
+        if(interactionController.IsActionButtonPressed()) {
+            if(currentInteractionTrigger != null) {
+                if(carryItem.IsCarryingItem()) {
+                    Rigidbody2D playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+                    if(IsMoving(playerRigidbody)) {
+                        Vector3 dropVelocity = Vector3.zero;
+                        if(playerController != null) {
+                            if(playerController.facingRight) {
+                                dropVelocity = new Vector3(1, 1, 0);
+                            }
+                            else {
+                                dropVelocity = new Vector3(-1, 1, 0);
+                            }
+                        }
+                        carryItem.ThrowItem(dropVelocity);
+                    }
+                    else {
+                        Vector3 dropVelocity = Vector3.zero;
+                        if(playerController != null) {
+                            if(playerController.facingRight) {
+                                dropVelocity = new Vector3(1, 1, 0);
+                            }
+                            else {
+                                dropVelocity = new Vector3(-1, 1, 0);
+                            }
+                        }
+                        carryItem.DropItem(dropVelocity);
+                    }
+                }
+                else {
+                    currentInteractionTrigger.Interact(this.gameObject);
+                }
+            }
+        }
+    }
     
+    public void PerformCinematicTriggerCheck(Collider2D collider) {
     }
     
     public void ToggleAcrocatic(GameObject acrocaticGameObject, bool enabled)  {

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class InteractionTrigger : CustomTrigger {
+    public SpeechBubble speechBubble = null;
+    
     void Awake() {
     }
     
@@ -19,5 +21,17 @@ public class InteractionTrigger : CustomTrigger {
     
     public virtual void Interact(GameObject gameObjectInteracting) {
         Execute(gameObjectInteracting);
+    }
+    
+    public void ShowSpeechBubble(float duration) {
+        if(speechBubble != null) {
+            speechBubble.Show(duration);
+        }
+    }
+    
+    public void HideSpeechBubble(float duration) {
+        if(speechBubble != null) {
+            speechBubble.Hide(duration);
+        }
     }
 }

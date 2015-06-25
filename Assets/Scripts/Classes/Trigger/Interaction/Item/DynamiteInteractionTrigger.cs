@@ -16,5 +16,6 @@ public class DynamiteInteractionTrigger : ItemInteractionTrigger {
     }
     
     public override void Initialize() {
+        base.Initialize();
     }
 }
