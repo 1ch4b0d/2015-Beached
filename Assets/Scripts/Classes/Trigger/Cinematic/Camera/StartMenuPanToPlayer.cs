@@ -62,8 +62,8 @@ public class StartMenuPanToPlayer: CustomTrigger {
             // Debug.Log("Left: " + CameraManager.Instance.GetLeftBoundWorldPosition());
             
             // Create a collider that blocks the player from moving left
-            blockingColliderGameObject.GetComponent<BoxCollider2D>().size = new Vector2(1f, 1000f);
-            blockingColliderGameObject.transform.position = new Vector3(leftCameraBoundWorldPosition + blockingCollider.size.x / 4, bottomCameraBoundWorldPosition, 0);
+            blockingColliderGameObject.GetComponent<BoxCollider2D>().size = new Vector2(5f, 1000f);
+            blockingColliderGameObject.transform.position = new Vector3(leftCameraBoundWorldPosition - blockingCollider.size.x / 3f, bottomCameraBoundWorldPosition, 0);
         }));
     }
 }

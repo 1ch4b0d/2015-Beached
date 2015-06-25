@@ -2,20 +2,32 @@
 using System.Collections;
 
 public class CarryItem : MonoBehaviour {
+    public GameObject objectCarryingItem = null;
     public GameObject itemBeingCarried = null;
     public GameObject carryItemAnchor = null;
     
     // Use this for initialization
     void Start() {
-        if(carryItemAnchor == null) {
-            carryItemAnchor = this.gameObject;
-            Debug.LogError(" The component 'carryItemAnchor' has not been assigned. Please assign it before using this script.");
-        }
+        Initializate();
     }
     
     // Update is called once per frame
     void Update() {
+    }
     
+    public void Initializate() {
+        if(objectCarryingItem == null) {
+            objectCarryingItem = this.gameObject;
+            if(objectCarryingItem == null) {
+                Debug.LogError(" The component 'objectCarryingItem' has not been assigned. Please assign it before using this script.");
+            }
+        }
+        if(carryItemAnchor == null) {
+            carryItemAnchor = this.gameObject;
+            if(carryItemAnchor == null) {
+                Debug.LogError(" The component 'carryItemAnchor' has not been assigned. Please assign it before using this script.");
+            }
+        }
     }
     
     public GameObject GetItemBeingCarried() {
@@ -42,6 +54,10 @@ public class CarryItem : MonoBehaviour {
             item.DisableTriggers();
             
             itemBeingCarried = itemToPickUp;
+            
+            if(objectCarryingItem.transform.localScale.x < 0) {
+                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
+            }
             // Track the item's scale before it's set up
             Vector3 previousScale = itemToPickUp.transform.localScale;
             itemBeingCarried.transform.parent = carryItemAnchor.transform;
@@ -80,12 +96,12 @@ public class CarryItem : MonoBehaviour {
             item.EnableTriggers();
             
             // Flips the item on drop so it looks the right way
-            if(this.gameObject.transform.localScale.x < 0) {
+            if(objectCarryingItem.transform.localScale.x < 0) {
                 itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
             }
             ItemManager.Instance.Add(itemBeingCarried);
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
-            itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity * 2;
+            itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
         }
     }

@@ -101,6 +101,7 @@ public class Player : MonoBehaviour {
         }
     }
     
+    // TODO: For real refactor this method, it's such a mess.
     public void PerformCarryItemReleaseCheck() {
         if(interactionController.IsActionButtonPressed()) {
             if(currentInteractionTrigger != null) {
@@ -110,10 +111,24 @@ public class Player : MonoBehaviour {
                         Vector3 dropVelocity = Vector3.zero;
                         if(playerController != null) {
                             if(playerController.facingRight) {
-                                dropVelocity = new Vector3(1, 1, 0);
+                                // dropVelocity = new Vector3(1, 1, 0);
+                                dropVelocity = playerRigidbody.velocity * 2;
+                                if(dropVelocity.x == 0) {
+                                    dropVelocity.x = 1f;
+                                }
+                                if(dropVelocity.y == 0) {
+                                    dropVelocity.y = 1f;
+                                }
                             }
                             else {
-                                dropVelocity = new Vector3(-1, 1, 0);
+                                // dropVelocity = new Vector3(-1, 1, 0);
+                                dropVelocity = playerRigidbody.velocity * 2;
+                                if(dropVelocity.x == 0) {
+                                    dropVelocity.x = -1f;
+                                }
+                                if(dropVelocity.y == 0) {
+                                    dropVelocity.y = 1f;
+                                }
                             }
                         }
                         carryItem.ThrowItem(dropVelocity);
