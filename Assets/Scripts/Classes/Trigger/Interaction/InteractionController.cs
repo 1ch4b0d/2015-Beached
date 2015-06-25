@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InteractionController : MonoBehaviour {
+    public List<InteractionTrigger> triggers = new List<InteractionTrigger>();
     public bool interactionButtonPressed = false;
     
     // Use this for initialization
@@ -14,6 +16,16 @@ public class InteractionController : MonoBehaviour {
     }
     void LateUpdate() {
         interactionButtonPressed = false;
+    }
+    
+    public InteractionTrigger GetNewestTrigger() {
+        if(triggers != null
+            && triggers.Count > 0) {
+            return triggers[triggers.Count - 1];
+        }
+        else {
+            return null;
+        }
     }
     
     public void Reset() {
@@ -36,5 +48,15 @@ public class InteractionController : MonoBehaviour {
         if(Input.GetKeyUp(KeyCode.J)) {
             interactionButtonPressed = false;
         }
+    }
+    
+    public void AddTrigger(InteractionTrigger trigger) {
+        if(!triggers.Contains(trigger)) {
+            triggers.Add(trigger);
+        }
+    }
+    
+    public void RemoveTrigger(InteractionTrigger trigger) {
+        triggers.Remove(trigger);
     }
 }

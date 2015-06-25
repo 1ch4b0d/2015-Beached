@@ -83,7 +83,6 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
-            
         }
     }
     

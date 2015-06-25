@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
-    public List<CustomTrigger> customTriggers = new List<CustomTrigger>();
-    // public CinematicTrigger currentCinematicTrigger = null;
-    
-    public InteractionTrigger currentInteractionTrigger = null;
+    // public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
     
     // public PlayerController playerController = null;
@@ -47,6 +44,12 @@ public class Player : MonoBehaviour {
                 Debug.LogError("Could not find the " + gameObject.name + ": playerController");
             }
         }
+        if(rigidbody2DSnapshot == null) {
+            rigidbody2DSnapshot = new Rigidbody2DSnapshot();
+            if(rigidbody2DSnapshot == null) {
+                Debug.LogError("Could not find the " + gameObject.name + ": rigidbody2DSnapshot");
+            }
+        }
     }
     
     public bool IsMoving(Rigidbody2D rigidbody) {
@@ -60,24 +63,28 @@ public class Player : MonoBehaviour {
         }
     }
     
+    public InteractionController GetInteractionController() {
+        return null;
+    }
+    
     protected void PerformLogic() {
         // if(playerController != null) {
         //     playerController.PerformLogic();
         // }
         //-----------------------------------
         interactionController.PerformLogic();
-        PerformCarryItemReleaseCheck();
+        PerformInteractionCheck();
     }
     
     public void OnTriggerEnter2D(Collider2D collider) {
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
+        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
         if(customTrigger != null) {
-            if(!customTriggers.Contains(customTrigger)) {
-                customTriggers.Add(customTrigger);
-                customTrigger.Entered(this.gameObject);
-            }
+            customTrigger.Entered(this.gameObject);
         }
-        currentInteractionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
+        if(interactionTrigger != null) {
+            interactionController.AddTrigger(interactionTrigger);
+        }
     }
     
     // public void OnTrigger2D(Collider2D collider) {
@@ -85,71 +92,77 @@ public class Player : MonoBehaviour {
     
     public void OnTriggerExit2D(Collider2D collider) {
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
+        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
         if(customTrigger != null) {
-            if(customTriggers.Contains(customTrigger)) {
-                customTriggers.Remove(customTrigger);
-                customTrigger.Exited(this.gameObject);
-            }
+            customTrigger.Exited(this.gameObject);
+        }
+        if(interactionTrigger) {
+            interactionController.RemoveTrigger(interactionTrigger);
         }
         //--------------
-        if(currentInteractionTrigger != null) {
-            // if the object being exited is the same as the one assigned
-            if(collider.gameObject.GetInstanceID() == currentInteractionTrigger.gameObject.GetInstanceID()) {
-                // currentInteractionTrigger.Exited(this.gameObject);
-                currentInteractionTrigger = null;
+        // CustomTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
+        // if(currentInteractionTrigger != null) {
+        //     // if the object being exited is the same as the one assigned
+        //     if(collider.gameObject.GetInstanceID() == currentInteractionTrigger.gameObject.GetInstanceID()) {
+        //         currentInteractionTrigger = null;
+        //     }
+        // }
+    }
+    
+    public void PerformInteractionCheck() {
+        if(interactionController.IsActionButtonPressed()) {
+            InteractionTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
+            if(currentInteractionTrigger != null) {
+                if(carryItem.IsCarryingItem()) {
+                    PerformCarryItemReleaseCheck();
+                }
+                else {
+                    currentInteractionTrigger.Interact(this.gameObject);
+                }
             }
         }
     }
     
     // TODO: For real refactor this method, it's such a mess.
     public void PerformCarryItemReleaseCheck() {
-        if(interactionController.IsActionButtonPressed()) {
-            if(currentInteractionTrigger != null) {
-                if(carryItem.IsCarryingItem()) {
-                    Rigidbody2D playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-                    if(IsMoving(playerRigidbody)) {
-                        Vector3 dropVelocity = Vector3.zero;
-                        if(playerController != null) {
-                            if(playerController.facingRight) {
-                                // dropVelocity = new Vector3(1, 1, 0);
-                                dropVelocity = playerRigidbody.velocity * 2;
-                                if(dropVelocity.x == 0) {
-                                    dropVelocity.x = 1f;
-                                }
-                                if(dropVelocity.y == 0) {
-                                    dropVelocity.y = 1f;
-                                }
-                            }
-                            else {
-                                // dropVelocity = new Vector3(-1, 1, 0);
-                                dropVelocity = playerRigidbody.velocity * 2;
-                                if(dropVelocity.x == 0) {
-                                    dropVelocity.x = -1f;
-                                }
-                                if(dropVelocity.y == 0) {
-                                    dropVelocity.y = 1f;
-                                }
-                            }
-                        }
-                        carryItem.ThrowItem(dropVelocity);
+        Rigidbody2D playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
+        if(IsMoving(playerRigidbody)) {
+            Vector3 dropVelocity = Vector3.zero;
+            if(playerController != null) {
+                if(playerController.facingRight) {
+                    // dropVelocity = new Vector3(1, 1, 0);
+                    dropVelocity = playerRigidbody.velocity * 2;
+                    if(dropVelocity.x == 0) {
+                        dropVelocity.x = 1f;
                     }
-                    else {
-                        Vector3 dropVelocity = Vector3.zero;
-                        if(playerController != null) {
-                            if(playerController.facingRight) {
-                                dropVelocity = new Vector3(1, 1, 0);
-                            }
-                            else {
-                                dropVelocity = new Vector3(-1, 1, 0);
-                            }
-                        }
-                        carryItem.DropItem(dropVelocity);
+                    if(dropVelocity.y == 0) {
+                        dropVelocity.y = 1f;
                     }
                 }
                 else {
-                    currentInteractionTrigger.Interact(this.gameObject);
+                    // dropVelocity = new Vector3(-1, 1, 0);
+                    dropVelocity = playerRigidbody.velocity * 2;
+                    if(dropVelocity.x == 0) {
+                        dropVelocity.x = -1f;
+                    }
+                    if(dropVelocity.y == 0) {
+                        dropVelocity.y = 1f;
+                    }
                 }
             }
+            carryItem.ThrowItem(dropVelocity);
+        }
+        else {
+            Vector3 dropVelocity = Vector3.zero;
+            if(playerController != null) {
+                if(playerController.facingRight) {
+                    dropVelocity = new Vector3(1, 1, 0);
+                }
+                else {
+                    dropVelocity = new Vector3(-1, 1, 0);
+                }
+            }
+            carryItem.DropItem(dropVelocity);
         }
     }
     
@@ -172,9 +185,6 @@ public class Player : MonoBehaviour {
     }
     
     public void Pause() {
-        if(rigidbody2DSnapshot == null) {
-            rigidbody2DSnapshot = new Rigidbody2DSnapshot();
-        }
         rigidbody2DSnapshot.Capture(this.gameObject);
         ToggleAcrocatic(this.gameObject, false);
         interactionController.Reset();
