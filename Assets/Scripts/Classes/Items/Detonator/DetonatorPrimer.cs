@@ -6,9 +6,19 @@ public class DetonatorPrimer : Item {
     
     // Use this for initialization
     void Start() {
+        Initialize();
     }
     
     // Update is called once per frame
     void Update() {
+        UpdateAnimator(animator);
+    }
+    
+    public override void Initialize() {
+        base.Initialize();
+    }
+    
+    public override void UpdateAnimator(Animator animatorToUpdate) {
+        animatorToUpdate.SetBool("isPrimed", isPrimed);
     }
 }

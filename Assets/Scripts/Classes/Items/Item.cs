@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Item : MonoBehaviour {
-    // TODO: Refactor this so it separates colliders and triggers into separate
-    //       lists and then disable triggers only on pick up and renable on drop
-    //       and throw, but again on triggers.
+    public Animator animator = null;
+    
     public List<Collider2D> colliders = null;
     public List<Collider2D> triggers = null;
+    
     // Use this for initialization
     void Start() {
         Initialize();
@@ -15,9 +15,11 @@ public class Item : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
+        UpdateAnimator(animator);
     }
     
     public virtual void Initialize() {
+        // Colliders are set here
         Collider2D[] childColliders = this.gameObject.GetComponentsInChildren<Collider2D>();
         // Debug.Log(childColliders.Length);
         foreach(Collider2D collider in childColliders) {
@@ -26,6 +28,13 @@ public class Item : MonoBehaviour {
             }
             else {
                 colliders.Add(collider);
+            }
+        }
+        //---------------------
+        if(animator == null) {
+            animator = this.gameObject.GetComponent<Animator>();
+            if(animator == null) {
+                Debug.LogError("Animator is missing from the 'Item' script of the gameObject: " + this.gameObject.name);
             }
         }
     }
@@ -61,5 +70,8 @@ public class Item : MonoBehaviour {
         foreach(Collider2D collider in colliders) {
             collider.enabled = enabled;
         }
+    }
+    //--------------------------------------------------------------------------
+    public virtual void UpdateAnimator(Animator animatorToUpdate) {
     }
 }

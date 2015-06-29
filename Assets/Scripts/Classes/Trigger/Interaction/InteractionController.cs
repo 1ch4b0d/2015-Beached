@@ -59,4 +59,21 @@ public class InteractionController : MonoBehaviour {
     public void RemoveTrigger(InteractionTrigger trigger) {
         triggers.Remove(trigger);
     }
+    
+    public void OnTriggerEnter2D(Collider2D collider) {
+        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
+        if(interactionTrigger != null) {
+            AddTrigger(interactionTrigger);
+        }
+    }
+    
+    // public void OnTrigger2D(Collider2D collider) {
+    // }
+    
+    public void OnTriggerExit2D(Collider2D collider) {
+        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
+        if(interactionTrigger) {
+            RemoveTrigger(interactionTrigger);
+        }
+    }
 }

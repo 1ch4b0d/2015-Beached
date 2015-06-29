@@ -76,39 +76,6 @@ public class Player : MonoBehaviour {
         PerformInteractionCheck();
     }
     
-    public void OnTriggerEnter2D(Collider2D collider) {
-        CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
-        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
-        if(customTrigger != null) {
-            customTrigger.Entered(this.gameObject);
-        }
-        if(interactionTrigger != null) {
-            interactionController.AddTrigger(interactionTrigger);
-        }
-    }
-    
-    // public void OnTrigger2D(Collider2D collider) {
-    // }
-    
-    public void OnTriggerExit2D(Collider2D collider) {
-        CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
-        InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
-        if(customTrigger != null) {
-            customTrigger.Exited(this.gameObject);
-        }
-        if(interactionTrigger) {
-            interactionController.RemoveTrigger(interactionTrigger);
-        }
-        //--------------
-        // CustomTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
-        // if(currentInteractionTrigger != null) {
-        //     // if the object being exited is the same as the one assigned
-        //     if(collider.gameObject.GetInstanceID() == currentInteractionTrigger.gameObject.GetInstanceID()) {
-        //         currentInteractionTrigger = null;
-        //     }
-        // }
-    }
-    
     public void PerformInteractionCheck() {
         if(interactionController.IsActionButtonPressed()) {
             InteractionTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
