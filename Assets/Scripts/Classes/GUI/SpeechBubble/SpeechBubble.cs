@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class SpeechBubble : MonoBehaviour {
     UIPanel rootPanel = null;
     
-    GameObject speechBubbleGameObject = null;
+    public GameObject speechBubbleGameObject = null;
     public GameObject speechBubbleAnchorGameObject = null;
     
     Animator animatorReference = null;

@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DetonatorDetector : Item {
+public class DetonatorPrimer : Item {
+    public bool isPrimed = false;
+    
     // Use this for initialization
     void Start() {
-        Initialize();
     }
     
     // Update is called once per frame
     void Update() {
-    }
-    
-    public override void Initialize() {
-        base.Initialize();
     }
 }
