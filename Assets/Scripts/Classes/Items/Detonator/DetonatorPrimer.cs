@@ -18,6 +18,10 @@ public class DetonatorPrimer : Item {
         base.Initialize();
     }
     
+    public bool IsPrimed() {
+        return isPrimed;
+    }
+    
     public override void UpdateAnimator(Animator animatorToUpdate) {
         animatorToUpdate.SetBool("isPrimed", isPrimed);
     }
