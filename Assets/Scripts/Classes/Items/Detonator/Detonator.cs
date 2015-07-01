@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Detonator : Item {
     public List<DetonatorPrimer> detonatorPrimers = null;
+    public bool hasBeenDetonated = false;
     
     // Use this for initialization
     void Start() {
@@ -33,11 +34,20 @@ public class Detonator : Item {
         }
     }
     
+    public bool HasBeenDetonated() {
+        return hasBeenDetonated;
+    }
+    
     public override void Initialize() {
         base.Initialize();
     }
     
     public override void UpdateAnimator(Animator animatorToUpdate) {
         animatorToUpdate.SetBool("IsPrimed", IsPrimed());
+    }
+    
+    public void Detonate() {
+        hasBeenDetonated = true;
+        Debug.Log("Explodie!!!");
     }
 }
