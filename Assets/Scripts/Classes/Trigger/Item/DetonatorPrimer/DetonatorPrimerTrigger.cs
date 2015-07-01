@@ -1,11 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DetonatorPrimerTrigger : CustomTrigger {
-    DetonatorPrimer detonatorPrimer = null;
+    // should really be private
+    public DetonatorPrimer detonatorPrimer = null;
+    public List<Dynamite> dynamites = null;
     
     // Use this for initialization
     void Start() {
+        Initialize();
+    }
+    
+    // Update is called once per frame
+    void Update() {
+    }
+    
+    public override void Initialize() {
+        if(dynamites == null) {
+            dynamites = new List<Dynamite>();
+        }
+        
         if(detonatorPrimer == null) {
             detonatorPrimer = Utility.GetFirstParentOfType<DetonatorPrimer>(this.gameObject);
             if(detonatorPrimer == null) {
@@ -14,32 +29,28 @@ public class DetonatorPrimerTrigger : CustomTrigger {
         }
     }
     
-    // Update is called once per frame
-    void Update() {
-    
-    }
-    
     public override void Entered(GameObject gameObjectEntering) {
-        base.Entered(gameObjectEntering);
+        Dynamite dynamite = gameObjectEntering.GetComponent<Dynamite>();
+        if(dynamite != null) {
+            detonatorPrimer.AddPrimerComponent(gameObjectEntering);
+            base.Entered(gameObjectEntering);
+        }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         Dynamite dynamite = gameObjectExiting.GetComponent<Dynamite>();
         if(dynamite != null) {
+            detonatorPrimer.RemovePrimerComponent(gameObjectExiting);
             // Debug.Log("Dynamite is exiting the detonator primer");
-            detonatorPrimer.isPrimed = false;
         }
+        base.Exited(gameObjectExiting);
     }
     
     public override void Execute(GameObject gameObjectToExecute) {
         base.Execute(gameObjectToExecute);
     }
     
-    public override void ExecuteLogic(GameObject gameObjectExecuting) {
-        Dynamite dynamite = gameObjectExecuting.GetComponent<Dynamite>();
-        if(dynamite != null) {
-            // Debug.Log("Dynamite is in the detonator primer");
-            detonatorPrimer.isPrimed = true;
-        }
-    }
+    // public override void ExecuteLogic(GameObject gameObjectExecuting) {
+    //     base.ExecuteLogic(gameObjectExecuting);
+    // }
 }

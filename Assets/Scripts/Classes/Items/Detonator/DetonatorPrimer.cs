@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DetonatorPrimer : Item {
-    public bool isPrimed = false;
+    public List<GameObject> objectsPrimingDetonator = null;
+    public int numberOfObjectsNeededToPrime = 1;
     
     // Use this for initialization
     void Start() {
@@ -16,13 +18,29 @@ public class DetonatorPrimer : Item {
     
     public override void Initialize() {
         base.Initialize();
+        objectsPrimingDetonator = new List<GameObject>();
+    }
+    
+    public void AddPrimerComponent(GameObject primerComponent) {
+        if(!objectsPrimingDetonator.Contains(primerComponent)) {
+            objectsPrimingDetonator.Add(primerComponent);
+        }
+    }
+    
+    public void RemovePrimerComponent(GameObject primerComponent) {
+        objectsPrimingDetonator.Remove(primerComponent);
     }
     
     public bool IsPrimed() {
-        return isPrimed;
+        if(objectsPrimingDetonator.Count >= numberOfObjectsNeededToPrime) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
     public override void UpdateAnimator(Animator animatorToUpdate) {
-        animatorToUpdate.SetBool("isPrimed", isPrimed);
+        animatorToUpdate.SetBool("IsPrimed", IsPrimed());
     }
 }

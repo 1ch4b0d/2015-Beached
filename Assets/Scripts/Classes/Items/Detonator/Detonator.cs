@@ -24,7 +24,7 @@ public class Detonator : Item {
             foreach(DetonatorPrimer detonatorPrimer in detonatorPrimers) {
                 if(!detonatorPrimer.IsPrimed()) {
                     allDetonatorsActive = false;
-                    // terminate because why waste the cylce
+                    // exit the loop - because why waste the cycles
                     break;
                 }
             }

@@ -22,23 +22,23 @@ public static class Utility {
     }
     
     public static T GetFirstParentOfType<T>(GameObject gameObjectToSearch) {
-        GameObject currentParentGameObject = gameObjectToSearch.transform.parent.gameObject;
-        T currentTypeCheck = currentParentGameObject.gameObject.GetComponent<T>();
-        
-        // Debug.Log("-------------------------------------");
-        // Debug.Log("Checking: " + gameObjectToSearch.name);
-        // Debug.Log("Current Parent: " + currentParentGameObject.name);
-        
-        if(currentTypeCheck != null) {
-            return currentTypeCheck;
-        }
-        else {
-            T parentOfType = GetFirstParentOfType<T>(currentParentGameObject);
-            if(parentOfType != null) {
-                return parentOfType;
+        if(gameObjectToSearch != null) {
+            T currentTypeCheck = gameObjectToSearch.GetComponent<T>();
+            if(currentTypeCheck != null) {
+                return currentTypeCheck;
+            }
+            else {
+                Transform parentTransform = gameObjectToSearch.transform.parent;
+                if(parentTransform != null) {
+                    return GetFirstParentOfType<T>(parentTransform.gameObject);
+                }
+                else {
+                    return GetFirstParentOfType<T>(null);
+                }
             }
         }
-        
-        return default(T);
+        else {
+            return default(T);
+        }
     }
 }
