@@ -15,7 +15,7 @@ public class Detonator : Item {
         UpdateAnimator(animator);
     }
     
-    public bool CanBeActivated() {
+    public bool IsPrimed() {
         if(detonatorPrimers.Count == 0) {
             return true;
         }
@@ -38,6 +38,6 @@ public class Detonator : Item {
     }
     
     public override void UpdateAnimator(Animator animatorToUpdate) {
-        animatorToUpdate.SetBool("CanBeActivated", CanBeActivated());
+        animatorToUpdate.SetBool("IsPrimed", IsPrimed());
     }
 }

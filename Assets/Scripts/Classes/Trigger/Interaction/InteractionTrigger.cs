@@ -25,13 +25,13 @@ public class InteractionTrigger : CustomTrigger {
         Execute(gameObjectInteracting);
     }
     
-    public void ShowSpeechBubble(float duration) {
+    public virtual void ShowSpeechBubble(float duration) {
         if(speechBubble != null) {
             speechBubble.Show(duration);
         }
     }
     
-    public void HideSpeechBubble(float duration) {
+    public virtual void HideSpeechBubble(float duration) {
         if(speechBubble != null) {
             speechBubble.Hide(duration);
         }
