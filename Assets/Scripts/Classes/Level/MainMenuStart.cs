@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// This is the entry point for the whole of the game. This is where all initial
+/// logic should be configured for the scene to actual start. This also means
+/// that the camera and player should be set up accordingly ahead of time.
+/// </summary>
 public class MainMenuStart : MonoBehaviour {
 
     // Use this for initialization

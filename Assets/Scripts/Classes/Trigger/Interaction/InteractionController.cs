@@ -12,7 +12,7 @@ public class InteractionController : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        // PerformLogic();
+        PerformLogic();
     }
     void LateUpdate() {
         interactionButtonPressed = false;

@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
-    // public InteractionTrigger currentInteractionTrigger = null;
     public InteractionController interactionController = null;
     
-    // public PlayerController playerController = null;
     public Acrocatic.Player playerController = null;
+    
     public Rigidbody2DSnapshot rigidbody2DSnapshot = null;
     
     public CarryItem carryItem = null;
@@ -68,11 +67,6 @@ public class Player : MonoBehaviour {
     }
     
     protected void PerformLogic() {
-        // if(playerController != null) {
-        //     playerController.PerformLogic();
-        // }
-        //-----------------------------------
-        interactionController.PerformLogic();
         PerformInteractionCheck();
     }
     
@@ -117,7 +111,25 @@ public class Player : MonoBehaviour {
                     }
                 }
             }
-            carryItem.ThrowItem(dropVelocity);
+            //--------------------------------------------------------
+            // This removes the item from the interaction controller in
+            // order to guarantee that the player doesn't retain access to the
+            // item after having dropped or thrown it
+            //--------------------------------------------------------
+            // - This should really be compartmentalized into the carryItemScript
+            //      somehow, but I'm not even remotely sure how to hook this up
+            //      In the future figure out how to smooth this out, but in the
+            //      meantime let it reside in the player script
+            //--------------------------------------------------------
+            if(carryItem.itemBeingCarried != null) {
+                foreach(Collider2D trigger in carryItem.itemBeingCarried.GetComponent<Item>().triggers) {
+                    InteractionTrigger interactionTrigger = trigger.gameObject.GetComponent<InteractionTrigger>();
+                    if(interactionTrigger != null) {
+                        interactionController.RemoveTrigger(interactionTrigger);
+                    }
+                }
+                carryItem.ThrowItem(dropVelocity);
+            }
         }
         else {
             Vector3 dropVelocity = Vector3.zero;
@@ -129,7 +141,25 @@ public class Player : MonoBehaviour {
                     dropVelocity = new Vector3(-1, 1, 0);
                 }
             }
-            carryItem.DropItem(dropVelocity);
+            //--------------------------------------------------------
+            // This removes the item from the interaction controller in
+            // order to guarantee that the player doesn't retain access to the
+            // item after having dropped or thrown it
+            //--------------------------------------------------------
+            // - This should really be compartmentalized into the carryItemScript
+            //      somehow, but I'm not even remotely sure how to hook this up
+            //      In the future figure out how to smooth this out, but in the
+            //      meantime let it reside in the player script
+            //--------------------------------------------------------
+            if(carryItem.itemBeingCarried != null) {
+                foreach(Collider2D trigger in carryItem.itemBeingCarried.GetComponent<Item>().triggers) {
+                    InteractionTrigger interactionTrigger = trigger.gameObject.GetComponent<InteractionTrigger>();
+                    if(interactionTrigger != null) {
+                        interactionController.RemoveTrigger(interactionTrigger);
+                    }
+                }
+                carryItem.DropItem(dropVelocity);
+            }
         }
     }
     
