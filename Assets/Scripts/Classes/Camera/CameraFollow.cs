@@ -15,13 +15,6 @@ public class CameraFollow : MonoBehaviour {
     [Tooltip("How smoothly the camera catches up with it's target movement.")]
     public Vector2 followSpeed = new Vector2(8f, 8f);
     
-    [Tooltip("The maximum x and y coordinates the camera can have.")]
-    public Vector2 maximumPosition = new Vector2(5000, 5000);
-    [Tooltip("The minimum x and y coordinates the camera can have.")]
-    public Vector2 minimumPosition = new Vector2(-5000, -5000);
-    [Tooltip("If true the min and max position check is based on the borders of the camera viewport instead of the camera's anchor.")]
-    public bool useBordersForBoundsCheck = true;
-    
     public void Awake() {
         Initialize();
     }

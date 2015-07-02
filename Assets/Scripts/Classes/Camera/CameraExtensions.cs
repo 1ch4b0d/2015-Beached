@@ -25,4 +25,20 @@ public static class CameraExtensions {
                                    new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
         return (bounds.max.y - bounds.min.y);
     }
+    
+    public static float GetLeftBoundWorldPosition(this Camera camera) {
+        return camera.OrthographicBounds().min.x;
+    }
+    
+    public static float GetBottomBoundWorldPosition(this Camera camera) {
+        return camera.OrthographicBounds().min.y;
+    }
+    
+    public static float GetRightBoundWorldPosition(this Camera camera) {
+        return camera.OrthographicBounds().max.x;
+    }
+    
+    public static float GetTopBoundWorldPosition(this Camera camera) {
+        return camera.OrthographicBounds().max.y;
+    }
 }

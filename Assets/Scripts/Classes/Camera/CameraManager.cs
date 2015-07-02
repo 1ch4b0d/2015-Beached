@@ -44,24 +44,7 @@ public class CameraManager : MonoBehaviour {
     void Update() {
     }
     
-    public float GetLeftBoundWorldPosition() {
-        return GetCamera().OrthographicBounds().min.x;
-    }
-    
-    public float GetBottomBoundWorldPosition() {
-        return GetCamera().OrthographicBounds().min.y;
-    }
-    
-    public float GetRightBoundWorldPosition() {
-        return GetCamera().OrthographicBounds().max.x;
-    }
-    
-    public float GetTopBoundWorldPosition() {
-        return GetCamera().OrthographicBounds().max.y;
-    }
-    
-    
-    public Camera GetCamera() {
+    public Camera GetMainCamera() {
         if(mainCamera == null) {
             mainCamera = Camera.main;
         }
@@ -72,7 +55,7 @@ public class CameraManager : MonoBehaviour {
     }
     
     public CameraFollow CameraFollow() {
-        return GetCamera().GetComponent<CameraFollow>();
+        return GetMainCamera().GetComponent<CameraFollow>();
     }
     
     public Camera GUICamera() {
