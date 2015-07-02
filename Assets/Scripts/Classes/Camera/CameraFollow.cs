@@ -45,6 +45,14 @@ public class CameraFollow : MonoBehaviour {
         }
     }
     
+    public Vector2 GetFollowOffsetVector2() {
+        return offsetFromObjectToFollow;
+    }
+    
+    public Vector3 GetFollowOffsetVector3() {
+        return new Vector3(offsetFromObjectToFollow.x, offsetFromObjectToFollow.y, 0);
+    }
+    
     public Vector2 GetTargetPositionWithOffset() {
         return new Vector2(objectToFollow.transform.position.x + offsetFromObjectToFollow.x,
                            objectToFollow.transform.position.y + offsetFromObjectToFollow.y);

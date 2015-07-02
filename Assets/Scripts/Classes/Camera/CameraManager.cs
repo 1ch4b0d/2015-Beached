@@ -58,6 +58,10 @@ public class CameraManager : MonoBehaviour {
         return GetMainCamera().GetComponent<CameraFollow>();
     }
     
+    public CameraWorldBoundLock CameraWorldBoundLock() {
+        return GetMainCamera().GetComponent<CameraWorldBoundLock>();
+    }
+    
     public Camera GUICamera() {
         return NGUIManager.Instance.Camera();
     }

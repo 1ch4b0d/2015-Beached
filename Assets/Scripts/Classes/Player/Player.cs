@@ -51,6 +51,10 @@ public class Player : MonoBehaviour {
         }
     }
     
+    public Rigidbody2D GetRigidbody() {
+        return this.gameObject.GetComponent<Rigidbody2D>();
+    }
+    
     public bool IsMoving(Rigidbody2D rigidbody) {
         if(rigidbody != null
             && (rigidbody.velocity.x > 0
@@ -62,8 +66,12 @@ public class Player : MonoBehaviour {
         }
     }
     
+    public void ZeroOutVelocity() {
+        GetRigidbody().velocity = Vector2.zero;
+    }
+    
     public InteractionController GetInteractionController() {
-        return null;
+        return interactionController;
     }
     
     protected void PerformLogic() {
