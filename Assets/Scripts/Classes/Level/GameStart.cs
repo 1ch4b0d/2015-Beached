@@ -6,11 +6,10 @@ using System.Collections;
 /// logic should be configured for the scene to actual start. This also means
 /// that the camera and player should be set up accordingly ahead of time.
 /// </summary>
-public class MainMenuStart : MonoBehaviour {
-
+public class GameStart : MonoBehaviour {
     // Use this for initialization
     void Start() {
-        CameraManager.Instance.CameraFollow().enabled = false;
+        // CameraManager.Instance.CameraFollow().enabled = false;
     }
     
     // Update is called once per frame

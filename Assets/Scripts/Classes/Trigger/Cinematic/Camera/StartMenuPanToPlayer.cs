@@ -52,8 +52,8 @@ public class StartMenuPanToPlayer: CustomTrigger {
             float rightWorldBorderXPosition = LevelManager.Instance.rightWorldBorder.transform.position.x - CameraManager.Instance.GetCamera().OrthographicWidth() / 2;
             
             mainCameraFollow.enabled = true;
-            mainCameraFollow.minXAndY = new Vector2(targetPosition.x, mainCameraFollow.minXAndY.y);
-            mainCameraFollow.maxXAndY = new Vector2(rightWorldBorderXPosition, mainCameraFollow.maxXAndY.y);
+            mainCameraFollow.minimumPosition = new Vector2(targetPosition.x, mainCameraFollow.minimumPosition.y);
+            mainCameraFollow.maximumPosition = new Vector2(rightWorldBorderXPosition, mainCameraFollow.maximumPosition.y);
             
             float leftCameraBoundWorldPosition = CameraManager.Instance.GetLeftBoundWorldPosition();
             float bottomCameraBoundWorldPosition = CameraManager.Instance.GetBottomBoundWorldPosition();
