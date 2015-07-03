@@ -64,7 +64,6 @@ public class Cinematic : MonoBehaviour {
     // Think of this as the main update loop
     public virtual void PerformLogic() {
         // Debug.Log("Current Timer: " + delayTimer);
-        
         if(HasDelayFinished()) {
             PerformLevelFailCheck();
             PerformLevelFinishCheck();
@@ -95,7 +94,7 @@ public class Cinematic : MonoBehaviour {
         return newWaveStateGameObject;
     }
     
-    public GameObject CreateDelayWave(string gameObjectName, float delayTime) {
+    public GameObject CreateDelayWave(float delayTime) {
         return CreateWave("Delay", () => {
             Delay(delayTime);
             Completed();

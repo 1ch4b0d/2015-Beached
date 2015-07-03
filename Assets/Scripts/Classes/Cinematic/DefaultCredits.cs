@@ -7,13 +7,20 @@ public class DefaultCredits : Cinematic {
     }
     
     // Update is called once per frame
-    public override void Update() {
-    }
+    // public override void Update() {
+    // base.Update();
+    // }
     
     public override void TriggerStart() {
         Debug.Log("Starting DefaultCredits");
-        InitializeWaves(CreateWave("First Credits", () => {
+        InitializeWaves(
+        CreateWave("First Credits", () => {
             Debug.Log("First Credits");
+            Completed();
+        }),
+        CreateDelayWave(2f),
+        CreateWave("Second Credits", () => {
+            Debug.Log("Second Credits");
             Completed();
         }));
     }
