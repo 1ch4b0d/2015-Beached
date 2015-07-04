@@ -11,19 +11,11 @@ public static class CameraExtensions {
     }
     
     public static float OrthographicWidth(this Camera camera) {
-        float screenAspect = (float)Screen.width / (float)Screen.height;
-        float cameraHeight = camera.orthographicSize * 2;
-        Bounds bounds = new Bounds(camera.transform.position,
-                                   new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
-        return (bounds.max.x - bounds.min.x);
+        return OrthographicBounds(camera).size.x;
     }
     
     public static float OrthographicHeight(this Camera camera) {
-        float screenAspect = (float)Screen.width / (float)Screen.height;
-        float cameraHeight = camera.orthographicSize * 2;
-        Bounds bounds = new Bounds(camera.transform.position,
-                                   new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
-        return (bounds.max.y - bounds.min.y);
+        return OrthographicBounds(camera).size.y;
     }
     
     public static float GetLeftBoundWorldPosition(this Camera camera) {

@@ -22,7 +22,7 @@ public class SpeechBubble : MonoBehaviour {
     InteractionTrigger interactionTrigger = null;
     
     public static GameObject Create() {
-        GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
+        GameObject newSpeechBubbleGameObject = Factory.SpeechBubble();
         newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
         newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
         return newSpeechBubbleGameObject;

@@ -22,6 +22,10 @@ public class Cinematic : MonoBehaviour {
         PerformDelayTimerLogic();
     }
     
+    public virtual void ResetWaveQueue() {
+        cinematicWaveQueue.Clear();
+    }
+    
     public virtual void Finish() {
         hasFinished = true;
     }
@@ -101,16 +105,15 @@ public class Cinematic : MonoBehaviour {
         });
     }
     
-    public void InitializeWaves(params GameObject[] waves) {
-        cinematicWaveQueue = new LinkedList<GameObject>();
-        foreach(GameObject waveState in waves) {
-            EnqueueWave(waveState);
-        }
-        if(cinematicWaveQueue.Count != 0) {
+    public void StartWaves() {
+        if(cinematicWaveQueue.Count != 0
+            && currentWaveGameObject == null) {
             currentWaveGameObject = (GameObject)DequeueWave();
         }
+        
         // Adds the final wave that will finish the cinematic
         EnqueueWave(CreateWave("Final Cinematic Wave", () => {
+            Completed();
             Finish();
         }));
     }
@@ -121,33 +124,45 @@ public class Cinematic : MonoBehaviour {
     public void PerformLevelFinishCheck() {
     }
     
-    public void PerformWaveStatesThenReturn(params GameObject[] waveStatesToJumpTo) {
-        System.Array.Reverse(waveStatesToJumpTo);
-        foreach(GameObject waveStateToJumpTo in waveStatesToJumpTo) {
-            cinematicWaveQueue.AddFirst(waveStateToJumpTo);
+    public void PerformWaveStatesThenReturn(params GameObject[] waves) {
+        System.Array.Reverse(waves);
+        foreach(GameObject wave in waves) {
+            cinematicWaveQueue.AddFirst(wave);
         }
     }
     
-    public void PerformWaves(params GameObject[] waveStatesToJumpTo) {
-        foreach(GameObject waveStateToJumpTo in waveStatesToJumpTo) {
-            cinematicWaveQueue.AddLast(waveStateToJumpTo);
+    public void PerformDelay(float duration) {
+        cinematicWaveQueue.AddLast(CreateDelayWave(duration));
+    }
+    
+    public void PerformWave(GameObject wave) {
+        cinematicWaveQueue.AddLast(wave);
+    }
+    
+    public void PerformWaves(params GameObject[] waves) {
+        foreach(GameObject wave in waves) {
+            cinematicWaveQueue.AddLast(wave);
         }
     }
     
-    public void PerformWavesAndWait(params GameObject[] waveStatesToJumpTo) {
-        foreach(GameObject waveStateToJumpTo in waveStatesToJumpTo) {
-            cinematicWaveQueue.AddLast(waveStateToJumpTo);
-        }
+    public void PerformWaveAndWait(GameObject wave) {
+        cinematicWaveQueue.AddLast(wave);
         cinematicWaveQueue.AddLast(CreateWave("Wait", delegate() { /* wait */ }));
         
     }
-    
-    public void EnqueueWave(GameObject waveStateGameObjectToEnqueue) {
-        cinematicWaveQueue.AddLast(waveStateGameObjectToEnqueue);
+    public void PerformWavesAndWait(params GameObject[] waves) {
+        foreach(GameObject wave in waves) {
+            cinematicWaveQueue.AddLast(wave);
+        }
+        cinematicWaveQueue.AddLast(CreateWave("Wait", delegate() { /* wait */ }));
     }
     
-    public void EnqueueWaveAtFront(GameObject waveStateGameObjectToEnqueue) {
-        cinematicWaveQueue.AddFirst(waveStateGameObjectToEnqueue);
+    public void EnqueueWave(GameObject wave) {
+        cinematicWaveQueue.AddLast(wave);
+    }
+    
+    public void EnqueueWaveAtFront(GameObject wave) {
+        cinematicWaveQueue.AddFirst(wave);
     }
     
     public GameObject DequeueWave() {
@@ -156,12 +171,12 @@ public class Cinematic : MonoBehaviour {
         return waveStateDequeued;
     }
     
-    public void AddWaveStateToFrontOfQueue(GameObject waveStateGameObjectToAdd) {
-        cinematicWaveQueue.AddFirst(waveStateGameObjectToAdd);
+    public void AddWaveStateToFrontOfQueue(GameObject wave) {
+        cinematicWaveQueue.AddFirst(wave);
     }
     
-    public void AddWaveStateToEndOfQueue(GameObject waveStateGameObjectToAdd) {
-        cinematicWaveQueue.AddLast(waveStateGameObjectToAdd);
+    public void AddWaveStateToEndOfQueue(GameObject wave) {
+        cinematicWaveQueue.AddLast(wave);
     }
     
     // This is used for triggering the creation of waves

@@ -44,14 +44,7 @@ public class CinematicManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if(Input.GetKeyDown(KeyCode.T)) {
-            if(currentCinematic != null) {
-                Destroy(currentCinematic.gameObject);
-            }
-            GameObject newCinematic = new GameObject("DefaultCredits");
-            newCinematic.transform.parent = CinematicManager.Instance.gameObject.transform;
-            Cinematic defaultCredits = newCinematic.AddComponent<DefaultCredits>().GetComponent<Cinematic>();
-            defaultCredits.TriggerStart();
-            currentCinematic = defaultCredits;
+            StartCinematic<DefaultCredits>();
         }
         //------------------
         PerformCinematicLogic();
@@ -77,6 +70,16 @@ public class CinematicManager : MonoBehaviour {
         }
     }
     
-    public void StartCinematic() {
+    public void StartCinematic<T>() where T : MonoBehaviour {
+        if(currentCinematic != null) {
+            Destroy(currentCinematic.gameObject);
+        }
+        GameObject newCinematic = new GameObject("Cinematic");
+        newCinematic.transform.parent = CinematicManager.Instance.gameObject.transform;
+        newCinematic.AddComponent<T>();
+        Cinematic cinematic = newCinematic.GetComponent<Cinematic>();
+        currentCinematic = cinematic;
+        
+        cinematic.TriggerStart();
     }
 }
