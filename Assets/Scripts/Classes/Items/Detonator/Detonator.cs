@@ -49,5 +49,6 @@ public class Detonator : Item {
     public void Detonate() {
         hasBeenDetonated = true;
         Debug.Log("Explodie!!!");
+        LevelManager.Instance.TriggerExplosionCinematic();
     }
 }

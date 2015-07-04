@@ -52,5 +52,6 @@ public class LevelManager : MonoBehaviour {
     }
     
     public void TriggerExplosionCinematic() {
+        CinematicManager.Instance.StartCinematic<DefaultCredits>();
     }
 }
