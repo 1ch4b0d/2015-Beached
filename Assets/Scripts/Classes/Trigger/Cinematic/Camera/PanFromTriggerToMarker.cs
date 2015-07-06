@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PanFromTriggerToMarker : CustomTrigger {
     public Transform objectFinalPosition = null;
+    public bool cameraFollowOnFinished = false;
     
     // Use this for initialization
     void Start() {
@@ -35,7 +36,7 @@ public class PanFromTriggerToMarker : CustomTrigger {
             
             player.ToggleAcrocatic(gameObjectExecuting, true);
             
-            mainCameraFollow.enabled = true;
+            mainCameraFollow.enabled = cameraFollowOnFinished;
             
             OnPanFinish();
         }));
