@@ -66,11 +66,11 @@ namespace Acrocatic {
         public float groundedVelocityTime = 0.05f;
         
         // Private variables.
-        private PlayerJump playerJump;              // Get the PlayerJump class.
+        public PlayerJump playerJump;              // Get the PlayerJump class.
         private PlayerWall playerWall;              // Get the PlayerWall class.
-        private PlayerRun playerRun;                // Get the PlayerRun class.
-        private PlayerCrouch playerCrouch;          // Get the PlayerCrouch class.
-        private PlayerDash playerDash;              // Get the PlayerDash class.
+        public PlayerRun playerRun;                // Get the PlayerRun class.
+        public PlayerCrouch playerCrouch;          // Get the PlayerCrouch class.
+        public PlayerDash playerDash;              // Get the PlayerDash class.
         private PlayerHitbox playerHitbox;          // Get the PlayerHitbox class.
         private PlayerPlatform playerPlatform;      // Get the PlayerPlatform class.
         private PlayerFaceUp playerFaceUp;          // Get the PlayerFaceUp class.
