@@ -66,11 +66,11 @@ namespace Acrocatic {
         public float groundedVelocityTime = 0.05f;
         
         // Private variables.
-        public PlayerJump playerJump;              // Get the PlayerJump class.
+        private PlayerJump playerJump;              // Get the PlayerJump class.
         private PlayerWall playerWall;              // Get the PlayerWall class.
-        public PlayerRun playerRun;                // Get the PlayerRun class.
-        public PlayerCrouch playerCrouch;          // Get the PlayerCrouch class.
-        public PlayerDash playerDash;              // Get the PlayerDash class.
+        private PlayerRun playerRun;                // Get the PlayerRun class.
+        private PlayerCrouch playerCrouch;          // Get the PlayerCrouch class.
+        private PlayerDash playerDash;              // Get the PlayerDash class.
         private PlayerHitbox playerHitbox;          // Get the PlayerHitbox class.
         private PlayerPlatform playerPlatform;      // Get the PlayerPlatform class.
         private PlayerFaceUp playerFaceUp;          // Get the PlayerFaceUp class.
@@ -227,6 +227,37 @@ namespace Acrocatic {
                 // ... flip the player.
                 Flip();
             }
+        }
+        
+        public PlayerJump GetPlayerJump() {
+            return playerJump;              // Get the PlayerJump class.
+        }
+        public PlayerWall GetPlayerWall() {
+            return playerWall;              // Get the PlayerWall class.
+        }
+        public PlayerRun GetPlayerRun() {
+            return playerRun;                // Get the PlayerRun class.
+        }
+        public PlayerCrouch GetPlayerCrouch() {
+            return playerCrouch;          // Get the PlayerCrouch class.
+        }
+        public PlayerDash GetPlayerDash() {
+            return playerDash;              // Get the PlayerDash class.
+        }
+        public PlayerHitbox GetPlayerHitbox() {
+            return playerHitbox;          // Get the PlayerHitbox class.
+        }
+        public PlayerPlatform GetPlayerPlatform() {
+            return playerPlatform;      // Get the PlayerPlatform class.
+        }
+        public PlayerFaceUp GetPlayerFaceUp() {
+            return playerFaceUp;          // Get the PlayerFaceUp class.
+        }
+        public Quaternion GetQuaternion() {
+            return normalRotation;          // The default rotation for the player.
+        }
+        public Animator GetAnimator() {
+            return animator;                  // The player's animator.
         }
         
         // Make sure the player is dead.

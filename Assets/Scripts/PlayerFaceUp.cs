@@ -20,16 +20,16 @@ public class PlayerFaceUp : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        if(Input.GetKeyDown(KeyCode.W) && player.hor == 0) {
-			player.FacingUp(true);
-			player.playerRun.enabled = false;
-			player.playerJump.enabled = false;
-            //player.FacingUp(true);
+        if(Input.GetKeyDown(KeyCode.W)
+            && player.hor == 0) {
+            player.FacingUp(true);
+            player.GetPlayerRun().enabled = false;
+            player.GetPlayerJump().enabled = false;
         }
-		else if(Input.GetKeyUp(KeyCode.W)) {
+        else if(Input.GetKeyUp(KeyCode.W)) {
             player.FacingUp(false);
-			player.playerRun.enabled = true;
-			player.playerJump.enabled = true;
-		}
+            player.GetPlayerRun().enabled = true;
+            player.GetPlayerJump().enabled = true;
+        }
     }
 }
