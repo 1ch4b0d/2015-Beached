@@ -65,8 +65,10 @@ public class CinematicManager : MonoBehaviour {
     }
     
     public void PerformCinematicLogic() {
-        if(currentCinematic != null) {
-            currentCinematic.PerformLogic();
+        if(!isPaused) {
+            if(currentCinematic != null) {
+                currentCinematic.PerformLogic();
+            }
         }
     }
     
