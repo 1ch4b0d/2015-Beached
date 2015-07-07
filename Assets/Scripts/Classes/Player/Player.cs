@@ -175,15 +175,42 @@ public class Player : MonoBehaviour {
     }
     
     public void ToggleAcrocatic(GameObject acrocaticGameObject, bool enabled)  {
-        acrocaticGameObject.GetComponent<Acrocatic.Player>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerRun>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerJump>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerWall>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerDash>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerHitbox>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerCrouch>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerPlatform>().enabled = enabled;
-        acrocaticGameObject.GetComponent<Acrocatic.PlayerLadder>().enabled = enabled;
+        Acrocatic.Player acrocaticPlayer = acrocaticGameObject.GetComponent<Acrocatic.Player>();
+        if(acrocaticPlayer) {
+            acrocaticPlayer.enabled = enabled;
+        }
+        Acrocatic.PlayerRun acrocaticPlayerRun = acrocaticGameObject.GetComponent<Acrocatic.PlayerRun>();
+        if(acrocaticPlayerRun) {
+            acrocaticPlayerRun.enabled = enabled;
+        }
+        Acrocatic.PlayerJump acrocaticPlayerJump = acrocaticGameObject.GetComponent<Acrocatic.PlayerJump>();
+        if(acrocaticPlayerJump) {
+            acrocaticPlayerJump.enabled = enabled;
+        }
+        Acrocatic.PlayerWall acrocaticPlayerWall = acrocaticGameObject.GetComponent<Acrocatic.PlayerWall>();
+        if(acrocaticPlayerWall) {
+            acrocaticPlayerWall.enabled = enabled;
+        }
+        Acrocatic.PlayerDash acrocaticPlayerDash = acrocaticGameObject.GetComponent<Acrocatic.PlayerDash>();
+        if(acrocaticPlayerDash) {
+            acrocaticPlayerDash.enabled = enabled;
+        }
+        Acrocatic.PlayerHitbox acrocaticPlayerHitbox = acrocaticGameObject.GetComponent<Acrocatic.PlayerHitbox>();
+        if(acrocaticPlayerHitbox) {
+            acrocaticPlayerHitbox.enabled = enabled;
+        }
+        Acrocatic.PlayerCrouch acrocaticPlayerCrouch = acrocaticGameObject.GetComponent<Acrocatic.PlayerCrouch>();
+        if(acrocaticPlayerCrouch) {
+            acrocaticPlayerCrouch.enabled = enabled;
+        }
+        Acrocatic.PlayerPlatform acrocaticPlayerPlatform = acrocaticGameObject.GetComponent<Acrocatic.PlayerPlatform>();
+        if(acrocaticPlayerPlatform) {
+            acrocaticPlayerPlatform.enabled = enabled;
+        }
+        Acrocatic.PlayerLadder acrocaticPlayerLadder = acrocaticGameObject.GetComponent<Acrocatic.PlayerLadder>();
+        if(acrocaticPlayerLadder) {
+            acrocaticPlayerLadder.enabled = enabled;
+        }
     }
     
     public void UpdateAnimator() {
