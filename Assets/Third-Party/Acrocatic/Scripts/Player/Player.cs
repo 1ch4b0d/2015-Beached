@@ -229,6 +229,37 @@ namespace Acrocatic {
             }
         }
         
+        public PlayerJump GetPlayerJump() {
+            return playerJump;              // Get the PlayerJump class.
+        }
+        public PlayerWall GetPlayerWall() {
+            return playerWall;              // Get the PlayerWall class.
+        }
+        public PlayerRun GetPlayerRun() {
+            return playerRun;                // Get the PlayerRun class.
+        }
+        public PlayerCrouch GetPlayerCrouch() {
+            return playerCrouch;          // Get the PlayerCrouch class.
+        }
+        public PlayerDash GetPlayerDash() {
+            return playerDash;              // Get the PlayerDash class.
+        }
+        public PlayerHitbox GetPlayerHitbox() {
+            return playerHitbox;          // Get the PlayerHitbox class.
+        }
+        public PlayerPlatform GetPlayerPlatform() {
+            return playerPlatform;      // Get the PlayerPlatform class.
+        }
+        public PlayerFaceUp GetPlayerFaceUp() {
+            return playerFaceUp;          // Get the PlayerFaceUp class.
+        }
+        public Quaternion GetQuaternion() {
+            return normalRotation;          // The default rotation for the player.
+        }
+        public Animator GetAnimator() {
+            return animator;                  // The player's animator.
+        }
+        
         // Make sure the player is dead.
         public void Dead() {
             isDead = true;
