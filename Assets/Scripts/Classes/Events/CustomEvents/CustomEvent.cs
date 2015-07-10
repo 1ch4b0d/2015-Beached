@@ -24,6 +24,7 @@ public class CustomEvent<T> {
         customDelegate = newDelegateEvent;
         return this;
     }
+    
     public System.Action GetEvent() {
         return customDelegate;
     }
