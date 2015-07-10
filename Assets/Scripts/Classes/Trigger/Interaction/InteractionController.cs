@@ -15,7 +15,7 @@ public class InteractionController : MonoBehaviour {
         PerformLogic();
     }
     void LateUpdate() {
-        interactionButtonPressed = false;
+        Reset();
     }
     
     public InteractionTrigger GetNewestTrigger() {
