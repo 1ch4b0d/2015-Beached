@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// This is a custom event wrapper for unity in order to extend this class so
-/// that custom logic can be executed via the "CustomEventManager" being hooked
+/// that custom logic can be executed via the "CustomEventsManager" being hooked
 /// into the logic of the actual gameobject's logic.
 ///
 /// In this example there is a suggested idiomatic approach that the developer
@@ -13,11 +13,11 @@ using System.Collections.Generic;
 /// Suggested hierarchy for objects using this pattern
 /// RootGameObject
 /// |___CustomEventManagerGameObject
-///     |___OnStart   - (Has "CustomEventManager" and scripts that extend from "CustomTrigger")
-///     |___OnExecute - (Has "CustomEventManager" and scripts that extend from "CustomTrigger")
-///     |___OnFinish  - (Has "CustomEventManager" and scripts that extend from "CustomTrigger")
+///     |___OnStart   - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
+///     |___OnExecute - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
+///     |___OnFinish  - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
 ///
-/// Each one of them has the "CustomEventManager" attached to it. This is what is
+/// Each one of them has the "CustomEventsManager" attached to it. This is what is
 /// managing each of the "CustomEventGameObject" scripts that are also attached
 /// to the same GameObject. You can specify a separate game object instead so
 /// that it can be decoupled, but the idiomatic suggestion is that they're all
@@ -26,32 +26,63 @@ using System.Collections.Generic;
 /// OnStart/OnExecute/OnFinish all have separate scripts attached that are
 /// extended from the "CustomEventGameObject"
 public class CustomEventsManager : MonoBehaviour {
+    public bool isRootManager = false;
+    public bool loop = false;
+    
     public CustomEvents<System.Action> events = null;
     public GameObject gameObjectWithEvents = null;
     
-    protected virtual void Awake() {
+    public CustomEventsManager onStart = null;
+    public CustomEventsManager onExecute = null;
+    public CustomEventsManager onFinish = null;
+    
+    public virtual void Awake() {
         Initialize();
     }
     
     // Use this for initialization
-    protected virtual void Start() {
+    public virtual void Start() {
     }
     
     // Update is called once per frame
-    protected virtual void Update() {
+    public virtual void Update() {
     }
     
     public virtual void Initialize() {
         events = new CustomEvents<System.Action>();
         
-        if(gameObjectWithEvents == null) {
+        if(isRootManager
+            && gameObjectWithEvents == null) {
             gameObjectWithEvents = this.gameObject;
         }
         
-        CustomTrigger[] customTriggers = gameObjectWithEvents.GetComponents<CustomTrigger>();
-        foreach(CustomTrigger customTrigger in customTriggers) {
-            Debug.Log(customTrigger);
-            events.Add(customTrigger.ExecuteLogic, customTrigger.loop);
+        if(gameObjectWithEvents != null) {
+            CustomEventsManager[] customEventsManagers = gameObjectWithEvents.GetComponents<CustomEventsManager>();
+            
+            //------------------------------------------------------------------
+            // Quick Error Check To Make Sure Only One Root Manager Exists
+            //------------------------------------------------------------------
+            int numberOfRootManagers = 0;
+            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
+                if(customEventsManager.isRootManager) {
+                    numberOfRootManagers++;
+                }
+            }
+            if(numberOfRootManagers > 1) {
+                Debug.LogError("More than one rootManager was detected. Please validate that only one rootManager is set per a CustomEventsManager group.");
+            }
+            //------------------------------------------------------------------
+            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
+                // Debug.Log(customEventsManager);
+                if(isRootManager
+                    && this != customEventsManager) {
+                    events.Add(customEventsManager.Execute, customEventsManager.loop);
+                }
+                // not sure this is needed
+                // else {
+                //     events.Add(customEventsManager.Execute, customEventsManager.loop);
+                // }
+            }
         }
     }
     

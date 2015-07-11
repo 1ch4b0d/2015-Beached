@@ -14,7 +14,7 @@ public class CustomEvents<T> {
         return newCustomEvents;
     }
     
-    public void Add(System.Action newOnDelegateEvent, bool loop = false) {
+    public void Add(T newOnDelegateEvent, bool loop = false) {
         CustomEvent<T> newEvent = CustomEvent<T>.Create()
                                   .SetEvent(newOnDelegateEvent)
                                   .SetLoop(loop);
@@ -23,6 +23,10 @@ public class CustomEvents<T> {
     
     public void Add(CustomEvent<T> newDelegateEvent) {
         allDelegateEvents.Add(newDelegateEvent);
+    }
+    
+    public int Count() {
+        return allDelegateEvents.Count;
     }
     
     public void Execute() {

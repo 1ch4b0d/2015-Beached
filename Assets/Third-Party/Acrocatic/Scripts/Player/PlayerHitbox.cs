@@ -39,8 +39,8 @@ namespace Acrocatic {
         // Got more hitboxes? Add them here!
         
         // Private variables.
-        private BoxCollider2D boxCollider;          // Get the player's box collider.
-        private CircleCollider2D circleCollider;    // Get the player's circle collider.
+        public  BoxCollider2D boxCollider;          // Get the player's box collider.
+        public  CircleCollider2D circleCollider;    // Get the player's circle collider.
         private Player player;                      // Get the Player class.
         
         // Also need to change the circle collider? Here's an example how to achieve this:
@@ -57,8 +57,12 @@ namespace Acrocatic {
         // Use this for initialization.
         void Start() {
             // Setting up references.
-            boxCollider = GetComponent<BoxCollider2D>();
-            circleCollider = GetComponent<CircleCollider2D>();
+            if(boxCollider == null)  {
+                boxCollider = GetComponent<BoxCollider2D>();
+            }
+            if(circleCollider == null) {
+                circleCollider = GetComponent<CircleCollider2D>();
+            }
             player = GetComponent<Acrocatic.Player>();
             
             // Set default hitbox.

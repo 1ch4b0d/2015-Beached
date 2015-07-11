@@ -7,9 +7,8 @@ using System.Collections;
 public class CustomTrigger : MonoBehaviour {
     public bool loop = true;
     public int currentIteration = 0;
-    public CustomEventsManager onStart = null;
-    public CustomEventsManager onExecute = null;
-    public CustomEventsManager onFinish = null;
+    
+    public CustomEventsManager onFinishEvents = null;
     
     // Use this for initialization
     void Start() {
@@ -23,12 +22,10 @@ public class CustomTrigger : MonoBehaviour {
     }
     
     public virtual void Entered(GameObject gameObjectEntering) {
+        Debug.Log(this.gameObject.name + " entered was triggered.");
         // By default the trigger is executed on enter, but in other classes
         // you can override this method in order to determine where you would
         // actually like to execute it
-        if(onStart != null) {
-            onStart.Execute();
-        }
         Execute(gameObjectEntering);
     }
     
@@ -40,12 +37,9 @@ public class CustomTrigger : MonoBehaviour {
         if(currentIteration < 1
             || loop) {
             ExecuteLogic(gameObjectToExecute);
-            if(onFinish != null) {
-                onFinish.Execute();
-            }
             currentIteration++;
             
-            if(loop == false) {
+            if(!loop) {
                 Collider2D attachedCollider = this.GetComponent<Collider2D>();
                 if(attachedCollider != null) {
                     attachedCollider.enabled = false;
@@ -54,17 +48,12 @@ public class CustomTrigger : MonoBehaviour {
         }
     }
     
-    public virtual void ExecuteLogic() {
-        // This is really poor form. Like really bad form.
-        // One day when the opportunity arises investigate events and how to not
-        // design them so poorly like this current implementation
-        // https://msdn.microsoft.com/en-us/library/vstudio/ms229011.aspx
-        if(onFinish != null) {
-            onFinish.Execute();
-        }
-        ExecuteLogic(null);
+    public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
     }
     
-    public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
+    public virtual void FireFinishEvents() {
+        if(onFinishEvents != null) {
+            onFinishEvents.Execute();
+        }
     }
 }

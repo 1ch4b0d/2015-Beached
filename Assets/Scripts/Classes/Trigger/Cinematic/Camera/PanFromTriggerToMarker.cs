@@ -39,6 +39,8 @@ public class PanFromTriggerToMarker : CustomTrigger {
             player.ToggleAcrocatic(gameObjectExecuting, true);
             
             mainCameraFollow.enabled = cameraFollowOnFinished;
+            
+            FireFinishEvents();
         }));
     }
 }

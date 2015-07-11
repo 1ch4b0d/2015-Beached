@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 public class CustomEvent<T> {
     public bool loop = false;
     
-    public System.Action customDelegate;
+    public T customDelegate;
     
     public static CustomEvent<T> Create() {
         CustomEvent<T> newDelegateEvent = new CustomEvent<T>();
@@ -20,16 +21,20 @@ public class CustomEvent<T> {
         return loop;
     }
     
-    public CustomEvent<T> SetEvent(System.Action newDelegateEvent) {
+    public CustomEvent<T> SetEvent(T newDelegateEvent) {
         customDelegate = newDelegateEvent;
         return this;
     }
     
-    public System.Action GetEvent() {
+    public T GetEvent() {
         return customDelegate;
     }
     
+    // Executes without any parameters
     public void Execute() {
-        customDelegate();
+        MethodInfo method = typeof(CustomEvent<T>).GetMethod("Execute");
+        method.Invoke(this, null);
+        // MethodInfo generic = method.MakeGenericMethod(T);
+        // customDelegate();
     }
 }
