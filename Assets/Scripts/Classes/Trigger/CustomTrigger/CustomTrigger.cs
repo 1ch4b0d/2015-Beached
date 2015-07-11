@@ -22,7 +22,8 @@ public class CustomTrigger : MonoBehaviour {
     }
     
     public virtual void Entered(GameObject gameObjectEntering) {
-        Debug.Log(this.gameObject.name + " entered was triggered.");
+        // Debug.Log(this.gameObject.name + " entered was triggered.");
+        
         // By default the trigger is executed on enter, but in other classes
         // you can override this method in order to determine where you would
         // actually like to execute it

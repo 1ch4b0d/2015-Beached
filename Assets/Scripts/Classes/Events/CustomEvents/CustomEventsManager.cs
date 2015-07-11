@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 /// This is a custom event wrapper for unity in order to extend this class so
 /// that custom logic can be executed via the "CustomEventsManager" being hooked
@@ -29,7 +30,7 @@ public class CustomEventsManager : MonoBehaviour {
     public bool isRootManager = false;
     public bool loop = false;
     
-    public CustomEvents<System.Action> events = null;
+    public CustomEvents events = null;
     public GameObject gameObjectWithEvents = null;
     
     public CustomEventsManager onStart = null;
@@ -49,44 +50,42 @@ public class CustomEventsManager : MonoBehaviour {
     }
     
     public virtual void Initialize() {
-        events = new CustomEvents<System.Action>();
+        events = new CustomEvents();
         
-        if(isRootManager
-            && gameObjectWithEvents == null) {
-            gameObjectWithEvents = this.gameObject;
-        }
-        
-        if(gameObjectWithEvents != null) {
-            CustomEventsManager[] customEventsManagers = gameObjectWithEvents.GetComponents<CustomEventsManager>();
+        if(isRootManager) {
+            if(gameObjectWithEvents == null) {
+                gameObjectWithEvents = this.gameObject;
+            }
             
-            //------------------------------------------------------------------
-            // Quick Error Check To Make Sure Only One Root Manager Exists
-            //------------------------------------------------------------------
-            int numberOfRootManagers = 0;
-            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
-                if(customEventsManager.isRootManager) {
-                    numberOfRootManagers++;
+            if(gameObjectWithEvents != null) {
+                CustomEventsManager[] customEventsManagers = gameObjectWithEvents.GetComponents<CustomEventsManager>();
+                
+                //------------------------------------------------------------------
+                // Quick Error Check To Make Sure Only One Root Manager Exists
+                //------------------------------------------------------------------
+                int numberOfRootManagers = 0;
+                foreach(CustomEventsManager customEventsManager in customEventsManagers) {
+                    if(customEventsManager.isRootManager) {
+                        numberOfRootManagers++;
+                    }
                 }
-            }
-            if(numberOfRootManagers > 1) {
-                Debug.LogError("More than one rootManager was detected. Please validate that only one rootManager is set per a CustomEventsManager group.");
-            }
-            //------------------------------------------------------------------
-            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
-                // Debug.Log(customEventsManager);
-                if(isRootManager
-                    && this != customEventsManager) {
-                    events.Add(customEventsManager.Execute, customEventsManager.loop);
+                if(numberOfRootManagers > 1) {
+                    Debug.LogError("More than one rootManager was detected. Please validate that only one rootManager is set per a CustomEventsManager group.");
                 }
-                // not sure this is needed
-                // else {
-                //     events.Add(customEventsManager.Execute, customEventsManager.loop);
-                // }
+                // Debug.Log(this.gameObject.name + " has " + numberOfRootManagers + " event(s).");
+                //------------------------------------------------------------------
+                foreach(CustomEventsManager customEventsManager in customEventsManagers) {
+                    // Debug.Log(customEventsManager);
+                    if(this != customEventsManager) {
+                        events.Add(customEventsManager.Execute, customEventsManager.loop);
+                    }
+                }
             }
         }
     }
     
     public virtual void Execute() {
+        // Debug.Log("Executing " + this.gameObject.name);
         events.Execute();
     }
 }

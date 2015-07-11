@@ -27,13 +27,13 @@ public class PanFromTriggerToMarker : CustomTrigger {
         targetPosition += CameraManager.Instance.CameraFollow().GetFollowOffsetVector3();
         targetPosition.z = CameraManager.Instance.GetMainCamera().transform.position.z;
         
-        Debug.Log("Panning~~~");
+        // Debug.Log("Panning~~~");
         //On Tween Finish
         Go.to(CameraManager.Instance.GetMainCamera().transform,
               panDuration,
               new GoTweenConfig().position(targetPosition).setEaseType(GoEaseType.BackIn)
         .onComplete(complete => {
-            Debug.Log("Completed~~~");
+            // Debug.Log("Completed~~~");
             CameraFollow mainCameraFollow = CameraManager.Instance.CameraFollow();
             
             player.ToggleAcrocatic(gameObjectExecuting, true);

@@ -80,16 +80,16 @@ public class Player : MonoBehaviour {
     
     public void PerformInteractionCheck() {
         if(interactionController.IsActionButtonPressed()) {
-            Debug.Log("Action button pressed");
+            // Debug.Log("Action button pressed");
             InteractionTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
             if(currentInteractionTrigger != null) {
-                Debug.Log("currentInteractionTrigger is not null");
+                // Debug.Log("currentInteractionTrigger is not null");
                 if(carryItem.IsCarryingItem()) {
-                    Debug.Log("Carrying any item");
+                    // Debug.Log("Carrying any item");
                     PerformCarryItemReleaseCheck();
                 }
                 else {
-                    Debug.Log("Interacting!");
+                    // Debug.Log("Interacting!");
                     currentInteractionTrigger.Interact(this.gameObject);
                 }
             }

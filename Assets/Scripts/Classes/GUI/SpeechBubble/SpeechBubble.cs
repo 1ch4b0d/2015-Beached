@@ -17,7 +17,7 @@ public class SpeechBubble : MonoBehaviour {
     Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
     public bool hasFinishedTextSet = false;
-    CustomEvents<System.Action> onFinshedTextSet = null;
+    CustomEvents onFinshedTextSet = null;
     
     InteractionTrigger interactionTrigger = null;
     
@@ -112,7 +112,7 @@ public class SpeechBubble : MonoBehaviour {
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
-        onFinshedTextSet = new CustomEvents<System.Action>();
+        onFinshedTextSet = new CustomEvents();
     }
     
     void DebugInfo() {

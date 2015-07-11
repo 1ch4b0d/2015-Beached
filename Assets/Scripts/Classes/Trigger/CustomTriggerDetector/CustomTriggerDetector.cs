@@ -21,7 +21,7 @@ public class CustomTriggerDetector : MonoBehaviour {
     }
     
     public virtual void OnTriggerEnter2D(Collider2D collider) {
-        Debug.Log("Detector just triggered on " + collider.gameObject.name);
+        // Debug.Log("Detector just triggered on " + collider.gameObject.name);
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
         if(customTrigger != null) {
             customTrigger.Entered(gameObjectTriggering);
