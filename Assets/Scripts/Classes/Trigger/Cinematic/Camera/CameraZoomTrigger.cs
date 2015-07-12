@@ -38,33 +38,14 @@ public class CameraZoomTrigger : EventTrigger {
         StartZoom();
     }
     
-    public override void Stay(GameObject gameObjectStaying) {
-        FireStayEvents();
-    }
+    // public override void Stay(GameObject gameObjectStaying) {
+    //     FireStayEvents();
+    // }
     
     public override void Exited(GameObject gameObjectExiting) {
         FireExitEvents();
         EndZoom();
     }
-    
-    // public override void Execute(GameObject gameObjectToExecute) {
-    //     // Perform only if it's the first iteration, or it should loop
-    //     if(currentIteration < 1
-    //         || loop) {
-    //         ExecuteLogic(gameObjectToExecute);
-    //         currentIteration++;
-    
-    //         if(!loop) {
-    //             Collider2D attachedCollider = this.GetComponent<Collider2D>();
-    //             if(attachedCollider != null) {
-    //                 attachedCollider.enabled = false;
-    //             }
-    //         }
-    //     }
-    // }
-    
-    // public override void ExecuteLogic(GameObject gameObjectExecuting) {
-    // }
     
     public void StartZoom() {
         if(currentTween != null) {
