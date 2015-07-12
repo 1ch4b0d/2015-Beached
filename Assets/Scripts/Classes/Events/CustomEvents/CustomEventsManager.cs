@@ -33,23 +33,23 @@ public class CustomEventsManager : MonoBehaviour {
     public CustomEvents events = null;
     public GameObject gameObjectWithEvents = null;
     
-    public CustomEventsManager onStart = null;
-    public CustomEventsManager onExecute = null;
-    public CustomEventsManager onFinish = null;
+    public CustomEventsManager onStartEvents = null;
+    public CustomEventsManager onExecuteEvents = null;
+    public CustomEventsManager onFinishEvents = null;
     
-    public virtual void Awake() {
+    protected virtual void Awake() {
         Initialize();
     }
     
     // Use this for initialization
-    public virtual void Start() {
+    protected virtual void Start() {
     }
     
     // Update is called once per frame
-    public virtual void Update() {
+    protected virtual void Update() {
     }
     
-    public virtual void Initialize() {
+    protected virtual void Initialize() {
         events = new CustomEvents();
         
         if(isRootManager) {
@@ -69,6 +69,7 @@ public class CustomEventsManager : MonoBehaviour {
                         numberOfRootManagers++;
                     }
                 }
+                
                 if(numberOfRootManagers > 1) {
                     Debug.LogError("More than one rootManager was detected. Please validate that only one rootManager is set per a CustomEventsManager group.");
                 }
@@ -87,5 +88,23 @@ public class CustomEventsManager : MonoBehaviour {
     public virtual void Execute() {
         // Debug.Log("Executing " + this.gameObject.name);
         events.Execute();
+    }
+    
+    public virtual void FireStartEvents() {
+        if(onStartEvents != null) {
+            onStartEvents.Execute();
+        }
+    }
+    
+    public virtual void FireExecuteEvents() {
+        if(onExecuteEvents != null) {
+            onExecuteEvents.Execute();
+        }
+    }
+    
+    public virtual void FireFinishEvents() {
+        if(onFinishEvents != null) {
+            onFinishEvents.Execute();
+        }
     }
 }

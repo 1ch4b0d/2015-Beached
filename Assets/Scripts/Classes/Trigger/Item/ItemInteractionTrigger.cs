@@ -7,19 +7,19 @@ public class ItemInteractionTrigger : InteractionTrigger {
     // public SpeechBubble speechBubble = null;
     public float speechBubbleFadeSpeed = 0.25f;
     
-    void Awake() {
+    protected override void Awake() {
     }
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
         Initialize();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
     }
     
-    public override void Initialize() {
+    protected override void Initialize() {
         if(itemGameObject == null) {
             itemGameObject = Utility.GetFirstParentOfType<Item>(this.gameObject).gameObject;
             if(itemGameObject == null) {

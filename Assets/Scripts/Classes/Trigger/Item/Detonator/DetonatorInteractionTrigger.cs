@@ -5,15 +5,15 @@ public class DetonatorInteractionTrigger : InteractionTrigger {
     public Detonator detonator = null;
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
         Initialize();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
     }
     
-    public override void Initialize() {
+    protected override void Initialize() {
         base.Initialize();
         detonator = Utility.GetFirstParentOfType<Detonator>(this.gameObject);
     }

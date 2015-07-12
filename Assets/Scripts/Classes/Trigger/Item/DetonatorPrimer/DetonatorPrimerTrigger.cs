@@ -8,15 +8,15 @@ public class DetonatorPrimerTrigger : CustomTrigger {
     public List<Dynamite> dynamites = null;
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
         Initialize();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
     }
     
-    public override void Initialize() {
+    protected override void Initialize() {
         if(dynamites == null) {
             dynamites = new List<Dynamite>();
         }

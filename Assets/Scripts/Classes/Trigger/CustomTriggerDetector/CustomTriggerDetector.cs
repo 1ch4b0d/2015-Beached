@@ -28,8 +28,12 @@ public class CustomTriggerDetector : MonoBehaviour {
         }
     }
     
-    // public virtual void OnTrigger2D(Collider2D collider) {
-    // }
+    public virtual void OnTrigger2D(Collider2D collider) {
+        CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
+        if(customTrigger != null) {
+            customTrigger.Stay(gameObjectTriggering);
+        }
+    }
     
     public virtual void OnTriggerExit2D(Collider2D collider) {
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();

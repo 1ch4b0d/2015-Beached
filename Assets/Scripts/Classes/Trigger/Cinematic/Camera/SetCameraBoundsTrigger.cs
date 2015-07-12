@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SetCameraBounds : CustomTrigger {
+public class SetCameraBoundsTrigger : CustomTrigger {
     public Transform cameraLeftBound = null;
     public Transform cameraRightBound = null;
     public Transform cameraBottomBound = null;
     public Transform cameraTopBound = null;
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
     }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {

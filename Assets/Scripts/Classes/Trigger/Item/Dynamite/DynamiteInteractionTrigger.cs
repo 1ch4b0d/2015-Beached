@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class DynamiteInteractionTrigger : ItemInteractionTrigger {
-    void Awake() {
-    }
-    
-    // Use this for initialization
-    void Start() {
+    protected override void Awake() {
         Initialize();
     }
     
-    // Update is called once per frame
-    void Update() {
+    // Use this for initialization
+    protected override void Start() {
     }
     
-    public override void Initialize() {
+    // Update is called once per frame
+    protected override void Update() {
+    }
+    
+    protected override void Initialize() {
         base.Initialize();
     }
 }

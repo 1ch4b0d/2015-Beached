@@ -8,17 +8,24 @@ public class CustomTrigger : MonoBehaviour {
     public bool loop = true;
     public int currentIteration = 0;
     
-    public CustomEventsManager onFinishEvents = null;
+    // Executes these as standard unity hooks
+    public CustomEventsManager onEnterEvents = null;
+    public CustomEventsManager onStayEvents = null;
+    public CustomEventsManager onExitEvents = null;
+    
+    protected virtual void Awake() {
+        Initialize();
+    }
     
     // Use this for initialization
-    void Start() {
+    protected virtual void Start() {
     }
     
     // Update is called once per frame
-    void Update() {
+    protected virtual void Update() {
     }
     
-    public virtual void Initialize() {
+    protected virtual void Initialize() {
     }
     
     public virtual void Entered(GameObject gameObjectEntering) {
@@ -27,10 +34,16 @@ public class CustomTrigger : MonoBehaviour {
         // By default the trigger is executed on enter, but in other classes
         // you can override this method in order to determine where you would
         // actually like to execute it
+        FireEnterEvents();
         Execute(gameObjectEntering);
     }
     
+    public virtual void Stay(GameObject gameObjectStaying) {
+        FireStayEvents();
+    }
+    
     public virtual void Exited(GameObject gameObjectExiting) {
+        FireExitEvents();
     }
     
     public virtual void Execute(GameObject gameObjectToExecute) {
@@ -52,9 +65,22 @@ public class CustomTrigger : MonoBehaviour {
     public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
     }
     
-    public virtual void FireFinishEvents() {
-        if(onFinishEvents != null) {
-            onFinishEvents.Execute();
+    public virtual void FireEnterEvents() {
+        if(onEnterEvents != null) {
+            onEnterEvents.Execute();
+        }
+    }
+    
+    public virtual void FireStayEvents() {
+        if(onStayEvents != null) {
+            onStayEvents.Execute();
+        }
+    }
+    
+    public virtual void FireExitEvents() {
+        if(onExitEvents != null) {
+            onExitEvents.Execute();
+            Debug.Log("Firing exit events");
         }
     }
 }

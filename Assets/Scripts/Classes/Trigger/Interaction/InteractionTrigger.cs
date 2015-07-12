@@ -5,19 +5,19 @@ using System.Collections.Generic;
 public class InteractionTrigger : CustomTrigger {
     public SpeechBubble speechBubble = null;
     
-    void Awake() {
+    protected override void Awake() {
     }
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
         Initialize();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
     }
     
-    public override void Initialize() {
+    protected override void Initialize() {
         base.Initialize();
     }
     

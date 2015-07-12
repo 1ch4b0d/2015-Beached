@@ -5,22 +5,22 @@ using System.Collections.Generic;
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     public List<string> textSet = null;
     
-    void Awake() {
-        if(textSet == null) {
-            textSet = new List<string>();
-        }
-    }
-    
-    // Use this for initialization
-    void Start() {
+    protected override void Awake() {
         Initialize();
     }
     
-    // Update is called once per frame
-    void Update() {
+    // Use this for initialization
+    protected override void Start() {
     }
     
-    public override void Initialize() {
+    // Update is called once per frame
+    protected override void Update() {
+    }
+    
+    protected override void Initialize() {
+        if(textSet == null) {
+            textSet = new List<string>();
+        }
     }
     
     public override void Entered(GameObject gameObjectEntering) {
