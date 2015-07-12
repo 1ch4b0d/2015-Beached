@@ -34,7 +34,6 @@ public class DefaultTrigger : EventTrigger {
         if(currentIteration < 1
             || loop) {
             ExecuteLogic(gameObjectToExecute);
-            FireExecuteEvents();
             currentIteration++;
             
             if(!loop) {

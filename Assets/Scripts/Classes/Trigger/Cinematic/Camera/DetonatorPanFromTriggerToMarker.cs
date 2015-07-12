@@ -1,41 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFollowTrigger : EventTrigger {
-    public GoTween currentTween = null;
-    public CameraFollow cameraFollow = null;
-    public float zoomDuration = 1f;
-    public float startZoomSize = 5f;
-    public float endZoomSize = 8f;
+public class DetonatorPanFromTriggerToMarker : PanFromTriggerToMarker {
+    public Detonator detonator = null;
     
-    // Use this for initialization
+    // // Use this for initialization
     // protected override void Awake() {
     //     base.Awake();
     // }
+    
     // // Use this for initialization
     // protected override void Start() {
     // }
+    
     // // Update is called once per frame
     // protected override void Update() {
     // }
     
     protected override void Initialize() {
         base.Initialize();
-        
-        if(cameraFollow == null) {
-            Debug.LogError("The 'cameraFollow' is null, and must be set to a reference for the object: " + this.gameObject.name);
+        if(detonator == null) {
+            Debug.LogError("The 'detonator' variable for the 'DetonatorPanFromTriggerToMarker' component of the '" + this.gameObject.name + "' is null. Please fix this and try again.");
         }
     }
     
     public override void Entered(GameObject gameObjectEntering) {
+        // base.Entered(gameObjectEntering);
         FireEnterEvents();
-    }
-    
-    public override void Stay(GameObject gameObjectStaying) {
-        FireStayEvents();
+        
+        if(detonator.IsPrimed()) {
+            PanIn();
+        }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
+        // base.Exited(gameObjectExiting);
         FireExitEvents();
+        
+        PanOut();
     }
 }

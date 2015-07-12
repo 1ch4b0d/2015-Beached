@@ -79,8 +79,8 @@ public class CustomTrigger : MonoBehaviour {
     
     public virtual void FireExitEvents() {
         if(onExitEvents != null) {
+            // Debug.Log("Firing exit events");
             onExitEvents.Execute();
-            Debug.Log("Firing exit events");
         }
     }
 }

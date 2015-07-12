@@ -15,13 +15,18 @@ public class PanFromTriggerToMarker : EventTrigger {
     public CustomEventsManager onPanInFinishEvents = null;
     public CustomEventsManager onPanOutFinishEvents = null;
     
-    // Use this for initialization
-    protected override void Start() {
-    }
+    // // Use this for initialization
+    // protected override void Awake() {
+    //     base.Awake();
+    // }
     
-    // Update is called once per frame
-    protected override void Update() {
-    }
+    // // Use this for initialization
+    // protected override void Start() {
+    // }
+    
+    // // Update is called once per frame
+    // protected override void Update() {
+    // }
     
     protected override void Initialize() {
         if(cameraToPan == null) {
@@ -39,35 +44,6 @@ public class PanFromTriggerToMarker : EventTrigger {
         PanOut();
     }
     
-    public override void ExecuteLogic(GameObject gameObjectExecuting) {
-        // gameObjectExecuting.transform.position = markerPosition.position;
-        
-        // Player player = gameObjectExecuting.GetComponent<Player>();
-        // player.ToggleAcrocatic(gameObjectExecuting, false);
-        // player.ZeroOutVelocity();
-        
-        // Target Position including the camera's follow offset so that it doesn't jutter
-        // Vector3 targetPosition = markerPosition.position;
-        // targetPosition += CameraManager.Instance.CameraFollow().GetFollowOffsetVector3();
-        // targetPosition.z = CameraManager.Instance.GetMainCamera().transform.position.z;
-        
-        // Debug.Log("Panning~~~");
-        //On Tween Finish
-        // Go.to(CameraManager.Instance.GetMainCamera().transform,
-        // panDuration,
-        // new GoTweenConfig().position(targetPosition).setEaseType(GoEaseType.BackIn)
-        // .onComplete(complete => {
-        // Debug.Log("Completed~~~");
-        // CameraFollow mainCameraFollow = CameraManager.Instance.CameraFollow();
-        
-        // player.ToggleAcrocatic(gameObjectExecuting, true);
-        
-        // mainCameraFollow.enabled = cameraFollowOnFinished;
-        
-        // FireFinishEvents();
-        // }));
-    }
-    
     public void PanIn() {
         if(currentTween != null) {
             currentTween.destroy();
@@ -78,16 +54,16 @@ public class PanFromTriggerToMarker : EventTrigger {
         // targetPosition += CameraManager.Instance.CameraFollow().GetFollowOffsetVector3();
         targetPosition.z = cameraToPan.transform.position.z;
         
-        Debug.Log("Panning~~~");
+        // Debug.Log("Panning~~~");
         //On Tween Finish
         currentTween = Go.to(cameraToPan.transform,
                              panDuration,
                              new GoTweenConfig().position(targetPosition).setEaseType(panInEasingType)
         .onComplete(complete => {
-            Debug.Log("Completed~~~");
+            // Debug.Log("Completed~~~");
             // player.ToggleAcrocatic(gameObjectExecuting, true);
             // mainCameraFollow.enabled = cameraFollowOnFinished;
-            FireFinishEvents();
+            FirePanInOnFinishEvents();
         }));
     }
     
