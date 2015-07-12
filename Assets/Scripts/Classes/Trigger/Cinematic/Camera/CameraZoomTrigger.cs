@@ -8,6 +8,9 @@ public class CameraZoomTrigger : EventTrigger {
     public float startZoomSize = 5f;
     public float endZoomSize = 8f;
     
+    public GoEaseType startZoomEaseType = GoEaseType.Linear;
+    public GoEaseType endZoomEaseType = GoEaseType.Linear;
+    
     public CustomEventsManager onZoomStartFinish = null;
     public CustomEventsManager onZoomEndFinish = null;
     
@@ -72,7 +75,7 @@ public class CameraZoomTrigger : EventTrigger {
         float zoomTime = zoomDuration - Mathf.InverseLerp(startZoomSize, endZoomSize, cameraToZoom.orthographicSize);
         currentTween = Go.to(cameraToZoom,
                              (zoomTime == 0) ? Mathf.Epsilon : zoomTime, // fixes dumb go tween 0f duration bug
-                             new GoTweenConfig().floatProp("orthographicSize", endZoomSize).setEaseType(GoEaseType.Linear)
+                             new GoTweenConfig().floatProp("orthographicSize", endZoomSize).setEaseType(startZoomEaseType)
         .onComplete(complete => {
             FireOnZoomStartFinish();
         }));
@@ -87,7 +90,7 @@ public class CameraZoomTrigger : EventTrigger {
         float zoomTime = zoomDuration - (1 - Mathf.InverseLerp(startZoomSize, endZoomSize, cameraToZoom.orthographicSize));
         currentTween = Go.to(cameraToZoom,
                              (zoomTime == 0) ? Mathf.Epsilon : zoomTime, // fixes dumb go tween 0f duration bug
-                             new GoTweenConfig().floatProp("orthographicSize", startZoomSize).setEaseType(GoEaseType.Linear)
+                             new GoTweenConfig().floatProp("orthographicSize", startZoomSize).setEaseType(endZoomEaseType)
         .onComplete(complete => {
             FireOnZoomEndFinish();
         }));
