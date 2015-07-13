@@ -8,17 +8,20 @@ public class Item : MonoBehaviour {
     public List<Collider2D> colliders = null;
     public List<Collider2D> triggers = null;
     
-    // Use this for initialization
-    void Start() {
+    protected virtual void Awake() {
         Initialize();
     }
     
+    // Use this for initialization
+    protected virtual void Start() {
+    }
+    
     // Update is called once per frame
-    void Update() {
+    protected virtual void Update() {
         UpdateAnimator(animator);
     }
     
-    public virtual void Initialize() {
+    protected virtual void Initialize() {
         // Colliders are set here
         Collider2D[] childColliders = this.gameObject.GetComponentsInChildren<Collider2D>();
         // Debug.Log(childColliders.Length);

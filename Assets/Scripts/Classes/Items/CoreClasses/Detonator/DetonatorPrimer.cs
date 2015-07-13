@@ -7,16 +7,16 @@ public class DetonatorPrimer : Item {
     public int numberOfObjectsNeededToPrime = 1;
     
     // Use this for initialization
-    void Start() {
+    protected override void Start() {
         Initialize();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected override void Update() {
         UpdateAnimator(animator);
     }
     
-    public override void Initialize() {
+    protected override void Initialize() {
         base.Initialize();
         objectsPrimingDetonator = new List<GameObject>();
     }

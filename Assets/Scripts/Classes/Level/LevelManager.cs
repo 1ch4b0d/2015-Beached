@@ -32,7 +32,18 @@ public class LevelManager : MonoBehaviour {
     private LevelManager() {
     }
     
-    public void Awake() {
+    protected void Awake() {
+    }
+    //END OF SINGLETON CODE CONFIGURATION
+    
+    protected void Start() {
+    }
+    
+    // Update is called once per frame
+    void Update() {
+    }
+    
+    protected void Initialize() {
         _instance = this;
         
         if(leftWorldBorder == null) {
@@ -42,16 +53,8 @@ public class LevelManager : MonoBehaviour {
             Debug.LogError("The RightWorldBorder is null, please declare it and set it in order for the level logic to be consistent.");
         }
     }
-    //END OF SINGLETON CODE CONFIGURATION
-    
-    public void Start() {
-    }
-    
-    // Update is called once per frame
-    void Update() {
-    }
     
     public void TriggerExplosionCinematic() {
-        CinematicManager.Instance.StartCinematic<DefaultCredits>();
+        CinematicManager.Instance.StartCinematic<WhaleExplosion>();
     }
 }

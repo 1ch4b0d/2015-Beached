@@ -11,14 +11,14 @@ public class Cinematic : MonoBehaviour {
     public bool hasInitialized = false;
     public bool hasFinished = false;
     
-    public virtual void Awake() {
+    protected virtual void Awake() {
         Initialize();
     }
     
-    public virtual void Start() {
+    protected virtual void Start() {
     }
     
-    public virtual void Update() {
+    protected virtual void Update() {
         PerformDelayTimerLogic();
     }
     
@@ -30,7 +30,7 @@ public class Cinematic : MonoBehaviour {
         hasFinished = true;
     }
     
-    public virtual void Initialize() {
+    protected virtual void Initialize() {
         hasInitialized = true;
     }
     

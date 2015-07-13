@@ -6,15 +6,21 @@ public class Detonator : Item {
     public List<DetonatorPrimer> detonatorPrimers = null;
     public bool hasBeenDetonated = false;
     
-    // Use this for initialization
-    void Start() {
-        Initialize();
-    }
+    // protected virtual void Awake() {
+    //     Initialize();
+    // }
     
-    // Update is called once per frame
-    void Update() {
-        UpdateAnimator(animator);
-    }
+    // // Use this for initialization
+    // protected override void Start() {
+    // }
+    
+    // // Update is called once per frame
+    // protected override void Update() {
+    // }
+    
+    // protected override void Initialize() {
+    //     base.Initialize();
+    // }
     
     public bool IsPrimed() {
         if(detonatorPrimers.Count == 0) {
@@ -36,10 +42,6 @@ public class Detonator : Item {
     
     public bool HasBeenDetonated() {
         return hasBeenDetonated;
-    }
-    
-    public override void Initialize() {
-        base.Initialize();
     }
     
     public override void UpdateAnimator(Animator animatorToUpdate) {

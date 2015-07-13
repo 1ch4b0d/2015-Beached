@@ -3,6 +3,7 @@ using System.Collections;
 
 public class DetonatorInteractionTrigger : InteractionTrigger {
     public Detonator detonator = null;
+    public CustomEventsManager onDetonate = null;
     
     // Use this for initialization
     protected override void Start() {
@@ -15,7 +16,12 @@ public class DetonatorInteractionTrigger : InteractionTrigger {
     
     protected override void Initialize() {
         base.Initialize();
-        detonator = Utility.GetFirstParentOfType<Detonator>(this.gameObject);
+        if(detonator == null) {
+            detonator = Utility.GetFirstParentOfType<Detonator>(this.gameObject);
+            if(detonator == null) {
+                Debug.LogError("Please assign the 'Detonator' property, or make " + this.gameObject.name + " a child of an object with the 'Detonator' script. Because, it is currently null.");
+            }
+        }
     }
     
     public override void ShowSpeechBubble(float duration) {
@@ -49,6 +55,13 @@ public class DetonatorInteractionTrigger : InteractionTrigger {
         if(detonator.IsPrimed()
             && !detonator.HasBeenDetonated()) {
             detonator.Detonate();
+            FireOnDetonateEvents();
+        }
+    }
+    
+    public virtual void FireOnDetonateEvents() {
+        if(onDetonate != null) {
+            onDetonate.Execute();
         }
     }
 }
