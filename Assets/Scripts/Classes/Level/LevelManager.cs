@@ -6,6 +6,10 @@ public class LevelManager : MonoBehaviour {
     public GameObject leftWorldBorder = null;
     public GameObject rightWorldBorder = null;
     
+    public GameObject georgeThorntonGameObject = null;
+    public GameObject whaleGameObject = null;
+    // public Transform explosionsMarker = null;
+    
     //BEGINNING OF SINGLETON CODE CONFIGURATION
     private static volatile LevelManager _instance;
     private static object _lock = new object();
@@ -33,6 +37,7 @@ public class LevelManager : MonoBehaviour {
     }
     
     protected void Awake() {
+        Initialize();
     }
     //END OF SINGLETON CODE CONFIGURATION
     
@@ -56,5 +61,11 @@ public class LevelManager : MonoBehaviour {
     
     public void TriggerExplosionCinematic() {
         CinematicManager.Instance.StartCinematic<WhaleExplosion>();
+        PlayerManager.Instance.GetPlayer().ToggleAcrocatic(PlayerManager.Instance.GetPlayerGameObject(), false);
+        GameObject explosionOne = Factory.Explosion();//(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/Credits/CreditText") as GameObject);
+        Animator explosionOneAnimator = explosionOne.GetComponent<Animator>();
+        AnimatorHelper explosionOneAnimatorHelper = explosionOne.GetComponent<AnimatorHelper>();
+        explosionOneAnimatorHelper.SetDestroyOnFinish(true);
+        explosionOneAnimator.Play("ExplosionOne");
     }
 }

@@ -3,23 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
+    public static Player player = null;
+    
     //BEGINNING OF SINGLETON CODE CONFIGURATION
-    private static volatile Player _instance;
+    private static volatile PlayerManager _instance;
     private static object _lock = new object();
     
     //Stops the lock being created ahead of time if it's not necessary
     static PlayerManager() {
     }
     
-    public static Player Instance {
+    public static PlayerManager Instance {
         get {
             if(_instance == null) {
                 lock(_lock) {
-                    _instance = GameObject.FindObjectOfType<Player>();
+                    _instance = GameObject.FindObjectOfType<PlayerManager>();
                     if(_instance == null) {
                         GameObject CameraManagerGameObject = new GameObject("PlayerManager");
-                        _instance = (CameraManagerGameObject.AddComponent<Player>()).GetComponent<Player>();
+                        _instance = (CameraManagerGameObject.AddComponent<PlayerManager>()).GetComponent<PlayerManager>();
+                        
                     }
+                    
+                    player = GameObject.FindObjectOfType<Player>();
                 }
             }
             return _instance;
@@ -40,7 +45,11 @@ public class PlayerManager : MonoBehaviour {
     void Update() {
     }
     
-    public GameObject GetPlayer() {
-        return Instance.gameObject;
+    public GameObject GetPlayerGameObject() {
+        return player.gameObject;
+    }
+    
+    public Player GetPlayer() {
+        return player;
     }
 }

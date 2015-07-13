@@ -21,6 +21,11 @@ public static class Factory {
         return newCreditText;
     }
     
+    public static GameObject Explosion() {
+        GameObject explosion = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/Scenery/Explosions/Explosion") as GameObject);
+        return explosion;
+    }
+    
     public static GameObject SpeechBubble() {
         GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
         return newSpeechBubbleGameObject;

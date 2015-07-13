@@ -48,9 +48,7 @@ public class Detonator : Item {
         animatorToUpdate.SetBool("IsPrimed", IsPrimed());
     }
     
-    public void Detonate() {
+    public virtual void Detonate() {
         hasBeenDetonated = true;
-        Debug.Log("Explodie!!!");
-        LevelManager.Instance.TriggerExplosionCinematic();
     }
 }
