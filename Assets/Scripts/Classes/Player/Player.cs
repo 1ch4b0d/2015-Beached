@@ -178,7 +178,7 @@ public class Player : MonoBehaviour {
     public void PerformCinematicTriggerCheck(Collider2D collider) {
     }
     
-    public void ToggleAcrocatic(GameObject acrocaticGameObject, bool enabled)  {
+    public void ToggleController(GameObject acrocaticGameObject, bool enabled)  {
         Acrocatic.Player acrocaticPlayer = acrocaticGameObject.GetComponent<Acrocatic.Player>();
         if(acrocaticPlayer) {
             acrocaticPlayer.enabled = enabled;
@@ -222,13 +222,13 @@ public class Player : MonoBehaviour {
     
     public void Pause() {
         rigidbody2DSnapshot.Capture(this.gameObject);
-        ToggleAcrocatic(this.gameObject, false);
+        ToggleController(this.gameObject, false);
         interactionController.Reset();
     }
     
     public void Unpause() {
         rigidbody2DSnapshot.Restore(this.gameObject);
-        ToggleAcrocatic(this.gameObject, true);
+        ToggleController(this.gameObject, true);
         interactionController.Reset();
     }
     

@@ -7,7 +7,6 @@ public class PanFromTriggerToMarker : EventTrigger {
     public float panDuration = 1f;
     public float delay = 0f;
     public Transform markerPosition = null;
-    public bool cameraFollowOnFinished = false;
     public GoEaseType panInEasingType = GoEaseType.Linear;
     public GoEaseType panOutEasingType = GoEaseType.Linear;
     
@@ -61,8 +60,6 @@ public class PanFromTriggerToMarker : EventTrigger {
                              new GoTweenConfig().position(targetPosition).setEaseType(panInEasingType)
         .onComplete(complete => {
             // Debug.Log("Completed~~~");
-            // player.ToggleAcrocatic(gameObjectExecuting, true);
-            // mainCameraFollow.enabled = cameraFollowOnFinished;
             FirePanInOnFinishEvents();
         }));
     }

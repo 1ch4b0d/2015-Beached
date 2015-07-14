@@ -27,15 +27,8 @@ using System.Reflection;
 /// OnStart/OnExecute/OnFinish all have separate scripts attached that are
 /// extended from the "CustomEventGameObject"
 public class CustomEventsManager : MonoBehaviour {
-    public bool isRootManager = false;
-    public bool loop = false;
-    
     public CustomEvents events = null;
     public GameObject gameObjectWithEvents = null;
-    
-    public CustomEventsManager onStartEvents = null;
-    public CustomEventsManager onExecuteEvents = null;
-    public CustomEventsManager onFinishEvents = null;
     
     protected virtual void Awake() {
         Initialize();
@@ -52,34 +45,17 @@ public class CustomEventsManager : MonoBehaviour {
     protected virtual void Initialize() {
         events = new CustomEvents();
         
-        if(isRootManager) {
-            if(gameObjectWithEvents == null) {
-                gameObjectWithEvents = this.gameObject;
-            }
+        if(gameObjectWithEvents == null) {
+            gameObjectWithEvents = this.gameObject;
+        }
+        
+        if(gameObjectWithEvents != null) {
+            CustomEventObject[] customEventObjects = gameObjectWithEvents.GetComponents<CustomEventObject>();
             
-            if(gameObjectWithEvents != null) {
-                CustomEventsManager[] customEventsManagers = gameObjectWithEvents.GetComponents<CustomEventsManager>();
-                
-                //------------------------------------------------------------------
-                // Quick Error Check To Make Sure Only One Root Manager Exists
-                //------------------------------------------------------------------
-                int numberOfRootManagers = 0;
-                foreach(CustomEventsManager customEventsManager in customEventsManagers) {
-                    if(customEventsManager.isRootManager) {
-                        numberOfRootManagers++;
-                    }
-                }
-                
-                if(numberOfRootManagers > 1) {
-                    Debug.LogError("More than one rootManager was detected. Please validate that only one rootManager is set per a CustomEventsManager group.");
-                }
-                // Debug.Log(this.gameObject.name + " has " + numberOfRootManagers + " event(s).");
-                //------------------------------------------------------------------
-                foreach(CustomEventsManager customEventsManager in customEventsManagers) {
-                    // Debug.Log(customEventsManager);
-                    if(this != customEventsManager) {
-                        events.Add(customEventsManager.Execute, customEventsManager.loop);
-                    }
+            foreach(CustomEventObject customEventObject in customEventObjects) {
+                // Debug.Log(customEventObject);
+                if(this != customEventObject) {
+                    events.Add(customEventObject.Execute, customEventObject.loop);
                 }
             }
         }
@@ -88,23 +64,5 @@ public class CustomEventsManager : MonoBehaviour {
     public virtual void Execute() {
         // Debug.Log("Executing " + this.gameObject.name);
         events.Execute();
-    }
-    
-    public virtual void FireStartEvents() {
-        if(onStartEvents != null) {
-            onStartEvents.Execute();
-        }
-    }
-    
-    public virtual void FireExecuteEvents() {
-        if(onExecuteEvents != null) {
-            onExecuteEvents.Execute();
-        }
-    }
-    
-    public virtual void FireFinishEvents() {
-        if(onFinishEvents != null) {
-            onFinishEvents.Execute();
-        }
     }
 }

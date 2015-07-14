@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFollowEvent : CustomEventsManager {
+public class CameraFollowEvent : CustomEventObject {
     public CameraFollow cameraFollow = null;
     //-------------------------------------------------------
     public bool cameraFollowEnabled = true;
@@ -35,7 +35,10 @@ public class CameraFollowEvent : CustomEventsManager {
         }
     }
     
-    public override void Execute() {
+    // public override void Execute() {
+    // }
+    
+    public override void ExecuteLogic() {
         SetCameraFollowValues();
     }
     

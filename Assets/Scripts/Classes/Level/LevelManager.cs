@@ -81,7 +81,7 @@ public class LevelManager : MonoBehaviour {
     }
     
     public void PerformExplosionCinematic() {
-        PlayerManager.Instance.GetPlayer().ToggleAcrocatic(PlayerManager.Instance.GetPlayerGameObject(), false);
+        PlayerManager.Instance.GetPlayer().ToggleController(PlayerManager.Instance.GetPlayerGameObject(), false);
         
         // Just do one explosion for now
         // PlayExplosion("ExplosionOne", whaleExplosionMarkers[0].transform.position);

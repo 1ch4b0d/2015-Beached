@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CinematicDetonatorEvent : CustomEventsManager {
+public class CinematicDetonatorEvent : CustomEventObject {
     public CinematicDetonator detonator = null;
     public bool finishedCinematic = true;
     

@@ -39,7 +39,6 @@ public class DetonatorPanFromTriggerToMarker : PanFromTriggerToMarker {
     public override void Exited(GameObject gameObjectExiting) {
         // base.Exited(gameObjectExiting);
         FireExitEvents();
-        
         PanOut();
     }
 }
