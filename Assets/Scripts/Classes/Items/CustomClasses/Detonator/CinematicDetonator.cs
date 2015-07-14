@@ -18,4 +18,14 @@ public class CinematicDetonator : Detonator {
     // protected override void Initialize() {
     //     base.Initialize();
     // }
+    
+    public override void Detonate() {
+        if(finishedCinematic) {
+            if(IsPrimed()
+                && !HasBeenDetonated()) {
+                hasBeenDetonated = true;
+                FireOnDetonateEvents();
+            }
+        }
+    }
 }

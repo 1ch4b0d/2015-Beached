@@ -3,7 +3,6 @@ using System.Collections;
 
 public class DetonatorInteractionTrigger : InteractionTrigger {
     public Detonator detonator = null;
-    public CustomEventsManager onDetonate = null;
     
     // Use this for initialization
     protected override void Start() {
@@ -52,16 +51,6 @@ public class DetonatorInteractionTrigger : InteractionTrigger {
     // }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
-        if(detonator.IsPrimed()
-            && !detonator.HasBeenDetonated()) {
-            detonator.Detonate();
-            FireOnDetonateEvents();
-        }
-    }
-    
-    public virtual void FireOnDetonateEvents() {
-        if(onDetonate != null) {
-            onDetonate.Execute();
-        }
+        detonator.Detonate();
     }
 }

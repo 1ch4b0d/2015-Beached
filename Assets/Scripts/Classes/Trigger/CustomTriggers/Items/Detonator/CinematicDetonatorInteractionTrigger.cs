@@ -28,12 +28,6 @@ public class CinematicDetonatorInteractionTrigger : DetonatorInteractionTrigger 
     }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
-        if(cinematicDetonator.finishedCinematic) {
-            if(detonator.IsPrimed()
-                && !detonator.HasBeenDetonated()) {
-                detonator.Detonate();
-                FireOnDetonateEvents();
-            }
-        }
+        cinematicDetonator.Detonate();
     }
 }

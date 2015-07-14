@@ -18,9 +18,9 @@ public class WhaleDetonator : CinematicDetonator {
     // protected override void Initialize() {
     // }
     
-    public override void Detonate() {
-        hasBeenDetonated = true;
-        Debug.Log("Explodie!!!");
-        LevelManager.Instance.TriggerExplosionCinematic();
-    }
+    // public override void Detonate() {
+    //     hasBeenDetonated = true;
+    //     Debug.Log("Explodie!!!");
+    //     LevelManager.Instance.TriggerExplosionCinematic();
+    // }
 }

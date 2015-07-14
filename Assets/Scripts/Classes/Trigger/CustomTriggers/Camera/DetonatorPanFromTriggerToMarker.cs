@@ -20,7 +20,10 @@ public class DetonatorPanFromTriggerToMarker : PanFromTriggerToMarker {
     protected override void Initialize() {
         base.Initialize();
         if(detonator == null) {
-            Debug.LogError("The 'detonator' variable for the 'DetonatorPanFromTriggerToMarker' component of the '" + this.gameObject.name + "' is null. Please fix this and try again.");
+            detonator = Utility.GetFirstParentOfType<Detonator>(this.gameObject);
+            if(detonator == null) {
+                Debug.LogError("The 'detonator' variable for the 'DetonatorPanFromTriggerToMarker' component of the '" + this.gameObject.name + "' is null. Please fix this and try again.");
+            }
         }
     }
     

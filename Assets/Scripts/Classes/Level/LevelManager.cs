@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour {
     public GameObject rightWorldBorder = null;
     
     public GameObject georgeThorntonGameObject = null;
-    public GameObject whaleGameObject = null;
+    public List<Transform> whaleExplosionMarkers = null;
     // public Transform explosionsMarker = null;
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION
@@ -51,21 +51,52 @@ public class LevelManager : MonoBehaviour {
     protected void Initialize() {
         _instance = this;
         
+        //----------------------------------------------------------------------
+        // Markers
+        //----------------------------------------------------------------------
+        if(whaleExplosionMarkers == null) {
+            whaleExplosionMarkers  = new List<Transform>();
+            // Debug.LogError("The 'whaleExplosionMarkers' list is null, please declare it for '" + this.gameObject.name + "' and set it in order for the level logic to be consistent.");
+        }
+        //----------------------------------------------------------------------
+        // NPCs
+        //----------------------------------------------------------------------
+        // if(georgeThorntonGameObject == null) {
+        //     Debug.LogError("The 'georgeThorntonGameObject' is null, please declare it for '" + this.gameObject.name + "' and set it in order for the level logic to be consistent.");
+        // }
+        //----------------------------------------------------------------------
+        // World Boundaries
+        //----------------------------------------------------------------------
         if(leftWorldBorder == null) {
-            Debug.LogError("The LeftBorder is null, please declare it and set it in order for the level logic to be consistent.");
+            Debug.LogError("The 'leftWorldBorder' is null, please declare it for '" + this.gameObject.name + "' and set it in order for the level logic to be consistent.");
         }
         if(rightWorldBorder == null) {
-            Debug.LogError("The RightWorldBorder is null, please declare it and set it in order for the level logic to be consistent.");
+            Debug.LogError("The 'rightWorldBorder' is null, please declare it for '" + this.gameObject.name + "' and set it in order for the level logic to be consistent.");
         }
     }
     
     public void TriggerExplosionCinematic() {
-        CinematicManager.Instance.StartCinematic<WhaleExplosion>();
+        // CinematicManager.Instance.StartCinematic<WhaleExplosion>();
+        PerformExplosionCinematic();
+    }
+    
+    public void PerformExplosionCinematic() {
         PlayerManager.Instance.GetPlayer().ToggleAcrocatic(PlayerManager.Instance.GetPlayerGameObject(), false);
-        GameObject explosionOne = Factory.Explosion();//(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/Credits/CreditText") as GameObject);
-        Animator explosionOneAnimator = explosionOne.GetComponent<Animator>();
-        AnimatorHelper explosionOneAnimatorHelper = explosionOne.GetComponent<AnimatorHelper>();
-        explosionOneAnimatorHelper.SetDestroyOnFinish(true);
-        explosionOneAnimator.Play("ExplosionOne");
+        
+        // Just do one explosion for now
+        // PlayExplosion("ExplosionOne", whaleExplosionMarkers[0].transform.position);
+    }
+    
+    // public void SetOnAnimationFinish(string stateName, StateEvent stateEventFunction, bool destroyOnFinish = false, bool loopAnimationEvent = false) {
+    public void PlayExplosion(string explosionAnimationName, Vector3 position, bool destroyOnFinish = true) {
+        GameObject explosion = Factory.Explosion();//(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/Credits/CreditText") as GameObject);
+        Animator explosionAnimator = explosion.GetComponent<Animator>();
+        AnimatorHelper explosionAnimatorHelper = explosion.GetComponent<AnimatorHelper>();
+        
+        // explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
+        explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
+        explosionAnimator.Play(explosionAnimationName);
+        
+        explosion.transform.position = new Vector3(position.x, position.y, explosion.transform.position.z);
     }
 }

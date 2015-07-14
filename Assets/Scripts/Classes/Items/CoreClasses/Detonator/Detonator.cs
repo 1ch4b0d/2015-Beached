@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Detonator : Item {
     public List<DetonatorPrimer> detonatorPrimers = null;
     public bool hasBeenDetonated = false;
+    public CustomEventsManager onDetonate = null;
     
     // protected virtual void Awake() {
     //     Initialize();
@@ -49,6 +50,16 @@ public class Detonator : Item {
     }
     
     public virtual void Detonate() {
-        hasBeenDetonated = true;
+        if(IsPrimed()
+            && !HasBeenDetonated()) {
+            hasBeenDetonated = true;
+            FireOnDetonateEvents();
+        }
+    }
+    
+    public virtual void FireOnDetonateEvents() {
+        if(onDetonate != null) {
+            onDetonate.Execute();
+        }
     }
 }
