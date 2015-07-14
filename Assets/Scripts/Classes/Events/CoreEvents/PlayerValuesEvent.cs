@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class PlayerValuesEvent : CustomEventObject {
+    // GameObject is used because the unity inspector wouldn't just let me maintain
+    // a reference to the Player script. Freaking Unity, I seriously don't know
+    // why it doesn't work by assigning just the player component.
+    public GameObject playerGameObject = null;
     public Player player = null;
     public bool enableController = false;
     
@@ -19,8 +23,16 @@ public class PlayerValuesEvent : CustomEventObject {
     
     protected override void Initialize() {
         base.Initialize();
-        if(player == null) {
-            Debug.LogError("The 'player' reference needs to be set in the 'playerValuesEvent' Script on " + this.gameObject.name);
+        if(playerGameObject == null) {
+            Debug.LogError("The 'playerGameObject' reference needs to be set in the 'playerValuesEvent' Script on " + this.gameObject.name);
+        }
+        else {
+            if(player == null) {
+                player = playerGameObject.GetComponent<Player>();
+                if(player == null) {
+                    Debug.LogError("The 'playerGameObject' reference needs to be set in the 'playerValuesEvent' Script on " + this.gameObject.name);
+                }
+            }
         }
     }
     
