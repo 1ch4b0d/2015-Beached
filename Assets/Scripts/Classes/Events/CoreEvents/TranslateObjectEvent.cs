@@ -20,6 +20,12 @@ public class TranslateObjectEvent : CustomEventObject {
     // public override void Execute() {
     // }
     
+    protected override void Initialize() {
+        if(objectToTranslate == null) {
+            Debug.LogError("The 'objectToTranslate' reference needs to be set in the 'TranslateObjectEvent' Script on " + this.gameObject.name);
+        }
+    }
+    
     public override void ExecuteLogic() {
         if(translationTween != null) {
             translationTween.destroy();

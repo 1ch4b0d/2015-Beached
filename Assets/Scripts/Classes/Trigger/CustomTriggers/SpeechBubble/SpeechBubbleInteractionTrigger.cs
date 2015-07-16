@@ -52,19 +52,24 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         Player player = gameObjectExecuting.GetComponent<Player>();
         if(player != null
             && speechBubble != null) {
+            // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
+                Debug.Log(this.gameObject.name + " speechBubble is NOT in use");
                 speechBubble.SetTextSet(textSet.ToArray());
                 
                 player.StartInteraction();
                 speechBubble.StartInteraction();
             }
             else {
+                Debug.Log(this.gameObject.name + " speechBubble is in use");
+                // Ends the speech bubble
                 if(speechBubble.HasFinished()) {
                     speechBubble.FinishInteraction();
                     player.StartGameplayState();
                     
                     currentIteration++;
                 }
+                // Proceeds in the speech bubble
                 else {
                     speechBubble.MoveToNextText();
                 }

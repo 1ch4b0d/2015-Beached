@@ -14,7 +14,7 @@ public class SpeechBubble : MonoBehaviour {
     UILabel label = null;
     TypewriterEffect labelTypeWriterEffect = null;
     
-    Queue<string> textSet = new Queue<string>();
+    public Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
     public bool hasFinishedTextSet = false;
     CustomEvents onFinshedTextSet = null;
@@ -41,9 +41,11 @@ public class SpeechBubble : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        PerformLogic();
+        if(this.enabled) {
+            PerformLogic();
+        }
         UpdateAnimator();
-        // DebugInfo();
+        DebugInfo();
     }
     
     protected void Initialize() {
@@ -129,6 +131,13 @@ public class SpeechBubble : MonoBehaviour {
             Debug.Log("Setting Text");
             SetTextSet("testing testing testing");
         }
+        
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log(this.gameObject.name + " - current Text - #: " + textSet.Count);
+            foreach(string text in textSet) {
+                Debug.Log(text);
+            }
+        }
     }
     
     // From here:
@@ -208,29 +217,8 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public void SetSpeechBubbleImage(SpeechBubbleImage newSpeechBubbleImage) {
-        switch(newSpeechBubbleImage) {
-        case(SpeechBubbleImage.None):
-            break;
-        case(SpeechBubbleImage.DesktopInteractButton):
+        if(newSpeechBubbleImage != SpeechBubbleImage.None) {
             label.text = "";
-            break;
-        case(SpeechBubbleImage.PS3InteractButton):
-            label.text = "";
-            break;
-        case(SpeechBubbleImage.TouchInteractButton):
-            label.text = "";
-            break;
-        case(SpeechBubbleImage.VitaInteractButton):
-            label.text = "";
-            break;
-        case(SpeechBubbleImage.WiiInteractButton):
-            label.text = "";
-            break;
-        case(SpeechBubbleImage.XBoxInteractButton):
-            label.text = "";
-            break;
-        default:
-            break;
         }
         
         speechBubbleImage = newSpeechBubbleImage;
@@ -304,12 +292,15 @@ public class SpeechBubble : MonoBehaviour {
     public void PopTextAndUpdateSpeechBubbleText() {
         // Pops the next text node
         if(textSet.Count > 0) {
+            Debug.Log("text being incremented");
             if(labelTypeWriterEffect != null) {
                 if(!labelTypeWriterEffect.isActive) {
+                    Debug.Log("Popped text with typewriterEffect");
                     SetSpeechBubbleText(PopText());
                 }
             }
             else {
+                Debug.Log("Popped text normal");
                 SetSpeechBubbleText(PopText());
             }
         }
@@ -331,12 +322,17 @@ public class SpeechBubble : MonoBehaviour {
     /// This sets the text set to be iterated through
     /// </summary>
     public SpeechBubble SetTextSet(params string[] newText) {
+        ClearText();
         hasFinishedTextSet = false;
-        textSet.Clear();
+        
         foreach(string text in newText) {
             textSet.Enqueue(text);
+            Debug.Log("Added text: " + text);
         }
+        
+        Debug.Log("before pop:" + textSet.Count);
         PopTextAndUpdateSpeechBubbleText();
+        Debug.Log("after pop:" + textSet.Count);
         return this;
     }
     
@@ -351,6 +347,11 @@ public class SpeechBubble : MonoBehaviour {
             }
             animatorReference.SetBool(speechBubbleImage.ToString(), true);
         }
+    }
+    
+    public void ClearText() {
+        textSet.Clear();
+        label.text = "";
     }
     
     public void ClearTweens() {
