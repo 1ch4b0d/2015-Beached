@@ -39,9 +39,9 @@ namespace Acrocatic {
         // Got more hitboxes? Add them here!
         
         // Private variables.
-        public  BoxCollider2D boxCollider;          // Get the player's box collider.
-        public  CircleCollider2D circleCollider;    // Get the player's circle collider.
-        private Player player;                      // Get the Player class.
+        public BoxCollider2D boxCollider;          // Get the player's box collider.
+        public CircleCollider2D circleCollider;    // Get the player's circle collider.
+        public Player player;                      // Get the Player class.
         
         // Also need to change the circle collider? Here's an example how to achieve this:
         // public class DefaultHitbox {

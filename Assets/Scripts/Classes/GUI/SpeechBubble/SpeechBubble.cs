@@ -132,12 +132,12 @@ public class SpeechBubble : MonoBehaviour {
             SetTextSet("testing testing testing");
         }
         
-        if(Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log(this.gameObject.name + " - current Text - #: " + textSet.Count);
-            foreach(string text in textSet) {
-                Debug.Log(text);
-            }
-        }
+        // if(Input.GetKeyDown(KeyCode.Space)) {
+        // Debug.Log(this.gameObject.name + " - current Text - #: " + textSet.Count);
+        // foreach(string text in textSet) {
+        // Debug.Log(text);
+        // }
+        // }
     }
     
     // From here:
@@ -254,12 +254,13 @@ public class SpeechBubble : MonoBehaviour {
     public void FinishInteraction() {
         // Debug.Log("Finished Interaction");
         isInUse = false;
-        onFinshedTextSet.Execute();
         SetSpeechBubbleImageToDevice();
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
         label.text = "";
+        
+        onFinshedTextSet.Execute();
     }
     
     public bool HasFinished() {

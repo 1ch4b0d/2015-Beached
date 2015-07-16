@@ -62,8 +62,11 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             else {
                 // Ends the speech bubble
                 if(speechBubble.HasFinished()) {
-                    speechBubble.FinishInteraction();
+                    // Start player gamestate first so that if events are fired
+                    // at the end of the speech bubble they can override any
+                    // changes that could occur in the player's state
                     player.StartGameplayState();
+                    speechBubble.FinishInteraction();
                     
                     currentIteration++;
                 }
