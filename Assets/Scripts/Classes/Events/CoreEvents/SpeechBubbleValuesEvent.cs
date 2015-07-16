@@ -9,6 +9,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public bool isEnabled = true;
     public bool show = false;
     public bool hide = false;
+    public CustomEventsManager onSpeechBubbleFinish = null;
     
     // // Use this for initialization
     // protected override void Awake(){
@@ -26,6 +27,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     // }
     
     protected override void Initialize() {
+        base.Initialize();
         if(speechBubble == null) {
             Debug.LogError("The 'speechBubble' reference needs to be set in the 'SetSpeechBubbleValuesEvent' Script on " + this.gameObject.name);
         }
@@ -36,8 +38,6 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     }
     
     public void SetSpeechBubbleValues() {
-        // Debug.Log("setting speech bubble values!");
-        
         //------------------------------
         // Enable/Disable
         //------------------------------
@@ -57,7 +57,6 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             && textSet.Count > 0) {
             speechBubble.SetTextSet(textSet.ToArray());
         }
-        Debug.Log("speech text:" + speechBubble.textSet.Count);
         
         //------------------------------
         // Show/Hide
@@ -73,6 +72,18 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.Hide();
         }
         
+        //------------------------------
+        // Speech Bubble - On Finish
+        //------------------------------
+        if(onSpeechBubbleFinish != null) {
+            foreach(CustomEvent customEvent in onSpeechBubbleFinish.GetEvents()) {
+                speechBubble.OnFinish(customEvent.GetEvent(), customEvent.loop);
+            }
+        }
+        
+        //------------------------------
+        // Speech Bubble - Starts the Speech Bubble
+        //------------------------------
         speechBubble.StartInteraction();
     }
 }

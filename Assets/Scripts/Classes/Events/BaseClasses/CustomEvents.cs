@@ -14,15 +14,35 @@ public class CustomEvents {
         return newCustomEvents;
     }
     
-    public void Add(System.Action newOnDelegateEvent, bool loop = false) {
+    public void AddEvent(System.Action newOnDelegateEvent, bool loop = false) {
         CustomEvent newEvent = CustomEvent.Create()
                                .SetEvent(newOnDelegateEvent)
                                .SetLoop(loop);
-        Add(newEvent);
+        AddEvent(newEvent);
     }
     
-    public void Add(CustomEvent newDelegateEvent) {
+    public void AddEvent(CustomEvent newDelegateEvent) {
         allDelegateEvents.Add(newDelegateEvent);
+    }
+    
+    public List<CustomEvent> GetEvents() {
+        return allDelegateEvents;
+    }
+    
+    public bool Contains(System.Action delegateEvent) {
+        bool foundDelegate = false;
+        foreach(CustomEvent customEvent in allDelegateEvents) {
+            if(customEvent.GetEvent() == delegateEvent) {
+                foundDelegate = true;
+                // because why waste more time in the loop
+                break;
+            }
+        }
+        return foundDelegate;
+    }
+    
+    public bool Contains(CustomEvent customEvent) {
+        return allDelegateEvents.Contains(customEvent);
     }
     
     public int Count() {

@@ -53,12 +53,20 @@ public class CustomEventsManager : MonoBehaviour {
             CustomEventObject[] customEventObjects = gameObjectWithEvents.GetComponents<CustomEventObject>();
             
             foreach(CustomEventObject customEventObject in customEventObjects) {
-                // Debug.Log(customEventObject);
-                if(this != customEventObject) {
-                    events.Add(customEventObject.Execute, customEventObject.loop);
-                }
+                AddEvent(customEventObject.Execute, customEventObject.loop);
             }
         }
+    }
+    
+    public virtual void AddEvent(System.Action newFunction, bool loop) {
+        // Does this work? I feel like this would work?
+        if(!events.Contains(newFunction)) {
+            events.AddEvent(newFunction, loop);
+        }
+    }
+    
+    public virtual List<CustomEvent> GetEvents() {
+        return events.GetEvents();
     }
     
     public virtual void Execute() {

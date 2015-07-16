@@ -270,7 +270,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public SpeechBubble OnFinish(System.Action newOnFinish, bool loop = false) {
-        onFinshedTextSet.Add(newOnFinish, loop);
+        onFinshedTextSet.AddEvent(newOnFinish, loop);
         return this;
     }
     
@@ -292,15 +292,12 @@ public class SpeechBubble : MonoBehaviour {
     public void PopTextAndUpdateSpeechBubbleText() {
         // Pops the next text node
         if(textSet.Count > 0) {
-            Debug.Log("text being incremented");
             if(labelTypeWriterEffect != null) {
                 if(!labelTypeWriterEffect.isActive) {
-                    Debug.Log("Popped text with typewriterEffect");
                     SetSpeechBubbleText(PopText());
                 }
             }
             else {
-                Debug.Log("Popped text normal");
                 SetSpeechBubbleText(PopText());
             }
         }
@@ -327,12 +324,9 @@ public class SpeechBubble : MonoBehaviour {
         
         foreach(string text in newText) {
             textSet.Enqueue(text);
-            Debug.Log("Added text: " + text);
         }
         
-        Debug.Log("before pop:" + textSet.Count);
         PopTextAndUpdateSpeechBubbleText();
-        Debug.Log("after pop:" + textSet.Count);
         return this;
     }
     
