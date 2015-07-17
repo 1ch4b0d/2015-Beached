@@ -5,6 +5,7 @@ using System.Reflection;
 
 public class CustomEvent {
     public bool loop = false;
+    public int currentIteration = 0;
     
     public System.Action customDelegate;
     
@@ -34,6 +35,7 @@ public class CustomEvent {
     public void Execute() {
         if(customDelegate != null) {
             customDelegate();
+            currentIteration++;
         }
     }
 }

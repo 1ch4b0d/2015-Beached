@@ -16,6 +16,7 @@ public class SpeechBubble : MonoBehaviour {
     
     public Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
+    public bool clearTextInBubbleOnFinish = false; // this is something I'm not sure about...
     public bool hasFinishedTextSet = false;
     CustomEvents onFinshedTextSet = null;
     
@@ -258,7 +259,9 @@ public class SpeechBubble : MonoBehaviour {
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
-        label.text = "";
+        if(clearTextInBubbleOnFinish) {
+            label.text = "";
+        }
         
         onFinshedTextSet.Execute();
     }

@@ -8,14 +8,17 @@ public class InteractionControllerValuesEvent : CustomEventObject {
     
     // // Use this for initialization
     // protected overrid void Awake() {
+    // base.Awake();
     // }
     
     // // Use this for initialization
     // protected overrid void Start() {
+    // base.Start();
     // }
     
     // // Update is called once per frame
     // protected overrid void Update() {
+    // base.Update();
     // }
     
     protected override void Initialize() {

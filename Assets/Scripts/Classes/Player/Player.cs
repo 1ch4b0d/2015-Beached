@@ -179,7 +179,6 @@ public class Player : MonoBehaviour {
     }
     
     public void ToggleController(GameObject acrocaticGameObject, bool enabled)  {
-        Debug.Log("Toggling controller to: " + enabled);
         Acrocatic.Player acrocaticPlayer = acrocaticGameObject.GetComponent<Acrocatic.Player>();
         if(acrocaticPlayer) {
             acrocaticPlayer.enabled = enabled;

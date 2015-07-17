@@ -10,17 +10,21 @@ public class TranslateObjectEvent : CustomEventObject {
     public GoEaseType easingType = GoEaseType.Linear;
     
     // Use this for initialization
-    protected override void Start() {
-    }
+    // protected override void Start() {
+    // base.Start();
+    // }
     
-    // Update is called once per frame
-    protected override void Update() {
-    }
+    // // Update is called once per frame
+    // protected override void Update() {
+    // base.Update();
+    // }
     
     // public override void Execute() {
+    // base.Execute();
     // }
     
     protected override void Initialize() {
+        base.Initialize();
         if(objectToTranslate == null) {
             Debug.LogError("The 'objectToTranslate' reference needs to be set in the 'TranslateObjectEvent' Script on " + this.gameObject.name);
         }

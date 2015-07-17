@@ -51,9 +51,17 @@ public class CustomEvents {
     
     public void Execute() {
         List<CustomEvent> loopingDelegates = new List<CustomEvent>();
-        foreach(CustomEvent delegateEvent in allDelegateEvents) {
+        foreach(CustomEvent delegateEvent in allDelegateEvents.ToArray()) {
             delegateEvent.Execute();
-            if(delegateEvent.ShouldLoop()) {
+        }
+        
+        // TODO: This is a really really really really crappy solution. Fix this
+        //  in a better way somehow down the line.
+        // This is pruning events that don't loop in order to make the search space smaller
+        // This keeps events that have yet to execute
+        foreach(CustomEvent delegateEvent in allDelegateEvents) {
+            if(delegateEvent.currentIteration == 0
+                || delegateEvent.ShouldLoop()) {
                 loopingDelegates.Add(delegateEvent);
             }
         }

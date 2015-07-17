@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CustomEventObject : MonoBehaviour {
     public bool loop = true;
-    public int currentIteration = 0;
     
     public CustomEventsManager onStartEvents = null;
     public CustomEventsManager onExecuteEvents = null;
@@ -27,11 +26,7 @@ public class CustomEventObject : MonoBehaviour {
     
     public virtual void Execute() {
         // Perform only if it's the first iteration, or it should loop
-        if(currentIteration < 1
-            || loop) {
-            ExecuteLogic();
-            currentIteration++;
-        }
+        ExecuteLogic();
     }
     
     public virtual void ExecuteLogic() {
