@@ -54,15 +54,24 @@ public class CameraManager : MonoBehaviour {
         return mainCamera;
     }
     
-    public CameraFollow CameraFollow() {
+    public CameraFollow GetCameraFollow() {
         return GetMainCamera().GetComponent<CameraFollow>();
     }
     
-    public CameraWorldBoundLock CameraWorldBoundLock() {
+    public CameraWorldBoundLock GetCameraWorldBoundLock() {
         return GetMainCamera().GetComponent<CameraWorldBoundLock>();
     }
     
-    public Camera GUICamera() {
+    public CameraShake GetMainCameraShake() {
+        return GetMainCamera().GetComponent<CameraShake>();
+    }
+    
+    
+    public Camera GetGUICamera() {
         return NGUIManager.Instance.Camera();
+    }
+    
+    public CameraShake GetGUICameraShake() {
+        return GetGUICamera().GetComponent<CameraShake>();
     }
 }

@@ -7,20 +7,31 @@ public class SetCameraBoundsTrigger : CustomTrigger {
     public Transform cameraBottomBound = null;
     public Transform cameraTopBound = null;
     
-    // Use this for initialization
-    protected override void Start() {
-    }
+    // // Use this for initialization
+    // protected override void Awake() {
+    //     base.Awake();
+    // }
     
-    // Update is called once per frame
-    protected override void Update() {
-    }
+    // // Use this for initialization
+    // protected override void Start() {
+    //     base.Start();
+    // }
+    
+    // // Update is called once per frame
+    // protected override void Update() {
+    //     base.Update();
+    // }
+    
+    // protected override void Initialize() {
+    //     base.Initialize();
+    // }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         SetWorldBounds();
     }
     
     public void SetWorldBounds() {
-        CameraWorldBoundLock mainCameraWorldBoundLock = CameraManager.Instance.CameraWorldBoundLock();
+        CameraWorldBoundLock mainCameraWorldBoundLock = CameraManager.Instance.GetCameraWorldBoundLock();
         
         Vector2 newMinimumPosition = mainCameraWorldBoundLock.minimumPosition;
         Vector2 newMaximumPosition = mainCameraWorldBoundLock.maximumPosition;

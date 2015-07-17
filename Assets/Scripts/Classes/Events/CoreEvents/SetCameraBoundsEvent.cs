@@ -26,7 +26,7 @@ public class SetCameraBoundsEvent : CustomEventsManager {
     }
     
     public void SetWorldBounds() {
-        CameraWorldBoundLock mainCameraWorldBoundLock = CameraManager.Instance.CameraWorldBoundLock();
+        CameraWorldBoundLock mainCameraWorldBoundLock = CameraManager.Instance.GetCameraWorldBoundLock();
         
         Vector2 newMinimumPosition = mainCameraWorldBoundLock.minimumPosition;
         Vector2 newMaximumPosition = mainCameraWorldBoundLock.maximumPosition;

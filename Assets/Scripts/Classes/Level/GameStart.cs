@@ -9,7 +9,7 @@ using System.Collections;
 public class GameStart : MonoBehaviour {
     // Use this for initialization
     void Start() {
-        CameraManager.Instance.CameraFollow().enabled = false;
+        CameraManager.Instance.GetCameraFollow().enabled = false;
     }
     
     // Update is called once per frame
