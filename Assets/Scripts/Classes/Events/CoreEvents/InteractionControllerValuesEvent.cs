@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class InteractionControllerValuesEvent : CustomEventObject {
     public InteractionController interactionController = null;
     public List<InteractionTrigger> triggersToAdd = null;
+    public List<InteractionTrigger> triggersToRemove = null;
     
     // // Use this for initialization
     // protected overrid void Awake() {
@@ -30,11 +31,19 @@ public class InteractionControllerValuesEvent : CustomEventObject {
         if(triggersToAdd == null) {
             triggersToAdd = new List<InteractionTrigger>();
         }
+        
+        if(triggersToRemove == null) {
+            triggersToRemove = new List<InteractionTrigger>();
+        }
     }
     
     public override void ExecuteLogic() {
         foreach(InteractionTrigger triggerToAdd in triggersToAdd) {
             interactionController.AddTrigger(triggerToAdd);
+        }
+        
+        foreach(InteractionTrigger triggerToRemove in triggersToRemove) {
+            interactionController.RemoveTrigger(triggerToRemove);
         }
     }
 }
