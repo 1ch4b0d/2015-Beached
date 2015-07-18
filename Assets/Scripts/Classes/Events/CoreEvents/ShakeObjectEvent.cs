@@ -5,15 +5,21 @@ using System.Collections;
 /// Used to trigger a camera shake from an event
 ///<summary>
 public class ShakeObjectEvent : CustomEventObject {
-    [Tooltip("This is the camera to shake")]
+    [Tooltip("This is the shake tween that controls the shake")]
     public GoTween shakeTween = null;
+    [Tooltip("This is the camera to shake")]
     public GameObject gameObjectToShake = null;
+    [Tooltip("The duration of the shake")]
     public float duration = 1f;
-    public float shakeFrequency = 0.1f;
+    [Tooltip("The magnitude of the shake in each vector component")]
     public Vector3 magnitude = new Vector3(1f, 1f, 0f);
+    [Tooltip("The easinig type of the shake")]
     public GoEaseType goEaseType = GoEaseType.Linear;
+    [Tooltip("The shake type of the go tween")]
     public GoShakeType goShakeType = GoShakeType.Position;
+    [Tooltip("I have no idea what this is")]
     int frameMod = 1;
+    [Tooltip("Use the local frame of reference")]
     bool useLocalProperties = false;
     
     // // Use this for initialization
@@ -43,7 +49,6 @@ public class ShakeObjectEvent : CustomEventObject {
     }
     
     public void PerformObjectShake() {
-        Debug.Log("Watch yo'self, back dat ass up");
         if(shakeTween != null) {
             shakeTween.destroy();
             shakeTween = null;
@@ -51,7 +56,7 @@ public class ShakeObjectEvent : CustomEventObject {
         
         shakeTween = Go.to(gameObjectToShake.transform,
                            duration,
-                           new GoTweenConfig().setEaseType(GoEaseType.Linear).shake(magnitude, goShakeType, frameMod, useLocalProperties)
+                           new GoTweenConfig().setEaseType(goEaseType).shake(magnitude, goShakeType, frameMod, useLocalProperties)
         .onComplete(complete => {
             FireFinishEvents();
         }));

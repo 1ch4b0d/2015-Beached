@@ -41,6 +41,7 @@ public class AnimatorValuesEvent : CustomEventObject {
         // Animation to Play
         //------------------------------------------------------------------
         if(!animationToPlay.Equals("")) {
+            animator.Play(animationToPlay);
         }
     }
 }

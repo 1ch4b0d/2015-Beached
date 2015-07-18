@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CustomEventObject : MonoBehaviour {
-    public bool loop = true;
+    public bool loop = false;
     
     public CustomEventsManager onStartEvents = null;
     public CustomEventsManager onExecuteEvents = null;
@@ -25,6 +25,8 @@ public class CustomEventObject : MonoBehaviour {
     }
     
     public virtual void Execute() {
+        Debug.Log(this.gameObject.name + " is executing.");
+        
         // Perform only if it's the first iteration, or it should loop
         ExecuteLogic();
     }
