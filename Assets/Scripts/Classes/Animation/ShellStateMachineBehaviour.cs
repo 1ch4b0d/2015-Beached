@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO: Create an AnimatorHelper cache variable that validates the passed in animator is equivalent to the cached animator, this way both are cached and both are updated only when the animator != animatorPassedIn
 public class ShellStateMachineBehaviour : StateMachineBehaviour {
 
     public string stateName = "";
@@ -10,9 +11,9 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            AnimatorHelper.StateEvent stateEvent = animatorHelper.GetOnStateEnter(stateName);
-            if(stateEvent != null) {
-                stateEvent();
+            CustomEvents stateEvents = animatorHelper.GetOnStateEnter(stateName);
+            if(stateEvents != null) {
+                stateEvents.Execute();
             }
         }
     }
@@ -21,9 +22,9 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            AnimatorHelper.StateEvent updateStateEvent = animatorHelper.GetOnStateUpdate(stateName);
+            CustomEvents updateStateEvent = animatorHelper.GetOnStateUpdate(stateName);
             if(updateStateEvent != null) {
-                updateStateEvent();
+                updateStateEvent.Execute();
             }
             
             //------------------------------------------------------------------
@@ -32,18 +33,12 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
             // Checks to see if animation finished
             if(stateInfo.normalizedTime >= 0.99) {
                 // Debug.Log(stateName + ": Animation finished");
-                AnimatorHelper.StateEvent animationFinishStateEvent = animatorHelper.GetOnAnimationFinish(stateName);
+                CustomEvents animationFinishStateEvent = animatorHelper.GetOnAnimationFinish(stateName);
                 if(animationFinishStateEvent != null) {
-                    // Debug.Log("Performing animation: " + stateName + " finish event");
-                    animationFinishStateEvent();
-                    if(!animatorHelper.ShouldAnimationFinishEventLoop(stateName)) {
-                        // Debug.Log("only performing once!");
-                        animatorHelper.SetOnAnimationFinish(stateName, null);
-                        // Debug.Log("Animation Finished!");
-                    }
+                    animationFinishStateEvent.Execute();
                 }
                 // Destroys object
-                if(animatorHelper.GetDestroyOnFinish()) {
+                if(animatorHelper.GetDestroyOnFinish(stateName)) {
                     // Debug.Log("Destroying: " + animator.gameObject.name);
                     Destroy(animator.gameObject);
                 }
@@ -55,9 +50,9 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            AnimatorHelper.StateEvent stateEvent = animatorHelper.GetOnStateExit(stateName);
-            if(stateEvent != null) {
-                stateEvent();
+            CustomEvents stateEvents = animatorHelper.GetOnStateExit(stateName);
+            if(stateEvents != null) {
+                stateEvents.Execute();
             }
         }
     }
@@ -66,9 +61,9 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            AnimatorHelper.StateEvent stateEvent = animatorHelper.GetOnStateMove(stateName);
-            if(stateEvent != null) {
-                stateEvent();
+            CustomEvents stateEvents = animatorHelper.GetOnStateMove(stateName);
+            if(stateEvents != null) {
+                stateEvents.Execute();
             }
         }
     }
@@ -77,15 +72,10 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            AnimatorHelper.StateEvent stateEvent = animatorHelper.GetOnStateIK(stateName);
-            if(stateEvent != null) {
-                stateEvent();
+            CustomEvents stateEvents = animatorHelper.GetOnStateIK(stateName);
+            if(stateEvents != null) {
+                stateEvents.Execute();
             }
         }
-    }
-    
-    public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash) {
-    }
-    public override void OnStateMachineExit(Animator animator, int stateMachinePathHash) {
     }
 }

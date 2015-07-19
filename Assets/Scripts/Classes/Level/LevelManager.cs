@@ -88,14 +88,14 @@ public class LevelManager : MonoBehaviour {
     }
     
     // public void SetOnAnimationFinish(string stateName, StateEvent stateEventFunction, bool destroyOnFinish = false, bool loopAnimationEvent = false) {
-    public void PlayExplosion(string explosionAnimationName, Vector3 position, bool destroyOnFinish = true) {
+    public void PlayExplosion(string explosionAnimationState, Vector3 position, bool destroyOnFinish = true) {
         GameObject explosion = Factory.Explosion();//(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/Credits/CreditText") as GameObject);
         Animator explosionAnimator = explosion.GetComponent<Animator>();
         AnimatorHelper explosionAnimatorHelper = explosion.GetComponent<AnimatorHelper>();
         
         // explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
-        explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
-        explosionAnimator.Play(explosionAnimationName);
+        explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
+        explosionAnimator.Play(explosionAnimationState);
         
         explosion.transform.position = new Vector3(position.x, position.y, explosion.transform.position.z);
     }

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PlayExplosionEvent : CustomEventObject {
-    public string explosionAnimation = "ExplosionOne";
+    public string explosionAnimationState = "ExplosionOne";
     public Transform explosionTransform = null;
     bool destroyOnFinish = true;
     
@@ -31,7 +31,7 @@ public class PlayExplosionEvent : CustomEventObject {
         AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
         
         explosionGameObject.transform.position = explosionTransform.position;
-        explosionAnimator.Play(explosionAnimation);
-        explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
+        explosionAnimator.Play(explosionAnimationState);
+        explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
     }
 }
