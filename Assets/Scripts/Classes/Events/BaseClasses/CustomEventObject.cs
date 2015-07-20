@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomEventObject : MonoBehaviour {
     public bool loop = false;
     
-    public CustomEventsManager onStartEvents = null;
-    public CustomEventsManager onExecuteEvents = null;
-    public CustomEventsManager onFinishEvents = null;
+    public List<CustomEventsManager> onStartEvents = null;
+    public List<CustomEventsManager> onExecuteEvents = null;
+    public List<CustomEventsManager> onFinishEvents = null;
     
     // Use this for initialization
     protected virtual void Awake() {
@@ -33,20 +34,27 @@ public class CustomEventObject : MonoBehaviour {
     }
     
     public virtual void FireStartEvents() {
-        if(onStartEvents != null) {
-            onStartEvents.Execute();
+        if(onStartEvents != null
+            && onStartEvents.Count > 0) {
+            foreach(CustomEventsManager customEventsManager in onStartEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
     
     public virtual void FireExecuteEvents() {
         if(onExecuteEvents != null) {
-            onExecuteEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onExecuteEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
     
     public virtual void FireFinishEvents() {
         if(onFinishEvents != null) {
-            onFinishEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onFinishEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

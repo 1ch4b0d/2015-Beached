@@ -9,7 +9,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public bool isEnabled = true;
     public bool show = false;
     public bool hide = false;
-    public CustomEventsManager onSpeechBubbleFinish = null;
+    public List<CustomEventsManager> onSpeechBubbleFinish = null;
     
     // // Use this for initialization
     // protected override void Awake(){
@@ -79,8 +79,10 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         // Speech Bubble - On Finish
         //------------------------------
         if(onSpeechBubbleFinish != null) {
-            foreach(CustomEvent customEvent in onSpeechBubbleFinish.GetEvents()) {
-                speechBubble.OnFinish(customEvent.GetEvent(), customEvent.loop);
+            foreach(CustomEventsManager customEventsManager in onSpeechBubbleFinish) {
+                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
+                    speechBubble.OnFinish(customEvent.GetEvent(), customEvent.loop);
+                }
             }
         }
         
