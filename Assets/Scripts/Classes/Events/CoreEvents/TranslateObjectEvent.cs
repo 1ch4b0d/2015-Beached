@@ -27,7 +27,11 @@ public class TranslateObjectEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(objectToTranslate == null) {
-            Debug.LogError("The 'objectToTranslate' reference needs to be set in the 'TranslateObjectEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'objectToTranslate' reference to be set in the 'TranslateObjectEvent' Script");
+        }
+        
+        if(targetPosition == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'targetPosition' reference to be set in the 'TranslateObjectEvent' Script");
         }
     }
     

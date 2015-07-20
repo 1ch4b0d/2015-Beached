@@ -7,7 +7,9 @@ public class PanFromTriggerToMarker : EventTrigger {
     public float panDuration = 1f;
     public float delay = 0f;
     public Transform markerPosition = null;
+    public bool panIn = true;
     public GoEaseType panInEasingType = GoEaseType.Linear;
+    public bool panOut = true;
     public GoEaseType panOutEasingType = GoEaseType.Linear;
     
     // Events
@@ -35,12 +37,16 @@ public class PanFromTriggerToMarker : EventTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         base.Entered(gameObjectEntering);
-        PanIn();
+        if(panIn) {
+            PanIn();
+        }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         base.Exited(gameObjectExiting);
-        PanOut();
+        if(panOut) {
+            PanOut();
+        }
     }
     
     public void PanIn() {

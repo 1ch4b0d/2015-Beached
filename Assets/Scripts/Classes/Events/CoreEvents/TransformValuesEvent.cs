@@ -36,6 +36,7 @@ public class TransformValuesEvent : CustomEventObject {
     }
     
     public override void ExecuteLogic() {
+        SetTransformValues();
     }
     
     public void SetTransformValues() {

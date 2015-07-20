@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //TODO: REMOVE NGUI TRIGGER FUNCTIONALITY OR GIVE THIS A
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
@@ -9,9 +10,9 @@ public class CustomTrigger : MonoBehaviour {
     public int currentIteration = 0;
     
     // Executes these as standard unity hooks
-    public CustomEventsManager onEnterEvents = null;
-    public CustomEventsManager onStayEvents = null;
-    public CustomEventsManager onExitEvents = null;
+    public List<CustomEventsManager> onEnterEvents = null;
+    public List<CustomEventsManager> onStayEvents = null;
+    public List<CustomEventsManager> onExitEvents = null;
     
     protected virtual void Awake() {
         Initialize();
@@ -34,6 +35,8 @@ public class CustomTrigger : MonoBehaviour {
         // By default the trigger is executed on enter, but in other classes
         // you can override this method in order to determine where you would
         // actually like to execute it
+        // FireEnterEvents should occur last in the event logic, but it should
+        // occur before the execute logic is run
         FireEnterEvents();
         Execute(gameObjectEntering);
     }
@@ -67,20 +70,26 @@ public class CustomTrigger : MonoBehaviour {
     
     public virtual void FireEnterEvents() {
         if(onEnterEvents != null) {
-            onEnterEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onEnterEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
     
     public virtual void FireStayEvents() {
         if(onStayEvents != null) {
-            onStayEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onStayEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
     
     public virtual void FireExitEvents() {
         if(onExitEvents != null) {
             // Debug.Log("Firing exit events");
-            onExitEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onExitEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

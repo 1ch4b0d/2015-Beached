@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SetCameraBoundsEvent : CustomEventsManager {
+public class SetCameraBoundsEvent : CustomEventObject {
     public Transform cameraLeftBound = null;
     public Transform cameraRightBound = null;
     public Transform cameraBottomBound = null;
