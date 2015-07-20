@@ -7,19 +7,30 @@ public class SetCameraBoundsEvent : CustomEventObject {
     public Transform cameraBottomBound = null;
     public Transform cameraTopBound = null;
     
-    // public override void Awake() {
+    // protected override void Awake() {
     //     base.Awake();
     // }
     
     // // Use this for initialization
-    // public override void Start() {
+    // protected override void Start() {
     //     base.Start();
     // }
     
     // // Update is called once per frame
-    // public override void Update() {
+    // protected override void Update() {
     //     base.Update();
     // }
+    
+    protected override void Initialize() {
+        base.Initialize();
+        
+        if(cameraLeftBound == null
+            && cameraRightBound == null
+            && cameraBottomBound == null
+            && cameraTopBound == null) {
+            Debug.LogError(this.gameObject.name + " needs at least one transform reference to be set in the 'SetCameraBoundsEvent' Script");
+        }
+    }
     
     public override void Execute() {
         SetWorldBounds();

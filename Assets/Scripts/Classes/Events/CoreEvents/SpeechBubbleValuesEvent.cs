@@ -32,7 +32,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(speechBubble == null) {
-            Debug.LogError("The 'speechBubble' reference needs to be set in the 'SetSpeechBubbleValuesEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'speechBubble' reference to be set in the 'SpeechBubbleValuesEvent' Script");
         }
     }
     

@@ -31,7 +31,7 @@ public class TransformValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(transformToModify == null) {
-            Debug.LogError("The 'transformToModify' reference needs to be set in the 'TransformValuesEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'transformToModify' reference to be set in the 'TransformValuesEvent' Script");
         }
     }
     

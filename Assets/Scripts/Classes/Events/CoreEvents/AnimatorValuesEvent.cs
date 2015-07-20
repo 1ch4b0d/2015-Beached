@@ -28,7 +28,7 @@ public class AnimatorValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(animator == null) {
-            Debug.LogError("The 'animator' reference needs to be set in the 'AnimatorValuesEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'animator' reference to be set in the 'AnimatorValuesEvent' Script");
         }
     }
     

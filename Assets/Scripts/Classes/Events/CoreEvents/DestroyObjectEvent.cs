@@ -22,7 +22,7 @@ public class DestroyObjectEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(objectToDestroy == null) {
-            Debug.LogError("The 'objectToDestroy' reference needs to be set in the 'DestroyObjectEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'objectToDestroy' reference to be set in the 'DestroyObjectEvent' Script");
         }
     }
     

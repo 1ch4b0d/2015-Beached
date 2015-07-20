@@ -31,7 +31,7 @@ public class PanFromTriggerToMarker : EventTrigger {
     
     protected override void Initialize() {
         if(cameraToPan == null) {
-            Debug.LogError("The 'cameraToPan' must be set for the 'PanFromTriggerToMarker' component of: " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'cameraToPan' reference to be set in the 'PanFromTriggerToMarker' Script");
         }
     }
     
@@ -74,6 +74,7 @@ public class PanFromTriggerToMarker : EventTrigger {
         if(currentTween != null) {
             currentTween.destroy();
             currentTween = null;
+            FirePanOutOnFinishEvents();
         }
     }
     public virtual void FirePanInOnFinishEvents() {
@@ -85,7 +86,6 @@ public class PanFromTriggerToMarker : EventTrigger {
     public virtual void FirePanOutOnFinishEvents() {
         if(onPanOutFinishEvents != null) {
             onPanOutFinishEvents.Execute();
-            Debug.Log("Firing exit events");
         }
     }
 }

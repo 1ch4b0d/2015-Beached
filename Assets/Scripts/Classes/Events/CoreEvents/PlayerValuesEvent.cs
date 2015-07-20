@@ -8,6 +8,7 @@ public class PlayerValuesEvent : CustomEventObject {
     public GameObject playerGameObject = null;
     public Player player = null;
     public bool enableController = false;
+    public bool zeroOutVelocity = false;
     
     // // Use this for initialization
     // protected override void Awake() {
@@ -24,13 +25,13 @@ public class PlayerValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(playerGameObject == null) {
-            Debug.LogError("The 'playerGameObject' reference needs to be set in the 'playerValuesEvent' Script on " + this.gameObject.name);
+            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'PlayerValuesEvent' Script");
         }
         else {
             if(player == null) {
                 player = playerGameObject.GetComponent<Player>();
                 if(player == null) {
-                    Debug.LogError("The 'playerGameObject' reference needs to be set in the 'playerValuesEvent' Script on " + this.gameObject.name);
+                    Debug.LogError(this.gameObject.name + " needs its 'player' reference to be set in the 'PlayerValuesEvent' Script");
                 }
             }
         }
@@ -38,5 +39,8 @@ public class PlayerValuesEvent : CustomEventObject {
     
     public override void ExecuteLogic() {
         player.ToggleController(player.gameObject, enableController);
+        if(zeroOutVelocity) {
+            player.ZeroOutVelocity();
+        }
     }
 }
