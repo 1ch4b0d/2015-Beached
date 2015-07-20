@@ -5,6 +5,7 @@ public class TranslateObjectEvent : CustomEventObject {
     public GoTween translationTween = null;
     public GameObject objectToTranslate = null;
     public Transform targetPosition = null;
+    public float delay = 0f;
     public float duration = 1f;
     public bool useLocal = false;
     public GoEaseType easingType = GoEaseType.Linear;
@@ -46,7 +47,8 @@ public class TranslateObjectEvent : CustomEventObject {
         else {
             tweenConfig = new GoTweenConfig().position(targetPosition.position);
         }
-        tweenConfig.setEaseType(easingType)
+        tweenConfig.setDelay(delay)
+        .setEaseType(easingType)
         .onComplete(complete => {
             FireFinishEvents();
         });
