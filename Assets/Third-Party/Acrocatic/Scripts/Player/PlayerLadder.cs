@@ -41,8 +41,8 @@ namespace Acrocatic {
         // This function is called every fixed framerate frame.
         void FixedUpdate() {
             // Cache the vertical and horizontal input.
-            float v = Input.GetAxis("Vertical");
-            float h = Input.GetAxis("Horizontal");
+            float v = InputManager.Instance.GetAxis("Vertical");
+            float h = InputManager.Instance.GetAxis("Horizontal");
             
             // If the player is on a ladder and the Ladder class is set...
             if(player.onLadder && ladder) {
@@ -185,7 +185,7 @@ namespace Acrocatic {
             // If the player isn't currently on a ladder, there is a ladder collission and the player isn't falling, dashing, crouching, sliding or stuck on a wall...
             if(!player.onLadder && hitLadder && !player.falling && !player.dashing && !player.crouching && !player.sliding && !player.stuckToWall) {
                 // ... cache the vertical input.
-                float v = Input.GetAxis("Vertical");
+                float v = InputManager.Instance.GetAxis("Vertical");
                 
                 // If the player isn't on a ladder and the vertical movement is either moving up or down...
                 if(!player.onLadder && (v > 0.1 || v < -0.1)) {
@@ -201,7 +201,7 @@ namespace Acrocatic {
             }
             
             // If the player is on a ladder, there is a ladder object and the player is allowed to jump...
-            if(player.onLadder && ladder && ladder.allowJump && Input.GetButtonDown("Jump")) {
+            if(player.onLadder && ladder && ladder.allowJump && InputManager.Instance.GetButtonDown("Jump")) {
                 // ... unstick the player from the ladder and perform the jump.
                 Unstick();
                 player.Jump();

@@ -158,7 +158,7 @@ namespace Acrocatic {
         // Update is called once per frame.
         void Update() {
             // Cache the horizontal input.
-            hor = Input.GetAxis("Horizontal");
+            hor = InputManager.Instance.GetAxis("Horizontal");
             
             // Set the animator values.
             animator.SetBool("grounded", grounded);
