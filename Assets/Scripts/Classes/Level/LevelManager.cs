@@ -24,8 +24,8 @@ public class LevelManager : MonoBehaviour {
                 lock(_lock) {
                     _instance = GameObject.FindObjectOfType<LevelManager>();
                     if(_instance == null) {
-                        GameObject CameraManagerGameObject = new GameObject("LevelManager");
-                        _instance = (CameraManagerGameObject.AddComponent<LevelManager>()).GetComponent<LevelManager>();
+                        GameObject LevelManagerGameObject = new GameObject("LevelManager");
+                        _instance = (LevelManagerGameObject.AddComponent<LevelManager>()).GetComponent<LevelManager>();
                     }
                 }
             }
