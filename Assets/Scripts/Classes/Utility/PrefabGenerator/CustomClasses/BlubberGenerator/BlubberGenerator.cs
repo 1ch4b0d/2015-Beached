@@ -24,4 +24,8 @@ public class BlubberGenerator : PrefabGenerator {
     // protected override void PerformLogic() {
     //     base.PerformLogic();
     // }
+    
+    public override GameObject GenerateGameObject() {
+        return BlubberPool.Instance.Issue();
+    }
 }

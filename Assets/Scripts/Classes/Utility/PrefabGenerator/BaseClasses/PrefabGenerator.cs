@@ -4,10 +4,11 @@ using System.Collections.Generic;
 
 public class PrefabGenerator : MonoBehaviour {
     public GameObject prefabToGenerate = null;
-    public GameObject prefabParent = null;
     public Transform generationTransform = null;
+    public bool timerIsStochastic = false;
     public float timer = 0f;
     public float timerMax = 1f;
+    public Vector2 timerBounds = new Vector2(0, 1);
     public int iterations = 0;
     public int totalIterations = int.MaxValue;
     public GameObject prefabGeneratorRulesGameObject = null;
@@ -33,13 +34,10 @@ public class PrefabGenerator : MonoBehaviour {
         }
         
         if(generationTransform == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'positionToGenerateAt' reference to be set in the 'PrefabGenerator' Script");
+            generationTransform = this.gameObject.transform;
+            // Debug.LogError(this.gameObject.name + " needs its 'generationTransform' reference to be set in the 'PrefabGenerator' Script");
         }
         
-        // Will not always be initialized, but has to be initialized on creation
-        // if(prefabGeneratorRules == null) {
-        //     prefabGeneratorRules = new List<PrefabGeneratorRule>();
-        // }
         if(prefabGeneratorRulesGameObject == null) {
             prefabGeneratorRulesGameObject = this.gameObject;
         }
@@ -51,15 +49,28 @@ public class PrefabGenerator : MonoBehaviour {
     protected virtual void PerformLogic() {
         timer += Time.deltaTime;
         if(timer > timerMax) {
+            if(timerIsStochastic) {
+                timerMax = Random.Range(timerBounds.x, timerBounds.y);
+            }
             timer = 0f;
             
-            GameObject objectToGenerate = (GameObject)GameObject.Instantiate(prefabToGenerate);
-            objectToGenerate.transform.parent = this.gameObject.transform;
-            objectToGenerate.transform.position = generationTransform.position;
-            
-            foreach(PrefabGeneratorRule prefabGeneratorRule in prefabGeneratorRules) {
-                prefabGeneratorRule.PerformGenerationRule(objectToGenerate);
+            if(iterations < totalIterations) {
+                PerformGeneration();
+                iterations++;
             }
         }
+    }
+    
+    public virtual void PerformGeneration() {
+        GameObject objectToGenerate = GenerateGameObject();
+        objectToGenerate.transform.parent = this.gameObject.transform;
+        objectToGenerate.transform.position = generationTransform.position;
+        
+        foreach(PrefabGeneratorRule prefabGeneratorRule in prefabGeneratorRules) {
+            prefabGeneratorRule.PerformGenerationRule(objectToGenerate);
+        }
+    }
+    public virtual GameObject GenerateGameObject() {
+        return (GameObject)GameObject.Instantiate(prefabToGenerate);
     }
 }

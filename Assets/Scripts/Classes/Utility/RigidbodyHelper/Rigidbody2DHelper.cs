@@ -47,6 +47,8 @@ public class Rigidbody2DHelper : BaseRigidbodyHelper {
             newVelocity.y = maxVelocity.y;
         }
         
+        rigidbody2DReference.velocity = newVelocity;
+        
         // Clamps Velocity Min
         // rigidbody2DReference.velocity = Vector3.ClampMagnitude(rigidbody2DReference.velocity, minVelocity);
         // Clamps Velocity Max

@@ -1,23 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BlubberPool : MonoBehaviour {
+public class BlubberPool : GameObjectPool {
     //BEGINNING OF SINGLETON CODE CONFIGURATION
-    private static volatile GameObjectPool<Blubber> _instance;
+    private static volatile GameObjectPool _instance;
     private static object _lock = new object();
     
     //Stops the lock being created ahead of time if it's not necessary
     static BlubberPool() {
     }
     
-    public static GameObjectPool<Blubber> Instance {
+    public static GameObjectPool Instance {
         get {
             if(_instance == null) {
                 lock(_lock) {
-                    _instance = GameObject.FindObjectOfType<GameObjectPool<Blubber>>();
+                    _instance = GameObject.FindObjectOfType<GameObjectPool>();
                     if(_instance == null) {
                         GameObject BlubberPoolGameObject = new GameObject("BlubberPool");
-                        _instance = (BlubberPoolGameObject.AddComponent<GameObjectPool<Blubber>>()).GetComponent<GameObjectPool<Blubber>>();
+                        _instance = (BlubberPoolGameObject.AddComponent<GameObjectPool>()).GetComponent<GameObjectPool>();
                     }
                 }
             }
@@ -28,19 +28,25 @@ public class BlubberPool : MonoBehaviour {
     private BlubberPool() {
     }
     
-    protected void Awake() {
+    protected override void Awake() {
         Initialize();
     }
     //END OF SINGLETON CODE CONFIGURATION
     
     // // Use this for initialization
-    // protected void Start() {
+    // protected override void Start() {
     // }
     
     // // Update is called once per frame
-    // protected void Update() {
+    // protected override void Update() {
     // }
     
-    protected void Initialize() {
+    protected override void Initialize() {
+    }
+    
+    protected override GameObject Create() {
+        GameObject newBlubberGameObject = (GameObject)GameObject.Instantiate(prefabToGenerate);
+        newBlubberGameObject.transform.parent = this.gameObject.transform;
+        return newBlubberGameObject;
     }
 }
