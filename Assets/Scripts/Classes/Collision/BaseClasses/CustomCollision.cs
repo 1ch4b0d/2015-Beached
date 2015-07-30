@@ -6,8 +6,14 @@ using System.Collections.Generic;
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
 //      NAME CUSTOM TRIGGER IS DUMB
 public class CustomCollision : MonoBehaviour {
-    public bool loop = true;
-    public int currentIteration = 0;
+    public bool loopEnter = true;
+    public int enterIteration = 0;
+    public bool loopExit = true;
+    public int exitIteration = 0;
+    public bool loopStay = true;
+    public int stayIteration = 0;
+    public bool loopExecute = true;
+    public int executeIteration = 0;
     
     // Executes these as standard unity hooks
     public List<CustomEventsManager> onEnterEvents = null;
@@ -28,46 +34,62 @@ public class CustomCollision : MonoBehaviour {
     
     protected virtual void Initialize() {
     }
-    
+    //--------------------------------------------------------------------------
     public virtual void Entered(GameObject gameObjectEntering) {
-        // Debug.Log(this.gameObject.name + " entered was triggered.");
-        
         // By default the trigger is executed on enter, but in other classes
         // you can override this method in order to determine where you would
         // actually like to execute it
         // FireEnterEvents should occur last in the event logic, but it should
         // occur before the execute logic is run
-        FireEnterEvents();
-        Execute(gameObjectEntering);
+        
+        // Perform only if it's the first iteration, or it should loop
+        if(enterIteration < 1
+            || loopEnter) {
+            EnterLogic(gameObjectEntering);
+            FireEnterEvents();
+            enterIteration++;
+        }
     }
     
+    public virtual void EnterLogic(GameObject gameObjectEntering) {
+    }
+    //--------------------------------------------------------------------------
     public virtual void Stay(GameObject gameObjectStaying) {
-        FireStayEvents();
+        if(stayIteration < 1
+            || loopStay) {
+            StayLogic(gameObjectStaying);
+            FireStayEvents();
+            stayIteration++;
+        }
     }
     
+    public virtual void StayLogic(GameObject gameObjectStaying) {
+    }
+    //--------------------------------------------------------------------------
     public virtual void Exited(GameObject gameObjectExiting) {
-        FireExitEvents();
+        if(exitIteration < 1
+            || loopExit) {
+            ExitLogic(gameObjectExiting);
+            FireExitEvents();
+            exitIteration++;
+        }
     }
     
+    public virtual void ExitLogic(GameObject gameObjectExiting) {
+    }
+    //--------------------------------------------------------------------------
     public virtual void Execute(GameObject gameObjectToExecute) {
         // Perform only if it's the first iteration, or it should loop
-        if(currentIteration < 1
-            || loop) {
+        if(executeIteration < 1
+            || loopExecute) {
             ExecuteLogic(gameObjectToExecute);
-            currentIteration++;
-            
-            if(!loop) {
-                Collider2D attachedCollider = this.GetComponent<Collider2D>();
-                if(attachedCollider != null) {
-                    attachedCollider.enabled = false;
-                }
-            }
+            executeIteration++;
         }
     }
     
     public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
     }
-    
+    //--------------------------------------------------------------------------
     public virtual void FireEnterEvents() {
         if(onEnterEvents != null) {
             foreach(CustomEventsManager customEventsManager in onEnterEvents) {
@@ -90,6 +112,14 @@ public class CustomCollision : MonoBehaviour {
             foreach(CustomEventsManager customEventsManager in onExitEvents) {
                 customEventsManager.Execute();
             }
+        }
+    }
+    
+    // This is deprecated. Do not disable collider.
+    public virtual void DisableCollider() {
+        Collider2D attachedCollider = this.GetComponent<Collider2D>();
+        if(attachedCollider != null) {
+            attachedCollider.enabled = false;
         }
     }
 }
