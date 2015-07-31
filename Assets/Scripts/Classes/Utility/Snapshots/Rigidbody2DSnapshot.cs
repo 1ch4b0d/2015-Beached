@@ -1,19 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class Rigidbody2DSnapshot {
-    Vector2 savedVelocity = Vector2.zero;
-    float savedAngularVelocity = 0f;
+public class Rigidbody2DSnapshot : BaseSnapshot<Rigidbody2D> {
+    Vector2 velocity = Vector2.zero;
+    float angularVelocity = 0f;
+    bool isKinematic = false;
     
-    public void Capture(GameObject newGameObjectToPause) {
-        savedVelocity = newGameObjectToPause.GetComponent<Rigidbody2D>().velocity;
-        savedAngularVelocity = newGameObjectToPause.GetComponent<Rigidbody2D>().angularVelocity;
-        newGameObjectToPause.GetComponent<Rigidbody2D>().isKinematic = true;
+    public override void Capture(Rigidbody2D gameObjectToCapture) {
+        Rigidbody2D rigidbody2D = gameObjectToCapture.GetComponent<Rigidbody2D>();
+        velocity = rigidbody2D.velocity;
+        angularVelocity = rigidbody2D.angularVelocity;
+        isKinematic = rigidbody2D.isKinematic;
     }
     
-    public void Restore(GameObject newGameObjectToPause, bool enableIsKinematic = false) {
-        newGameObjectToPause.GetComponent<Rigidbody2D>().velocity = savedVelocity;
-        newGameObjectToPause.GetComponent<Rigidbody2D>().angularVelocity = savedAngularVelocity;
-        newGameObjectToPause.GetComponent<Rigidbody2D>().isKinematic = enableIsKinematic;
+    public override void Restore(Rigidbody2D gameObjectToRestore) {
+        Rigidbody2D rigidbody2D = gameObjectToRestore.GetComponent<Rigidbody2D>();
+        rigidbody2D.velocity = velocity;
+        rigidbody2D.angularVelocity = angularVelocity;
+        rigidbody2D.isKinematic = isKinematic;
     }
 }

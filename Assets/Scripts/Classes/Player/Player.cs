@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+    public List<Collider2D> colliders = null;
+    public Dictionary<Collider2D, Collider2DSnapshot> collider2DSnapshots = null;
+    
     public InteractionController interactionController = null;
     
     public Acrocatic.Player playerController = null;
@@ -43,12 +46,11 @@ public class Player : MonoBehaviour {
                 Debug.LogError("Could not find the " + gameObject.name + ": playerController");
             }
         }
-        if(rigidbody2DSnapshot == null) {
-            rigidbody2DSnapshot = new Rigidbody2DSnapshot();
-            if(rigidbody2DSnapshot == null) {
-                Debug.LogError("Could not find the " + gameObject.name + ": rigidbody2DSnapshot");
-            }
-        }
+        
+        rigidbody2DSnapshot = new Rigidbody2DSnapshot();
+        //--------------------------
+        colliders = GenerateColliderCache();
+        
     }
     
     public Rigidbody2D GetRigidbody() {
@@ -217,18 +219,47 @@ public class Player : MonoBehaviour {
         }
     }
     
+    private void ToggleColliders(List<Collider2D> colliders, bool isEnabled) {
+        foreach(Collider2D collider2D in colliders) {
+            collider2D.enabled = isEnabled;
+        }
+    }
+    
+    private List<Collider2D> GenerateColliderCache() {
+        return new List<Collider2D>(this.gameObject.GetComponentsInChildren<Collider2D>());
+    }
+    private void CaptureCollider2DSnapshots(List<Collider2D> colliders, Dictionary<Collider2D, Collider2DSnapshot> colliderCache) {
+        colliderCache.Clear();
+        foreach(Collider2D collider2D in colliders) {
+            Collider2DSnapshot snapshot = new Collider2DSnapshot();
+            snapshot.Capture(collider2D);
+            colliderCache[collider2D] = snapshot;
+        }
+    }
+    
     public void UpdateAnimator() {
     }
     
     public void Pause() {
-        rigidbody2DSnapshot.Capture(this.gameObject);
+        Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2DSnapshot.Capture(rigidbody2D);
+        rigidbody2D.isKinematic = true;
+        //------
+        ToggleColliders(colliders, false);
+        //------
         ToggleController(this.gameObject, false);
+        //------
         interactionController.Reset();
     }
     
     public void Unpause() {
-        rigidbody2DSnapshot.Restore(this.gameObject);
+        Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2DSnapshot.Restore(rigidbody2D);
+        //------
+        ToggleColliders(colliders, true);
+        //------
         ToggleController(this.gameObject, true);
+        //------
         interactionController.Reset();
     }
     
