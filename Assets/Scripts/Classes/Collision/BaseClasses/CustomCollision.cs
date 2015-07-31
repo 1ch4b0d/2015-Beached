@@ -114,7 +114,7 @@ public class CustomCollision : MonoBehaviour {
             }
         }
     }
-    
+    //--------------------------------------------------------------------------
     // This is deprecated. Do not disable collider.
     public virtual void DisableCollider() {
         Collider2D attachedCollider = this.GetComponent<Collider2D>();

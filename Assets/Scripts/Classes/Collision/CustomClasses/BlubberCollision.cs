@@ -21,7 +21,6 @@ public class BlubberCollision : CustomCollision {
     //     base.Initialize();
     // }
     
-    
     //--------------------------------------------------------------------------
     public override void EnterLogic(GameObject gameObjectEntering) {
         // Debug.Log("Blubber was entered by something else");
