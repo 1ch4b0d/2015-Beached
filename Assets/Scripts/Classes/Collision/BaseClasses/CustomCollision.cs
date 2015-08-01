@@ -6,19 +6,18 @@ using System.Collections.Generic;
 //      NAMESPACE AND RENAME IT TO "TRIGGER", BECAUSE THE
 //      NAME CUSTOM TRIGGER IS DUMB
 public class CustomCollision : MonoBehaviour {
+    // Executes these as standard unity hooks
     public bool loopEnter = true;
     public int enterIteration = 0;
-    public bool loopExit = true;
-    public int exitIteration = 0;
+    public List<CustomEventsManager> onEnter = null;
+    
     public bool loopStay = true;
     public int stayIteration = 0;
-    public bool loopExecute = true;
-    public int executeIteration = 0;
+    public List<CustomEventsManager> onStay = null;
     
-    // Executes these as standard unity hooks
-    public List<CustomEventsManager> onEnterEvents = null;
-    public List<CustomEventsManager> onStayEvents = null;
-    public List<CustomEventsManager> onExitEvents = null;
+    public bool loopExit = true;
+    public int exitIteration = 0;
+    public List<CustomEventsManager> onExit = null;
     
     protected virtual void Awake() {
         Initialize();
@@ -78,38 +77,21 @@ public class CustomCollision : MonoBehaviour {
     public virtual void ExitLogic(GameObject gameObjectExiting) {
     }
     //--------------------------------------------------------------------------
-    public virtual void Execute(GameObject gameObjectToExecute) {
-        // Perform only if it's the first iteration, or it should loop
-        if(executeIteration < 1
-            || loopExecute) {
-            ExecuteLogic(gameObjectToExecute);
-            executeIteration++;
-        }
-    }
-    
-    public virtual void ExecuteLogic(GameObject gameObjectExecuting) {
-    }
-    //--------------------------------------------------------------------------
     public virtual void FireEnterEvents() {
-        if(onEnterEvents != null) {
-            foreach(CustomEventsManager customEventsManager in onEnterEvents) {
-                customEventsManager.Execute();
-            }
-        }
+        ExecuteEvents(onEnter);
     }
     
     public virtual void FireStayEvents() {
-        if(onStayEvents != null) {
-            foreach(CustomEventsManager customEventsManager in onStayEvents) {
-                customEventsManager.Execute();
-            }
-        }
+        ExecuteEvents(onStay);
     }
     
     public virtual void FireExitEvents() {
-        if(onExitEvents != null) {
-            // Debug.Log("Firing exit events");
-            foreach(CustomEventsManager customEventsManager in onExitEvents) {
+        ExecuteEvents(onExit);
+    }
+    
+    public virtual void ExecuteEvents(List<CustomEventsManager> customEventsManagers) {
+        if(customEventsManagers != null) {
+            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
                 customEventsManager.Execute();
             }
         }

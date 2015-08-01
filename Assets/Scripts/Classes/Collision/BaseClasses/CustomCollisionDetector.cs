@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomCollisionDetector : MonoBehaviour {
 
     public GameObject gameObjectColliding = null;
+    
+    public List<CustomCollision> customCollisions  = null;
     
     // Use this for initialization
     public virtual void Awake() {
@@ -21,25 +24,21 @@ public class CustomCollisionDetector : MonoBehaviour {
     public virtual void Update() {
     }
     
-    public virtual void OnCollisionEnter2D(Collision2D collision2D) {
-        // Debug.Log("Detector just triggered on " + collision2D.gameObject.name);
-        CustomCollision customCollision = collision2D.collider.gameObject.GetComponent<CustomCollision>();
-        if(customCollision != null) {
-            customCollision.Entered(gameObjectColliding);
+    public virtual void OnCollisionEnter2D(Collision2D enterCollision2D) {
+        foreach(CustomCollision customCollision in customCollisions) {
+            customCollision.Entered(enterCollision2D.gameObject);
         }
     }
     
-    public virtual void OnCollisionStay2D(Collision2D collision2D) {
-        CustomCollision customCollision = collision2D.collider.gameObject.GetComponent<CustomCollision>();
-        if(customCollision != null) {
-            customCollision.Stay(gameObjectColliding);
+    public virtual void OnCollisionStay2D(Collision2D stayCollision2D) {
+        foreach(CustomCollision customCollision in customCollisions) {
+            customCollision.Stay(stayCollision2D.gameObject);
         }
     }
     
-    public virtual void OnCollisionExit2D(Collision2D collision2D) {
-        CustomCollision customCollision = collision2D.collider.gameObject.GetComponent<CustomCollision>();
-        if(customCollision != null) {
-            customCollision.Exited(gameObjectColliding);
+    public virtual void OnCollisionExit2D(Collision2D exitCollision2D) {
+        foreach(CustomCollision customCollision in customCollisions) {
+            customCollision.Exited(exitCollision2D.gameObject);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PlayerFailedGameEvent : CustomEventObject {
-    Player player = null;
+    public Player player = null;
     
     // // Use this for initialization
     // protected override void Awake() {
@@ -22,14 +22,13 @@ public class PlayerFailedGameEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         
+        player = PlayerManager.Instance.GetPlayer();
         if(player == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'player' reference to be set in the 'PlayerFailedGameEvent' Script");
+            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'PlayerFailedGameEvent' Script");
         }
     }
     
     public override void ExecuteLogic() {
-        Debug.Log("Executing failed gameplay~~~");
-        
         player.Pause();
     }
 }

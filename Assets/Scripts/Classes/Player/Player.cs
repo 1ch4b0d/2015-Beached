@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+    public bool isPaused = false;
+    
     public List<Collider2D> colliders = null;
     public Dictionary<Collider2D, Collider2DSnapshot> collider2DSnapshots = null;
     
@@ -241,26 +243,38 @@ public class Player : MonoBehaviour {
     }
     
     public void Pause() {
-        Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
-        rigidbody2DSnapshot.Capture(rigidbody2D);
-        rigidbody2D.isKinematic = true;
-        //------
-        ToggleColliders(colliders, false);
-        //------
-        ToggleController(this.gameObject, false);
-        //------
-        interactionController.Reset();
+        if(!isPaused) {
+            Debug.Log("Player paused");
+            
+            Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+            rigidbody2DSnapshot.Capture(rigidbody2D);
+            rigidbody2D.isKinematic = true;
+            //------
+            ToggleColliders(colliders, false);
+            //------
+            ToggleController(this.gameObject, false);
+            //------
+            interactionController.Reset();
+            
+            isPaused = true;
+        }
     }
     
     public void Unpause() {
-        Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
-        rigidbody2DSnapshot.Restore(rigidbody2D);
-        //------
-        ToggleColliders(colliders, true);
-        //------
-        ToggleController(this.gameObject, true);
-        //------
-        interactionController.Reset();
+        if(isPaused) {
+            Debug.Log("Player unpaused");
+            
+            Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+            rigidbody2DSnapshot.Restore(rigidbody2D);
+            //------
+            ToggleColliders(colliders, true);
+            //------
+            ToggleController(this.gameObject, true);
+            //------
+            interactionController.Reset();
+            
+            isPaused = false;
+        }
     }
     
     public void StartInteraction() {
