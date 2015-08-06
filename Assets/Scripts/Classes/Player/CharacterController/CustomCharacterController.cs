@@ -3,12 +3,14 @@ using System.Collections;
 
 public class CustomCharacterController : MonoBehaviour {
     // public bool movingUp = false;
-    public bool movingRight = false;
+    public bool facingRight = false;
     // public bool movingDown = false;
-    public bool movingLeft = false;
+    public bool isMoving = false;
     public bool isJumping = false;
     
     public bool isPaused = false;
+    
+    public Animator animator = null;
     
     // Use this for initialization
     protected virtual void Awake() {
@@ -22,6 +24,7 @@ public class CustomCharacterController : MonoBehaviour {
     protected virtual void Update() {
         if(!isPaused) {
             PerformLogic();
+            UpdateAnimator();
         }
     }
     
@@ -29,11 +32,26 @@ public class CustomCharacterController : MonoBehaviour {
     protected virtual void LateUpdate() {
     }
     
+    public bool IsFacingLeft() {
+        return !facingRight;
+    }
+    public bool IsFacingRight() {
+        return facingRight;
+    }
+    
+    public bool IsMovingLeft() {
+        return (isMoving && !facingRight);
+    }
+    public bool IsMovingRight() {
+        return (isMoving && facingRight);
+    }
+    
+    public bool IsJumping() {
+        return isJumping;
+    }
+    
     public void Reset() {
-        // movingUp = false;
-        movingRight = false;
-        // movingDown = false;
-        movingLeft = false;
+        isMoving = false;
         isJumping = false;
     }
     
@@ -45,17 +63,16 @@ public class CustomCharacterController : MonoBehaviour {
         // Horizontal movement (Left/Right)
         // Right
         if(InputManager.Instance.GetAxis("Horizontal") > 0) {
-            movingRight = true;
-            movingLeft = false;
+            isMoving = true;
+            facingRight = true;
         }
         // Left
         else if(InputManager.Instance.GetAxis("Horizontal") < 0) {
-            movingRight = false;
-            movingLeft = true;
+            isMoving = true;
+            facingRight = false;
         }
         else {
-            movingRight = false;
-            movingLeft = false;
+            isMoving = false;
         }
         
         // Jumping
@@ -81,5 +98,13 @@ public class CustomCharacterController : MonoBehaviour {
         // if(InputManager.Instance.GetKeyUp(KeyCode.S)) {
         //     movingDown = false;
         // }
+    }
+    
+    protected virtual void UpdateAnimator() {
+        if(animator != null) {
+            animator.SetBool("isMoving", isMoving);
+            animator.SetBool("facingRight", facingRight);
+            animator.SetBool("isJumping", isJumping);
+        }
     }
 }

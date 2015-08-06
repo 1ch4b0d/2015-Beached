@@ -30,16 +30,16 @@ public class CharacterMovement : MonoBehaviour {
         Vector3 movementOffset = Vector3.zero;
         
         // Right
-        if(characterController.movingRight) {
+        if(characterController.IsMovingRight()) {
             movementOffset.x += movementSpeed.x;
         }
         // Left
-        if(characterController.movingLeft) {
+        if(characterController.IsMovingLeft()) {
             movementOffset.x -= movementSpeed.x;
         }
         
         // Jumping
-        if(characterController.isJumping) {
+        if(characterController.IsJumping()) {
             movementOffset.y += movementSpeed.y;
         }
         

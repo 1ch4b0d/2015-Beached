@@ -38,7 +38,8 @@ public class CameraFollow : MonoBehaviour {
         }
         
         if(objectToFollow == null) {
-            objectToFollow = GameObject.FindGameObjectWithTag("Player").transform;
+            BasePlayer basePlayer = (BasePlayer)FindObjectOfType(typeof(BasePlayer));
+            objectToFollow = basePlayer.gameObject.transform;
             if(objectToFollow == null) {
                 Debug.LogError("'objectToFollow' must not be null in order for the script on '" + this.gameObject.name + "' to work.");
             }
