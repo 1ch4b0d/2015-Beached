@@ -27,7 +27,7 @@ public class BlubberCollision : CustomCollision {
     // }
     
     //--------------------------------------------------------------------------
-    public virtual void Entered(GameObject gameObjectEntering) {
+    public override void Entered(GameObject gameObjectEntering) {
         if(enterIteration < 1
             || loopEnter) {
             // filters blubber from responding

@@ -6,9 +6,10 @@ public class PlayerValuesEvent : CustomEventObject {
     // a reference to the Player script. Freaking Unity, I seriously don't know
     // why it doesn't work by assigning just the player component.
     public GameObject playerGameObject = null;
-    public Player player = null;
+    private Player player = null;
     public bool enableController = false;
     public bool zeroOutVelocity = false;
+    public bool isDead = false;
     
     // // Use this for initialization
     // protected override void Awake() {
@@ -24,16 +25,16 @@ public class PlayerValuesEvent : CustomEventObject {
     
     protected override void Initialize() {
         base.Initialize();
+        // sets player reference
         if(playerGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'PlayerValuesEvent' Script");
-        }
-        else {
-            if(player == null) {
-                player = playerGameObject.GetComponent<Player>();
-                if(player == null) {
-                    Debug.LogError(this.gameObject.name + " needs its 'player' reference to be set in the 'PlayerValuesEvent' Script");
-                }
+            playerGameObject = PlayerManager.Instance.GetPlayerGameObject();
+            if(playerGameObject == null) {
+                Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'PlayerValuesEvent' Script");
             }
+        }
+        player = playerGameObject.GetComponent<Player>();
+        if(player == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'player' reference to be set in the 'PlayerValuesEvent' Script");
         }
     }
     
@@ -42,5 +43,6 @@ public class PlayerValuesEvent : CustomEventObject {
         if(zeroOutVelocity) {
             player.ZeroOutVelocity();
         }
+        player.SetIsDead(isDead);
     }
 }

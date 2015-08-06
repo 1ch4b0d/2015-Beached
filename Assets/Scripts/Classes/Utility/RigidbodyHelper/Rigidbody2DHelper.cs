@@ -33,18 +33,31 @@ public class Rigidbody2DHelper : BaseRigidbodyHelper {
     
     public override void ClampVelocity() {
         Vector3 newVelocity = rigidbody2DReference.velocity;
-        if(newVelocity.x < minVelocity.x) {
-            newVelocity.x = minVelocity.x;
-        }
-        if(newVelocity.x > maxVelocity.x) {
-            newVelocity.x = maxVelocity.x;
+        if(clampXVelocity) {
+            if(newVelocity.x < minVelocity.x) {
+                newVelocity.x = minVelocity.x;
+            }
+            if(newVelocity.x > maxVelocity.x) {
+                newVelocity.x = maxVelocity.x;
+            }
         }
         
-        if(newVelocity.y < minVelocity.y) {
-            newVelocity.y = minVelocity.y;
+        if(clampYVelocity) {
+            if(newVelocity.y < minVelocity.y) {
+                newVelocity.y = minVelocity.y;
+            }
+            if(newVelocity.y > maxVelocity.y) {
+                newVelocity.y = maxVelocity.y;
+            }
         }
-        if(newVelocity.y > maxVelocity.y) {
-            newVelocity.y = maxVelocity.y;
+        
+        if(clampZVelocity) {
+            if(newVelocity.z < minVelocity.z) {
+                newVelocity.z = minVelocity.z;
+            }
+            if(newVelocity.z > maxVelocity.z) {
+                newVelocity.z = maxVelocity.z;
+            }
         }
         
         rigidbody2DReference.velocity = newVelocity;

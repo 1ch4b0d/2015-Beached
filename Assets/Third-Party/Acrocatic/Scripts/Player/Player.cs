@@ -78,7 +78,7 @@ namespace Acrocatic {
         private Animator animator;                  // The player's animator.
         private bool flipAgain = false;             // Used to fix a bug.
         private float gravityScale;                 // Cache the initial gravity scale.
-        private bool isDead = false;                // Check if the player is dead.
+        public bool isDead = false;                // Check if the player is dead.
         private float groundedXVelocity;            // Remember the X velocity when the player hits the ground.
         private float groundedTimer;                // Timer for how long the player should ignore the friction when hitting the ground.
         
@@ -174,6 +174,7 @@ namespace Acrocatic {
             animator.SetFloat("horizontal", Mathf.Abs(hor));
             animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody.velocity.x));
             animator.SetFloat("ySpeed", rigidbody.velocity.y);
+            animator.SetBool("isDead", isDead);
             
             // The player is grounded if a circle at the groundcheck position overlaps anything on the ground layer.
             // Only perform the check if the player is not on a platform.
@@ -624,6 +625,14 @@ namespace Acrocatic {
         //--------------------------------------------------------------------------
         public void FacingUp(bool newFacingUp) {
             facingUp = newFacingUp;
+        }
+        
+        public bool IsDead() {
+            return isDead;
+        }
+        
+        public void SetIsDead(bool newIsDead) {
+            isDead = newIsDead;
         }
     }
 }
