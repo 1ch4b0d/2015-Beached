@@ -19,11 +19,24 @@ public class GhostPlayer : BasePlayer {
     // Update is called once per frame
     protected override void Update() {
         base.Update();
+        PerformFlipCheck();
     }
     
     protected override void PerformLogic() {
         Vector3 movementOffset = characterMovement.CalculateMovementOffset(characterController);
         characterMovement.PerformMovementLogic(this.gameObject, movementOffset);
+    }
+    
+    protected void PerformFlipCheck() {
+        if((characterController.IsFacingLeft()
+            && this.gameObject.transform.localScale.x > 0)
+            ||
+            (characterController.IsFacingRight()
+             && this.gameObject.transform.localScale.x < 0)) {
+            this.gameObject.transform.localScale = new Vector3(this.gameObject.transform.localScale.x * -1,
+                                                               this.gameObject.transform.localScale.y,
+                                                               this.gameObject.transform.localScale.z);
+        }
     }
     
     protected override void Initialize() {

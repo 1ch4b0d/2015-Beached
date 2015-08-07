@@ -160,6 +160,13 @@ public class InputManager : MonoBehaviour {
         InputManager.Instance.SetButtonDown(keyName, Input.GetButtonDown(keyName));
         InputManager.Instance.SetButton(keyName, Input.GetButton(keyName));
         InputManager.Instance.SetButtonUp(keyName, Input.GetButtonUp(keyName));
+        
+        foreach(KeyCode keyCode in KeyCode.GetValues(typeof(KeyCode))) {
+            string keyCodeString = keyCode.ToString();
+            InputManager.Instance.SetButtonDown(keyCodeString, Input.GetKeyDown(keyCode));
+            InputManager.Instance.SetButton(keyCodeString, Input.GetKey(keyCode));
+            InputManager.Instance.SetButtonUp(keyCodeString, Input.GetKeyUp(keyCode));
+        }
         // if(Input.GetButtonDown(keyName)) {
         //     InputManager.Instance.SetKeyDown(keyName, true);
         // }
