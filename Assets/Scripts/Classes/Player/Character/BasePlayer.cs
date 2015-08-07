@@ -24,4 +24,16 @@ public class BasePlayer : Character {
     protected override void PerformLogic() {
         base.PerformLogic();
     }
+    
+    public override void Pause() {
+        base.Pause();
+    }
+    
+    public override void Unpause() {
+        base.Unpause();
+    }
+    
+    public override bool IsPaused() {
+        return base.IsPaused();
+    }
 }

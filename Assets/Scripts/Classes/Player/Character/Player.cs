@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Player : BasePlayer {
-    public bool isPaused = false;
-    
     public List<Collider2D> colliders = null;
     public Dictionary<Collider2D, Collider2DSnapshot> collider2DSnapshots = null;
     
@@ -189,12 +187,10 @@ public class Player : BasePlayer {
     }
     
     public void ToggleController(GameObject acrocaticGameObject, bool enabled)  {
-        // Do not disable the player component of acrocactic as it is the component
-        // that manages the animation of the player
-        // Acrocatic.Player acrocaticPlayer = acrocaticGameObject.GetComponent<Acrocatic.Player>();
-        // if(acrocaticPlayer) {
-        //     acrocaticPlayer.enabled = enabled;
-        // }
+        Acrocatic.Player acrocaticPlayer = acrocaticGameObject.GetComponent<Acrocatic.Player>();
+        if(acrocaticPlayer) {
+            acrocaticPlayer.enabled = enabled;
+        }
         Acrocatic.PlayerRun acrocaticPlayerRun = acrocaticGameObject.GetComponent<Acrocatic.PlayerRun>();
         if(acrocaticPlayerRun) {
             acrocaticPlayerRun.enabled = enabled;
@@ -227,6 +223,10 @@ public class Player : BasePlayer {
         if(acrocaticPlayerLadder) {
             acrocaticPlayerLadder.enabled = enabled;
         }
+        PlayerFaceUp acrocaticPlayerFaceUp = acrocaticGameObject.GetComponent<PlayerFaceUp>();
+        if(acrocaticPlayerFaceUp) {
+            acrocaticPlayerFaceUp.enabled = enabled;
+        }
     }
     
     private void ToggleColliders(List<Collider2D> colliders, bool isEnabled) {
@@ -250,7 +250,7 @@ public class Player : BasePlayer {
     public void UpdateAnimator() {
     }
     
-    public void Pause() {
+    public override void Pause() {
         if(!isPaused) {
             Debug.Log("Player paused");
             
@@ -268,7 +268,7 @@ public class Player : BasePlayer {
         }
     }
     
-    public void Unpause() {
+    public override void Unpause() {
         if(isPaused) {
             Debug.Log("Player unpaused");
             

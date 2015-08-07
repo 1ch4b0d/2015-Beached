@@ -49,15 +49,21 @@ public class ConfigureGameOverEvent : CustomEventObject {
         Vector3 spotlightStartPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetLeftBoundWorldPosition() + (spotlightGameObject.transform.localScale.x),
                                                      playerGameObject.transform.position.y,
                                                      spotlightGameObject.transform.position.z);
-                                                     
+        Player player = playerGameObject.GetComponent<Player>();
+        GhostPlayer ghostPlayer = ghostPlayerGameObject.GetComponent<GhostPlayer>();
+        
+        
         georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
+        ghostPlayer.Unpause();
+        player.Pause();
         spotlightGameObject.transform.position = spotlightStartPosition;
     }
     
     public void StartGameOverScreen() {
         float duration = 1f;
         
+        Animator georgeThorntonAnimator = georgeThorntonGameObject.GetComponent<Animator>();
         Vector3 georgeThorntonEndPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetRightBoundWorldPosition() - georgeThorntonGameObject.transform.localScale.x,
                                                         playerGameObject.transform.position.y,
                                                         georgeThorntonGameObject.transform.position.z);
@@ -67,12 +73,13 @@ public class ConfigureGameOverEvent : CustomEventObject {
                                                 spotlightGameObject.transform.localScale.z);
                                                 
                                                 
-        // Thornton
+        georgeThorntonAnimator.Play("Running");
         GoTweenConfig thorntonMoveTweenConfig = new GoTweenConfig()
         .position(georgeThorntonEndPosition)
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
             FireFinishEvents();
+            georgeThorntonAnimator.Play("GameOverEncouragement");
         });
         GoTween thorntonRunIn = Go.to(georgeThorntonGameObject.transform,
                                       duration,

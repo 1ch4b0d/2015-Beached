@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Character : MonoBehaviour {
+    public bool isPaused = false;
+    
     // Use this for initialization
     protected virtual void Awake() {
         Initialize();
@@ -17,6 +19,16 @@ public class Character : MonoBehaviour {
     }
     
     protected virtual void Initialize() {
+    }
+    
+    public virtual void Pause() {
+    }
+    
+    public virtual void Unpause() {
+    }
+    
+    public virtual bool IsPaused() {
+        return isPaused;
     }
     
     protected virtual void PerformLogic() {

@@ -32,6 +32,14 @@ public class CustomCharacterController : MonoBehaviour {
     protected virtual void LateUpdate() {
     }
     
+    public virtual void Pause() {
+        isPaused = true;
+    }
+    
+    public virtual void Unpause() {
+        isPaused = false;
+    }
+    
     public bool IsFacingLeft() {
         return !facingRight;
     }

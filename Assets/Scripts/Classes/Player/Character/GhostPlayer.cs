@@ -18,8 +18,10 @@ public class GhostPlayer : BasePlayer {
     
     // Update is called once per frame
     protected override void Update() {
-        base.Update();
-        PerformFlipCheck();
+        if(!IsPaused()) {
+            base.Update();
+            PerformFlipCheck();
+        }
     }
     
     protected override void PerformLogic() {
@@ -54,5 +56,13 @@ public class GhostPlayer : BasePlayer {
                 Debug.LogError(this.gameObject.name + " needs to set its characterMovement in order to be used.");
             }
         }
+    }
+    
+    public override void Pause() {
+        characterController.Pause();
+    }
+    
+    public override void Unpause() {
+        characterController.Unpause();
     }
 }
