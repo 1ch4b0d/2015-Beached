@@ -27,10 +27,13 @@ public class CustomEventObject : MonoBehaviour {
     
     public virtual void Execute() {
         // Perform only if it's the first iteration, or it should loop
+        FireStartEvents();
         ExecuteLogic();
+        FireFinishEvents();
     }
     
     public virtual void ExecuteLogic() {
+        FireExecuteEvents();
     }
     
     public virtual void FireStartEvents() {

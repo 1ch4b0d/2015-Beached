@@ -26,6 +26,11 @@ public static class Factory {
         return explosion;
     }
     
+    public static GameObject NewReference(GameObject gameObjectReference) {
+        GameObject newReference = (GameObject)GameObject.Instantiate(gameObjectReference);
+        return newReference;
+    }
+    
     public static GameObject SpeechBubble() {
         GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
         return newSpeechBubbleGameObject;

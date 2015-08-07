@@ -21,6 +21,10 @@ public class TestEvent : CustomEventObject {
     }
     
     public override void Execute() {
+    }
+    
+    public override void ExecuteLogic() {
         Debug.Log("Testing!");
+        FireFinishEvents();
     }
 }
