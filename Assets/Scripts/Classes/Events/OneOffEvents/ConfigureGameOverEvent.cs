@@ -6,7 +6,10 @@ public class ConfigureGameOverEvent : CustomEventObject {
     public GameObject playerGameObject = null;
     public GameObject ghostPlayerGameObject = null;
     public GameObject georgeThorntonGameObject = null;
+    public Collider2D georgeThorntonGameOverCollider = null;
     public GameObject spotlightGameObject = null;
+    private GoTween thorntonRunIn = null;
+    private GoTween spotlightExpandIn = null;
     
     // Use this for initialization
     protected override void Awake() {
@@ -54,6 +57,7 @@ public class ConfigureGameOverEvent : CustomEventObject {
         
         
         georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
+        georgeThorntonGameOverCollider.enabled = true;
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
         ghostPlayer.Unpause();
         player.Pause();
@@ -64,16 +68,21 @@ public class ConfigureGameOverEvent : CustomEventObject {
         float duration = 1f;
         
         Animator georgeThorntonAnimator = georgeThorntonGameObject.GetComponent<Animator>();
-        Vector3 georgeThorntonEndPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetRightBoundWorldPosition() - georgeThorntonGameObject.transform.localScale.x,
+        Vector3 georgeThorntonEndPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetRightBoundWorldPosition() - georgeThorntonGameObject.transform.localScale.x * 2,
                                                         playerGameObject.transform.position.y,
                                                         georgeThorntonGameObject.transform.position.z);
                                                         
         Vector3 spotlightEndScale = new Vector3(spotlightGameObject.transform.localScale.x,
-                                                spotlightGameObject.transform.localScale.y + 10,
+                                                spotlightGameObject.transform.localScale.y + 20,
                                                 spotlightGameObject.transform.localScale.z);
                                                 
                                                 
         georgeThorntonAnimator.Play("Running");
+        //----------------------------
+        if(thorntonRunIn != null) {
+            thorntonRunIn.destroy();
+            thorntonRunIn = null; // because I'm cautious like that
+        }
         GoTweenConfig thorntonMoveTweenConfig = new GoTweenConfig()
         .position(georgeThorntonEndPosition)
         .setEaseType(GoEaseType.Linear)
@@ -81,10 +90,14 @@ public class ConfigureGameOverEvent : CustomEventObject {
             FireFinishEvents();
             georgeThorntonAnimator.Play("GameOverEncouragement");
         });
-        GoTween thorntonRunIn = Go.to(georgeThorntonGameObject.transform,
-                                      duration,
-                                      thorntonMoveTweenConfig);
-                                      
+        thorntonRunIn = Go.to(georgeThorntonGameObject.transform,
+                              duration,
+                              thorntonMoveTweenConfig);
+        //----------------------------
+        if(spotlightExpandIn != null) {
+            spotlightExpandIn.destroy();
+            spotlightExpandIn = null; // because I'm cautious like that
+        }
         // Spotlight
         GoTweenConfig spotlightTweenConfig = new GoTweenConfig()
         .scale(spotlightEndScale)
@@ -92,8 +105,8 @@ public class ConfigureGameOverEvent : CustomEventObject {
         .onComplete(complete => {
             FireFinishEvents();
         });
-        GoTween spotlightExpandIn = Go.to(spotlightGameObject.transform,
-                                          duration,
-                                          spotlightTweenConfig);
+        spotlightExpandIn = Go.to(spotlightGameObject.transform,
+                                  duration,
+                                  spotlightTweenConfig);
     }
 }

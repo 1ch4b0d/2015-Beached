@@ -252,7 +252,7 @@ public class Player : BasePlayer {
     
     public override void Pause() {
         if(!isPaused) {
-            Debug.Log("Player paused");
+            // Debug.Log("Player paused");
             
             Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
             rigidbody2DSnapshot.Capture(rigidbody2D);
