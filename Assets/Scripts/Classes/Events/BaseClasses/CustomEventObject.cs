@@ -26,6 +26,7 @@ public class CustomEventObject : MonoBehaviour {
     }
     
     public virtual void Execute() {
+        // Debug.Log(this.gameObject.name + " Executed.");
         // Perform only if it's the first iteration, or it should loop
         FireStartEvents();
         ExecuteLogic();

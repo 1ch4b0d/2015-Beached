@@ -28,6 +28,22 @@ public class ConfigureGameOverEvent : CustomEventObject {
     
     protected override void Initialize() {
         base.Initialize();
+        
+        if(playerGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
+        if(ghostPlayerGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'ghostPlayerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
+        if(georgeThorntonGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
+        if(georgeThorntonGameOverCollider == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonGameOverCollider' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
+        if(spotlightGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'spotlightGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
     }
     
     public override void Execute() {
@@ -58,9 +74,14 @@ public class ConfigureGameOverEvent : CustomEventObject {
         
         georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
         georgeThorntonGameOverCollider.enabled = true;
+        //----------------------------------------------
+        ghostPlayerGameObject.SetActive(true);
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
         ghostPlayer.Unpause();
+        //----------------------------------------------
         player.Pause();
+        //----------------------------------------------
+        spotlightGameObject.SetActive(true);
         spotlightGameObject.transform.position = spotlightStartPosition;
     }
     

@@ -263,6 +263,7 @@ public class SpeechBubble : MonoBehaviour {
             label.text = "";
         }
         
+        // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
         onFinshedTextSet.Execute();
     }
     

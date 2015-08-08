@@ -70,7 +70,7 @@ public class CustomEventsManager : MonoBehaviour {
     }
     
     public virtual void Execute() {
-        // Debug.Log("Executing " + this.gameObject.name);
+        // Debug.Log(this.gameObject.name + " Executed.");
         events.Execute();
     }
 }

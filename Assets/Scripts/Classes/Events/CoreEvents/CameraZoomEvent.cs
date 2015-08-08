@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraZoomEvent : CustomEventsManager {
+public class CameraZoomEvent : CustomEventObject {
     public Camera cameraToZoom = null;
+    public float endZoom = 5f;
+    public float delay = 0f;
+    public float duration = 1f;
+    public GoEaseType easingType = GoEaseType.Linear;
+    private GoTween zoomTween = null;
     
     // protected override void Awake() {
     //     base.Awake();
@@ -26,10 +31,30 @@ public class CameraZoomEvent : CustomEventsManager {
     }
     
     public override void Execute() {
+        FireStartEvents();
+        ExecuteLogic();
+    }
+    
+    public override void ExecuteLogic() {
         Zoom();
+        FireExecuteEvents();
     }
     
     public void Zoom() {
-        Debug.Log("lol zooming");
+        // Debug.Log("Executing zoom");
+        if(zoomTween != null) {
+            zoomTween.destroy();
+            zoomTween = null; // because I'm cautious like that
+        }
+        
+        GoTweenConfig zoomTweenConfig = new GoTweenConfig()
+        .floatProp("orthographicSize", endZoom)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+            FireFinishEvents();
+        });
+        zoomTween = Go.to(cameraToZoom,
+                          duration,
+                          zoomTweenConfig);
     }
 }
