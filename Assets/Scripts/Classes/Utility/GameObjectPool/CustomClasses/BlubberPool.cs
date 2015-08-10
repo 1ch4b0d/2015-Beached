@@ -14,10 +14,10 @@ public class BlubberPool : GameObjectPool {
         get {
             if(_instance == null) {
                 lock(_lock) {
-                    _instance = GameObject.FindObjectOfType<GameObjectPool>();
+                    _instance = GameObject.FindObjectOfType<BlubberPool>();
                     if(_instance == null) {
                         GameObject BlubberPoolGameObject = new GameObject("BlubberPool");
-                        _instance = (BlubberPoolGameObject.AddComponent<GameObjectPool>()).GetComponent<GameObjectPool>();
+                        _instance = (BlubberPoolGameObject.AddComponent<BlubberPool>()).GetComponent<BlubberPool>();
                     }
                 }
             }

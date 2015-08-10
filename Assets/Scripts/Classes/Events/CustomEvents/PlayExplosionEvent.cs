@@ -26,12 +26,17 @@ public class PlayExplosionEvent : CustomEventObject {
     }
     
     public void CreateExplosion() {
-        GameObject explosionGameObject = Factory.Explosion();
+        // GameObject explosionGameObject = Factory.Explosion();
+        GameObject explosionGameObject = ExplosionPool.Instance.Issue();
         Animator explosionAnimator = explosionGameObject.GetComponent<Animator>();
         AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
         
         explosionGameObject.transform.position = explosionTransform.position;
         explosionAnimator.Play(explosionAnimationState);
-        explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
+        // explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
+        explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState, () => {
+            ExplosionPool.Instance.Decomission(explosionGameObject);
+            // Destroy(explosionGameObject);
+        });
     }
 }

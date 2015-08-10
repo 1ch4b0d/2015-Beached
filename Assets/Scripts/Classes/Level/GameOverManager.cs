@@ -45,6 +45,10 @@ public class GameOverManager : MonoBehaviour {
     
     protected void Initialize() {
         _instance = this;
+        
+        if(gameOverEventManager == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'gameOverEventManager' reference to be set in the 'GameOverManager' Script");
+        }
     }
     
     public void TriggerGameOver() {

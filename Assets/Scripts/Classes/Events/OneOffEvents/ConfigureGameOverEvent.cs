@@ -6,7 +6,8 @@ public class ConfigureGameOverEvent : CustomEventObject {
     public GameObject playerGameObject = null;
     public GameObject ghostPlayerGameObject = null;
     public GameObject georgeThorntonGameObject = null;
-    public Collider2D georgeThorntonGameOverCollider = null;
+    public GameObject georgeThorntonSpeechBubbleTriggerGameObject = null;
+    public GameObject tryAgainColliderGameObject = null;
     public GameObject spotlightGameObject = null;
     private GoTween thorntonRunIn = null;
     private GoTween spotlightExpandIn = null;
@@ -38,8 +39,11 @@ public class ConfigureGameOverEvent : CustomEventObject {
         if(georgeThorntonGameObject == null) {
             Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
-        if(georgeThorntonGameOverCollider == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonGameOverCollider' reference to be set in the 'ConfigureGameOverEvent' Script");
+        if(georgeThorntonSpeechBubbleTriggerGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonSpeechBubbleTriggerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+        }
+        if(tryAgainColliderGameObject == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'tryAgainColliderGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(spotlightGameObject == null) {
             Debug.LogError(this.gameObject.name + " needs its 'spotlightGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
@@ -73,7 +77,8 @@ public class ConfigureGameOverEvent : CustomEventObject {
         
         
         georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
-        georgeThorntonGameOverCollider.enabled = true;
+        georgeThorntonSpeechBubbleTriggerGameObject.SetActive(false);
+        tryAgainColliderGameObject.SetActive(true);
         //----------------------------------------------
         ghostPlayerGameObject.SetActive(true);
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
