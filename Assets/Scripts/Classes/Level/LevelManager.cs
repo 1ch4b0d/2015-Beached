@@ -10,6 +10,8 @@ public class LevelManager : MonoBehaviour {
     public List<Transform> whaleExplosionMarkers = null;
     // public Transform explosionsMarker = null;
     
+    public CustomEventsManager gameOverEventManager = null;
+    
     //BEGINNING OF SINGLETON CODE CONFIGURATION
     private static volatile LevelManager _instance;
     private static object _lock = new object();
@@ -98,5 +100,11 @@ public class LevelManager : MonoBehaviour {
         explosionAnimator.Play(explosionAnimationState);
         
         explosion.transform.position = new Vector3(position.x, position.y, explosion.transform.position.z);
+    }
+    
+    public void TriggerGameOver() {
+        if(gameOverEventManager != null) {
+            gameOverEventManager.Execute();
+        }
     }
 }
