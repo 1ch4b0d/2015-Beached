@@ -42,7 +42,7 @@ public class BlubberCollision : CustomCollision {
         Player playerReference = gameObjectEntering.GetComponent<Player>();
         if(playerReference != null) {
             FireOnPlayerEnterEvents();
-            Debug.Log("Blubber was entered by player!");
+            // Debug.Log("Blubber was entered by player!");
         }
     }
     //--------------------------------------------------------------------------

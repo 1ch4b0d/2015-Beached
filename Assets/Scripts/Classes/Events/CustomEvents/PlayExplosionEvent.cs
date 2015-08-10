@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayExplosionEvent : CustomEventObject {
     public string explosionAnimationState = "ExplosionOne";
     public Transform explosionTransform = null;
-    bool destroyOnFinish = true;
     
     // // Use this for initialization
     // public override void Awake() {
@@ -33,10 +32,10 @@ public class PlayExplosionEvent : CustomEventObject {
         
         explosionGameObject.transform.position = explosionTransform.position;
         explosionAnimator.Play(explosionAnimationState);
-        // explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
         explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState, () => {
             ExplosionPool.Instance.Decomission(explosionGameObject);
-            // Destroy(explosionGameObject);
         });
+        // Don't destroy the explosion object on animation end because it needs
+        // to be recycled in the game object pool
     }
 }

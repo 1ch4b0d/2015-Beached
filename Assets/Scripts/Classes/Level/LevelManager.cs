@@ -6,9 +6,7 @@ public class LevelManager : MonoBehaviour {
     public GameObject leftWorldBorder = null;
     public GameObject rightWorldBorder = null;
     
-    public GameObject georgeThorntonGameObject = null;
     public List<Transform> whaleExplosionMarkers = null;
-    // public Transform explosionsMarker = null;
     
     public CustomEventsManager gameOverEventManager = null;
     
@@ -74,37 +72,6 @@ public class LevelManager : MonoBehaviour {
         }
         if(rightWorldBorder == null) {
             Debug.LogError("The 'rightWorldBorder' is null, please declare it for '" + this.gameObject.name + "' and set it in order for the level logic to be consistent.");
-        }
-    }
-    
-    public void TriggerExplosionCinematic() {
-        // CinematicManager.Instance.StartCinematic<WhaleExplosion>();
-        PerformExplosionCinematic();
-    }
-    
-    public void PerformExplosionCinematic() {
-        PlayerManager.Instance.GetPlayer().ToggleController(PlayerManager.Instance.GetPlayerGameObject(), false);
-        
-        // Just do one explosion for now
-        // PlayExplosion("ExplosionOne", whaleExplosionMarkers[0].transform.position);
-    }
-    
-    // public void SetOnAnimationFinish(string stateName, StateEvent stateEventFunction, bool destroyOnFinish = false, bool loopAnimationEvent = false) {
-    public void PlayExplosion(string explosionAnimationState, Vector3 position, bool destroyOnFinish = true) {
-        GameObject explosion = Factory.Explosion();//(GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/Credits/CreditText") as GameObject);
-        Animator explosionAnimator = explosion.GetComponent<Animator>();
-        AnimatorHelper explosionAnimatorHelper = explosion.GetComponent<AnimatorHelper>();
-        
-        // explosionAnimatorHelper.SetDestroyOnFinish(destroyOnFinish);
-        explosionAnimatorHelper.SetDestroyOnFinish(explosionAnimationState, destroyOnFinish);
-        explosionAnimator.Play(explosionAnimationState);
-        
-        explosion.transform.position = new Vector3(position.x, position.y, explosion.transform.position.z);
-    }
-    
-    public void TriggerGameOver() {
-        if(gameOverEventManager != null) {
-            gameOverEventManager.Execute();
         }
     }
 }
