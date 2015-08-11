@@ -23,6 +23,10 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         }
     }
     
+    public virtual void SetTextSet(params string[] newTextSet) {
+        textSet = new List<string>(newTextSet);
+    }
+    
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
         ShowSpeechBubble(0.25f);

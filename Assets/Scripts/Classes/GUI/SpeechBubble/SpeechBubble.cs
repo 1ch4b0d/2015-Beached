@@ -16,9 +16,9 @@ public class SpeechBubble : MonoBehaviour {
     
     public Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
-    public bool clearTextInBubbleOnFinish = false; // this is something I'm not sure about...
+    // public bool clearTextInBubbleOnFinish = false; // this is something I'm not sure about...
     public bool hasFinishedTextSet = false;
-    CustomEvents onFinshedTextSet = null;
+    CustomEvents onFinishedTextSet = null;
     
     InteractionTrigger interactionTrigger = null;
     
@@ -46,7 +46,7 @@ public class SpeechBubble : MonoBehaviour {
             PerformLogic();
         }
         UpdateAnimator();
-        DebugInfo();
+        // DebugInfo();
     }
     
     protected void Initialize() {
@@ -115,7 +115,7 @@ public class SpeechBubble : MonoBehaviour {
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
-        onFinshedTextSet = new CustomEvents();
+        onFinishedTextSet = new CustomEvents();
     }
     
     void DebugInfo() {
@@ -258,12 +258,12 @@ public class SpeechBubble : MonoBehaviour {
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
-        if(clearTextInBubbleOnFinish) {
-            label.text = "";
-        }
+        // if(clearTextInBubbleOnFinish) {
+        label.text = "";
+        // }
         
         // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
-        onFinshedTextSet.Execute();
+        onFinishedTextSet.Execute();
     }
     
     public bool HasFinished() {
@@ -274,7 +274,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public SpeechBubble OnFinish(System.Action newOnFinish, bool loop = false) {
-        onFinshedTextSet.AddEvent(newOnFinish, loop);
+        onFinishedTextSet.AddEvent(newOnFinish, loop);
         return this;
     }
     
