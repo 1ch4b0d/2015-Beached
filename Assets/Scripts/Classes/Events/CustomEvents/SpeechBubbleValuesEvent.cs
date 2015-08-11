@@ -6,6 +6,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public SpeechBubble speechBubble = null;
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     public List<string> textSet = null;
+    public float duration = 1f;
     public bool isEnabled = true;
     public bool show = false;
     public bool hide = false;
@@ -71,10 +72,10 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             Debug.LogError("Show and hide cannot BOTH be TRUE. Please fix this on " + this.gameObject.name);
         }
         else if(show) {
-            speechBubble.Show();
+            speechBubble.Show(duration);
         }
         else if(hide) {
-            speechBubble.Hide();
+            speechBubble.Hide(duration);
         }
         
         if(startInteraction) {
