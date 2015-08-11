@@ -88,7 +88,9 @@ public class UIFollowTarget : MonoBehaviour {
             Vector3 pos = gameCamera.WorldToViewportPoint(target.position);
             
             // Determine the visibility and the target alpha
-            int isVisible = (gameCamera.orthographic || pos.z > 0f) && (pos.x > 0f && pos.x < 1f && pos.y > 0f && pos.y < 1f) ? 1 : 0;
+            // int isVisible = (gameCamera.orthographic || pos.z > 0f) && (pos.x > 0f && pos.x < 1f && pos.y > 0f && pos.y < 1f) ? 1 : 0;
+            // Using this because it's just easier to calculate it every frame. So dumb....
+            int isVisible = 1;
             bool vis = (isVisible == 1);
             
             // If visible, update the position
