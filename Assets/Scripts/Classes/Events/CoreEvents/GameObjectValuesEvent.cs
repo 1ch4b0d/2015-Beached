@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameObjectValuesEvent : CustomEventObject {
-    public GameObject gameObjectToModify = null;
+    public List<GameObject> gameObjectsToModify = null;
     public bool isEnabled = true;
     
     protected override void Awake() {
@@ -21,8 +22,8 @@ public class GameObjectValuesEvent : CustomEventObject {
     
     protected override void Initialize() {
         base.Initialize();
-        if(gameObjectToModify == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'gameObjectToModify' reference to be set in the 'TransformValuesEvent' Script");
+        if(gameObjectsToModify == null) {
+            Debug.LogError(this.gameObject.name + " needs its 'gameObjectsToModify' reference to be set in the 'TransformValuesEvent' Script");
         }
     }
     
@@ -35,6 +36,8 @@ public class GameObjectValuesEvent : CustomEventObject {
     }
     
     public void SetGameObjectValues() {
-        gameObjectToModify.SetActive(isEnabled);
+        foreach(GameObject gameObj in gameObjectsToModify) {
+            gameObj.SetActive(isEnabled);
+        }
     }
 }

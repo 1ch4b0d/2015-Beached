@@ -13,7 +13,7 @@ public class CameraFollowEvent : CustomEventObject {
     public Vector2 offsetFromObjectToFollow = Vector2.zero;
     
     public bool useDefaultFollowSpeed = true;
-    public Vector2 followSpeed = new Vector2(1f, 1f);
+    public Vector2 followSpeed = new Vector2(10f, 10f);
     
     // // Use this for initialization
     // protected override void Awake() {

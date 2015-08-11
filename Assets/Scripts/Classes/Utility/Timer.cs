@@ -43,7 +43,10 @@ public class Timer : MonoBehaviour {
     }
     
     protected virtual void PerformLogic() {
-        timer += Time.deltaTime;
+        if(timer <= timerMax
+            && (loop || iterations < 1)) {
+            timer += Time.deltaTime;
+        }
         if(timer > timerMax) {
             if(iterations < 1
                 || loop) {
