@@ -9,6 +9,8 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public bool isEnabled = true;
     public bool show = false;
     public bool hide = false;
+    public bool startInteraction = false;
+    public bool finishInteraction = false;
     public List<CustomEventsManager> onSpeechBubbleFinish = null;
     
     // // Use this for initialization
@@ -75,6 +77,13 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.Hide();
         }
         
+        if(startInteraction) {
+            speechBubble.StartInteraction();
+        }
+        if(finishInteraction) {
+            speechBubble.FinishInteraction();
+        }
+        
         //------------------------------
         // Speech Bubble - On Finish
         //------------------------------
@@ -85,10 +94,5 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
                 }
             }
         }
-        
-        //------------------------------
-        // Speech Bubble - Starts the Speech Bubble
-        //------------------------------
-        speechBubble.StartInteraction();
     }
 }

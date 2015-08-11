@@ -133,12 +133,12 @@ public class SpeechBubble : MonoBehaviour {
             SetTextSet("testing testing testing");
         }
         
-        // if(Input.GetKeyDown(KeyCode.Space)) {
-        // Debug.Log(this.gameObject.name + " - current Text - #: " + textSet.Count);
-        // foreach(string text in textSet) {
-        // Debug.Log(text);
-        // }
-        // }
+        if(Input.GetKeyDown(KeyCode.Space)) {
+            Debug.Log(this.gameObject.name + " - Total Text - #: " + textSet.Count);
+            foreach(string text in textSet) {
+                Debug.Log("Text: " + text);
+            }
+        }
     }
     
     // From here:
@@ -230,7 +230,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     protected void PerformHasFinishedCheck() {
-        if(isInUse
+        if(IsInUse()
             && !hasFinishedTextSet) {
             if(labelTypeWriterEffect != null) {
                 if(!labelTypeWriterEffect.isActive) {
@@ -248,7 +248,6 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public void StartInteraction() {
-        // Debug.Log("Started Interaction");
         isInUse = true;
         SetSpeechBubbleImage(SpeechBubbleImage.None);
     }
@@ -280,12 +279,12 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public string PopText() {
+        string returnString = label.text;
         if(textSet.Count > 0) {
-            return textSet.Dequeue();
+            returnString = textSet.Dequeue();
         }
-        else {
-            return label.text;
-        }
+        // Debug.Log("Pop! " + returnString);
+        return returnString;
     }
     
     // Dumb convenience method
@@ -311,7 +310,7 @@ public class SpeechBubble : MonoBehaviour {
     /// <summary>
     /// This sets the UILabel's text
     /// </summary>
-    public void SetSpeechBubbleText(string newText, bool resetTypeWriter = true) {
+    private void SetSpeechBubbleText(string newText, bool resetTypeWriter = true) {
         label.text = newText;
         
         if(labelTypeWriterEffect != null
