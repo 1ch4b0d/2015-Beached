@@ -4,20 +4,28 @@ using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     public List<SpeechBubbleTextSet> textSets = null;
+    private SpeechBubbleTextSet placeholderTextSet = null;
     
     protected override void Awake() {
-        Initialize();
+        base.Awake();
     }
     
     // Use this for initialization
     protected override void Start() {
+        base.Start();
     }
     
     // Update is called once per frame
     protected override void Update() {
+        base.Update();
     }
     
     protected override void Initialize() {
+        base.Initialize();
+        if(textSets == null
+            || textSets.Count == 0) {
+            Debug.LogError(this.gameObject.name + " needs its 'textSets' reference to be set and have more than 0 elements in it for the 'SpeechBubbleInteractionTrigger' Script");
+        }
     }
     
     public virtual void SetTextSets(List<SpeechBubbleTextSet> newTextSets) {
@@ -31,6 +39,14 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             //
             textSets.Remove(textSetToReturn);
             textSets.Add(textSetToReturn);
+        }
+        else {
+            if(placeholderTextSet == null) {
+                GameObject newPlaceholderTextSet = new GameObject("PlaceholderTextSet");
+                placeholderTextSet = (newPlaceholderTextSet.AddComponent<SpeechBubbleTextSet>()).GetComponent<SpeechBubbleTextSet>();
+                newPlaceholderTextSet.transform.parent = this.gameObject.transform;
+            }
+            textSetToReturn = placeholderTextSet;
         }
         return textSetToReturn;
     }
