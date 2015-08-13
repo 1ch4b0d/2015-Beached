@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTriggerValuesEvent : CustomEventObject {
     public SpeechBubbleInteractionTrigger speechBubbleInteractionTriggerToModify = null;
-    public List<string> textSet = null;
+    public List<SpeechBubbleTextSet> textSet = null;
     public bool isEnabled = true;
     
     // // Use this for initialization
@@ -41,7 +41,7 @@ public class SpeechBubbleInteractionTriggerValuesEvent : CustomEventObject {
         
         if(textSet != null
             && textSet.Count > 0) {
-            speechBubbleInteractionTriggerToModify.SetTextSet(textSet.ToArray());
+            speechBubbleInteractionTriggerToModify.SetTextSets(textSet);
         }
     }
 }

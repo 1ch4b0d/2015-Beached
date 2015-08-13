@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
-    public List<string> textSet = null;
+    public List<SpeechBubbleTextSet> textSets = null;
     
     protected override void Awake() {
         Initialize();
@@ -18,13 +18,21 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     }
     
     protected override void Initialize() {
-        if(textSet == null) {
-            textSet = new List<string>();
-        }
     }
     
-    public virtual void SetTextSet(params string[] newTextSet) {
-        textSet = new List<string>(newTextSet);
+    public virtual void SetTextSets(List<SpeechBubbleTextSet> newTextSets) {
+        textSets = newTextSets;
+    }
+    
+    public virtual SpeechBubbleTextSet PopNextTextSet() {
+        SpeechBubbleTextSet textSetToReturn = null;
+        if(textSets.Count > 0) {
+            textSetToReturn = textSets[0];
+            //
+            textSets.Remove(textSetToReturn);
+            textSets.Add(textSetToReturn);
+        }
+        return textSetToReturn;
     }
     
     public override void Entered(GameObject gameObjectEntering) {
@@ -58,7 +66,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             && speechBubble != null) {
             // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
-                speechBubble.SetTextSet(textSet.ToArray());
+                speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
                 
                 player.StartInteraction();
                 speechBubble.StartInteraction();

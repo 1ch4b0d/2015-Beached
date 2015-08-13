@@ -270,7 +270,7 @@ public class Player : BasePlayer {
     
     public override void Unpause() {
         if(isPaused) {
-            Debug.Log("Player unpaused");
+            // Debug.Log("Player unpaused");
             
             Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
             rigidbody2DSnapshot.Restore(rigidbody2D);
