@@ -26,7 +26,7 @@ public class CreateGameObjectEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(prefabToCreate == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'prefabToCreate' reference to be set in the 'CreateGameObjectEvent' Script");
+            this.gameObject.LogComponentError("prefabToCreate", this.GetType());
         }
     }
     

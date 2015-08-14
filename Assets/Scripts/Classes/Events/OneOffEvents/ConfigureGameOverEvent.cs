@@ -31,22 +31,22 @@ public class ConfigureGameOverEvent : CustomEventObject {
         base.Initialize();
         
         if(playerGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'playerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(ghostPlayerGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'ghostPlayerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'ghostPlayerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(georgeThorntonGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'georgeThorntonGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(georgeThorntonSpeechBubbleTriggerGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'georgeThorntonSpeechBubbleTriggerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'georgeThorntonSpeechBubbleTriggerGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(tryAgainColliderGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'tryAgainColliderGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'tryAgainColliderGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
         if(spotlightGameObject == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'spotlightGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'spotlightGameObject' reference to be set in the 'ConfigureGameOverEvent' Script");
         }
     }
     

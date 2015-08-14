@@ -36,7 +36,7 @@ public class Collider2DValuesEvent : CustomEventObject {
         else {
             foreach(Collider2D colliderToModify in collidersToModify) {
                 if(colliderToModify == null) {
-                    Debug.LogError("There is a NULL value in the 'colliderToModify' on initialization. Please remove this element or fix its reference in order to start correctly.");
+                    Debug.LogError(this.gameObject.transform.GetFullPath() + " has a NULL value in the 'colliderToModify' on initialization. Please remove this element or fix its reference in order to start correctly.");
                 }
             }
         }

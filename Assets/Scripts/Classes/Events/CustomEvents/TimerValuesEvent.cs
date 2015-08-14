@@ -23,7 +23,7 @@ public class TimerValuesEvent : CustomEventObject {
     
     protected override void Initialize() {
         if(timerToModify == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'timerToModify' reference to be set in the 'TimerValuesEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'timerToModify' reference to be set in the 'TimerValuesEvent' Script");
         }
     }
     

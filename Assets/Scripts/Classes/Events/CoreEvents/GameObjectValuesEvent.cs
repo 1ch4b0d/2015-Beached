@@ -23,7 +23,7 @@ public class GameObjectValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(gameObjectsToModify == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'gameObjectsToModify' reference to be set in the 'TransformValuesEvent' Script");
+            this.gameObject.LogComponentError("gameObjectsToModify", this.GetType());
         }
     }
     

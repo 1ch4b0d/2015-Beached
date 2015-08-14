@@ -25,12 +25,12 @@ public class InteractionControllerValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(interactionController == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'interactionController' to be set in its 'InteractionControllerValuesEvent' Script");
+            this.gameObject.LogComponentError("interactionController", this.GetType());
         }
         
         if((triggersToAdd == null || triggersToAdd.Count == 0)
             && (triggersToRemove == null || triggersToRemove.Count == 0)) {
-            Debug.LogError(this.gameObject.name + " needs its either its 'triggersToAdd' or its 'triggerToRemove' reference to be set in the 'InteractionControllerValuesEvent' Script");
+            this.gameObject.LogComponentError("triggersToAdd", this.GetType());
         }
         else {
             if(triggersToAdd == null) {

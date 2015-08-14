@@ -38,11 +38,11 @@ public class AnimatorHelperValuesEvents : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(animatorHelper == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'animatorHelper' reference to be set in the 'AnimatorHelperValuesEvents' Script");
+            this.gameObject.LogComponentError("animatorHelper", this.GetType());
         }
         
         if(animationStateName == "") {
-            Debug.LogError(this.gameObject.name + " needs its 'animationStateName' reference to be set in the 'AnimatorHelperValuesEvents' Script");
+            this.gameObject.LogComponentError("animationStateName", this.GetType());
         }
     }
     

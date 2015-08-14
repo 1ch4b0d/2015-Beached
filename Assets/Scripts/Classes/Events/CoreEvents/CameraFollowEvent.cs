@@ -31,7 +31,7 @@ public class CameraFollowEvent : CustomEventObject {
         base.Initialize();
         //---------------------
         if(cameraFollow == null) {
-            Debug.LogError("The 'cameraFollow' property is null for " + this.gameObject.name + ". Please assign it then retry again.");
+            this.gameObject.LogComponentError("cameraFollow", this.GetType());
         }
     }
     

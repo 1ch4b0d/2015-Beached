@@ -23,7 +23,7 @@ public class DebugCustomEventsManager : MonoBehaviour {
     
     protected void Initialize() {
         if(customEventsManager == null) {
-            Debug.LogError(this.gameObject.name + " does not have the 'customEventsManager' assigned. Please assign this for the 'CustomEventsManagerToDebug' script.");
+            this.gameObject.LogComponentError("customEventsManager", this.GetType());
         }
     }
 }

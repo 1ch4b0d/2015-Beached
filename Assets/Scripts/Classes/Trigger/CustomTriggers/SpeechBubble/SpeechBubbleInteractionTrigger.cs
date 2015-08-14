@@ -24,7 +24,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         base.Initialize();
         if(textSets == null
             || textSets.Count == 0) {
-            Debug.LogError(this.gameObject.name + " needs its 'textSets' reference to be set and have more than 0 elements in it for the 'SpeechBubbleInteractionTrigger' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'textSets' reference to be set and have more than 0 elements in it for the 'SpeechBubbleInteractionTrigger' Script");
         }
     }
     

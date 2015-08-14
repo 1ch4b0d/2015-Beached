@@ -24,7 +24,7 @@ public class PlayerFailedGameEvent : CustomEventObject {
         
         player = PlayerManager.Instance.GetPlayer();
         if(player == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'playerGameObject' reference to be set in the 'PlayerFailedGameEvent' Script");
+            this.gameObject.LogComponentError("playerGameObject", this.GetType());
         }
     }
     

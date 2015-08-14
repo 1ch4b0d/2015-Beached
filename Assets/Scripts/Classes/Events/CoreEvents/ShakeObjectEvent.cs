@@ -40,7 +40,7 @@ public class ShakeObjectEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(gameObjectToShake == null) {
-            Debug.LogError("The 'gameObjectToShake' reference needs to be set in the 'ShakeObjectEvent' Script on " + this.gameObject.name);
+            this.gameObject.LogComponentError("gameObjectToShake", this.GetType());
         }
     }
     

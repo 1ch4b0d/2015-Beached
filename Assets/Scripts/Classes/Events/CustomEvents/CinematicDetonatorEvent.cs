@@ -22,7 +22,7 @@ public class CinematicDetonatorEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(detonator == null) {
-            Debug.LogError("The 'detonator' object must be set ahead of time for the object: " + this.gameObject.name);
+            this.gameObject.LogComponentError("detonator", this.GetType());
         }
     }
     

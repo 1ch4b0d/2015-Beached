@@ -26,7 +26,7 @@ public class CameraZoomEvent : CustomEventObject {
         base.Initialize();
         //---------------------
         if(cameraToZoom == null) {
-            Debug.LogError("The 'cameraToZoom' property is null for " + this.gameObject.name + ". Please assign it then retry again.");
+            this.gameObject.LogComponentError("cameraToZoom", this.GetType());
         }
     }
     

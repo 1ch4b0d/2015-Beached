@@ -28,7 +28,7 @@ public class SpeechBubbleInteractionTriggerValuesEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(speechBubbleInteractionTriggerToModify == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'speechBubbleInteractionTriggerToModify' reference to be set in the 'SpeechBubbleValuesEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'speechBubbleInteractionTriggerToModify' reference to be set in the 'SpeechBubbleValuesEvent' Script");
         }
     }
     

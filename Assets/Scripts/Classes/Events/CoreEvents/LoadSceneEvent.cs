@@ -23,7 +23,7 @@ public class LoadSceneEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(sceneToLoad.Equals("")) {
-            Debug.LogError(this.gameObject.name + " needs its 'sceneToLoad' reference to be set to a value other that \"\" in the 'LoadSceneEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'sceneToLoad' reference to be set to a value other that \"\" in the 'LoadSceneEvent' Script");
         }
     }
     

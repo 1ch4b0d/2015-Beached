@@ -46,14 +46,14 @@ public class GhostPlayer : BasePlayer {
         if(characterController == null) {
             characterController = this.gameObject.GetComponent<CustomCharacterController>();
             if(characterController == null) {
-                Debug.LogError(this.gameObject.name + " needs to set its characterController in order to be used.");
+                this.gameObject.LogComponentError("characterController", this.GetType());
             }
         }
         
         if(characterMovement == null) {
             characterMovement = this.gameObject.GetComponent<CharacterMovement>();
             if(characterMovement == null) {
-                Debug.LogError(this.gameObject.name + " needs to set its characterMovement in order to be used.");
+                this.gameObject.LogComponentError("characterMovement", this.GetType());
             }
         }
     }

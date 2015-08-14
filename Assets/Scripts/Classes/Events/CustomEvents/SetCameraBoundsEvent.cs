@@ -28,7 +28,7 @@ public class SetCameraBoundsEvent : CustomEventObject {
             && cameraRightBound == null
             && cameraBottomBound == null
             && cameraTopBound == null) {
-            Debug.LogError(this.gameObject.name + " needs at least one transform reference to be set in the 'SetCameraBoundsEvent' Script");
+            Debug.LogError(this.gameObject.transform.GetFullPath() + " needs at least one transform reference to be set in the 'SetCameraBoundsEvent' Script");
         }
     }
     

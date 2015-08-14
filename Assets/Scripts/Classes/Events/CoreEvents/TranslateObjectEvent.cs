@@ -31,11 +31,11 @@ public class TranslateObjectEvent : CustomEventObject {
     protected override void Initialize() {
         base.Initialize();
         if(objectToTranslate == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'objectToTranslate' reference to be set in the 'TranslateObjectEvent' Script");
+            this.gameObject.LogComponentError("objectToTranslate", this.GetType());
         }
         
         if(targetPosition == null) {
-            Debug.LogError(this.gameObject.name + " needs its 'targetPosition' reference to be set in the 'TranslateObjectEvent' Script");
+            this.gameObject.LogComponentError("targetPosition", this.GetType());
         }
     }
     
