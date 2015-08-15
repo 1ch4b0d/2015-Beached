@@ -50,21 +50,25 @@ public class CustomEvents {
     }
     
     public void Execute() {
+        // This creates a copy of all the delegates to perform,
+        // then it creates a new list of delegates that will get repeated
+        // and it uses that new list to set it to the list of this object
+        // then it executes the events that needed to perform.
+        // This is done in order to prevent stack overflows from occurring
+        // when the event some how is recursively triggered. This way only
+        // the events to repeat occur, and won't be called on subsequent
+        // recursive calls.
+        CustomEvent[] currentDelegates = allDelegateEvents.ToArray();
         List<CustomEvent> loopingDelegates = new List<CustomEvent>();
-        foreach(CustomEvent delegateEvent in allDelegateEvents.ToArray()) {
-            delegateEvent.Execute();
-        }
-        
-        // TODO: This is a really really really really crappy solution. Fix this
-        //  in a better way somehow down the line.
-        // This is pruning events that don't loop in order to make the search space smaller
-        // This keeps events that have yet to execute
         foreach(CustomEvent delegateEvent in allDelegateEvents) {
-            if(delegateEvent.currentIteration == 0
-                || delegateEvent.ShouldLoop()) {
+            if(delegateEvent.ShouldLoop()) {
                 loopingDelegates.Add(delegateEvent);
             }
         }
         allDelegateEvents = loopingDelegates;
+        
+        foreach(CustomEvent delegateEvent in currentDelegates) {
+            delegateEvent.Execute();
+        }
     }
 }
