@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: e6f8d435f7dea46008a776645acad60b
+timeCreated: 1439689765
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: car3_sprite-450x159_0
+    21300002: car3_sprite-450x159_1
+    21300004: car3_sprite-450x159_2
+    21300006: car3_sprite-450x159_3
+    21300008: car3_sprite-450x159_4
+    21300010: car3_sprite-450x159_5
+    21300012: car3_sprite-450x159_6
+    21300014: car3_sprite-450x159_7
+    21300016: car3_sprite-450x159_8
+    21300018: car3_sprite-450x159_9
+    21300020: car3_sprite-450x159_10
+    21300022: car3_sprite-450x159_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 53
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: car3_sprite-450x159_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 106
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_1
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 106
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_2
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 106
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_3
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 106
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 53
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_5
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 53
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_6
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 53
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 53
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_9
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_10
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: car3_sprite-450x159_11
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 112
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
