@@ -1,13 +1,22 @@
 fileFormatVersion: 2
 guid: 001a9fecb61d04713813e8cc8dd8b11c
-timeCreated: 1439689573
+timeCreated: 1439792795
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: exe1-unusedcars_0
+    21300002: exe1-unusedcars_1
+    21300004: exe1-unusedcars_2
+    21300006: exe1-unusedcars_3
+    21300008: exe1-unusedcars_4
+    21300010: exe1-unusedcars_5
+    21300012: exe1-unusedcars_6
+    21300014: exe1-unusedcars_7
+    21300016: exe1-unusedcars_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -30,25 +39,115 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 49
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: exe1-unusedcars_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 100
+        width: 39
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 100
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_2
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 102
+        width: 35
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_3
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 52
+        width: 39
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_4
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 52
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_5
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 54
+        width: 35
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_6
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 4
+        width: 39
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_7
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 4
+        width: 54
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: exe1-unusedcars_8
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 6
+        width: 35
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 
