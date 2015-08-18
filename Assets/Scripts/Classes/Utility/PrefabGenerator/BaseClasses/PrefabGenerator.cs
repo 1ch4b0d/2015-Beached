@@ -61,7 +61,7 @@ public class PrefabGenerator : MonoBehaviour {
         }
     }
     
-    public virtual void PerformGeneration() {
+    public virtual GameObject PerformGeneration() {
         GameObject objectToGenerate = GenerateGameObject();
         objectToGenerate.transform.parent = this.gameObject.transform;
         objectToGenerate.transform.position = generationTransform.position;
@@ -69,7 +69,10 @@ public class PrefabGenerator : MonoBehaviour {
         foreach(PrefabGeneratorRule prefabGeneratorRule in prefabGeneratorRules) {
             prefabGeneratorRule.PerformGenerationRule(objectToGenerate);
         }
+        
+        return objectToGenerate;
     }
+    
     public virtual GameObject GenerateGameObject() {
         return (GameObject)GameObject.Instantiate(prefabToGenerate);
     }
