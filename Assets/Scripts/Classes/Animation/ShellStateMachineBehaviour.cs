@@ -31,18 +31,20 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
             // OnAnimationFinish
             //------------------------------------------------------------------
             // Checks to see if animation finished
-            if(stateInfo.normalizedTime >= 0.99) {
-                // Debug.Log(stateName + ": Animation finished");
-                CustomEvents animationFinishStateEvent = animatorHelper.GetOnAnimationFinish(stateName);
-                if(animationFinishStateEvent != null) {
-                    animationFinishStateEvent.Execute();
-                }
-                // Destroys object
-                if(animatorHelper.GetDestroyOnFinish(stateName)) {
-                    // Debug.Log("Destroying: " + animator.gameObject.name);
-                    Destroy(animator.gameObject);
-                }
-            }
+            // TODO: FIX IT SO THAT ANIMATION FINISH CAN BE DETECTED CORRECTLY
+            // THIS IS REALLY BROKEN YOU NEED TO FIX THIS
+            // if(stateInfo.normalizedTime >= 0.99) {
+            //     Debug.Log(stateName + ": Animation finished");
+            //     CustomEvents animationFinishStateEvent = animatorHelper.GetOnAnimationFinish(stateName);
+            //     if(animationFinishStateEvent != null) {
+            //         animationFinishStateEvent.Execute();
+            //     }
+            //     // Destroys object
+            //     if(animatorHelper.GetDestroyOnFinish(stateName)) {
+            //         // Debug.Log("Destroying: " + animator.gameObject.name);
+            //         Destroy(animator.gameObject);
+            //     }
+            // }
         }
     }
     

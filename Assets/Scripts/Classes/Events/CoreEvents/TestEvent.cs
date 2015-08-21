@@ -21,6 +21,7 @@ public class TestEvent : CustomEventObject {
     }
     
     public override void Execute() {
+        ExecuteLogic();
     }
     
     public override void ExecuteLogic() {

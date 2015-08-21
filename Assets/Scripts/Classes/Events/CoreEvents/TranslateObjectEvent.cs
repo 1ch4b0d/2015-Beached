@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class TranslateObjectEvent : CustomEventObject {
-    public GoTween translationTween = null;
+    // public GoTween translationTween = null;
     public GameObject objectToTranslate = null;
     public Transform targetPosition = null;
     public Vector3 offset = Vector3.zero;
@@ -80,11 +80,10 @@ public class TranslateObjectEvent : CustomEventObject {
         //                          duration,
         //                          tweenConfig);
         //----------------------------------------------------------------------
-        if(translationTween != null) {
-            translationTween.destroy();
-            translationTween = null; // because I'm cautious like that
-        }
-        
+        // if(translationTween != null) {
+        //     translationTween.destroy();
+        //     translationTween = null; // because I'm cautious like that
+        // }
         
         GoTweenConfig tweenConfig = new GoTweenConfig();
         Vector3 finalPosition = Vector3.zero;
@@ -113,8 +112,11 @@ public class TranslateObjectEvent : CustomEventObject {
             FireFinishEvents();
         });
         
-        translationTween = Go.to(objectToTranslate.transform,
-                                 duration,
-                                 tweenConfig);
+        objectToTranslate.AddGoTween(Go.to(objectToTranslate.transform,
+                                           duration,
+                                           tweenConfig));
+        // translationTween = Go.to(objectToTranslate.transform,
+        //                          duration,
+        //                          tweenConfig);
     }
 }
