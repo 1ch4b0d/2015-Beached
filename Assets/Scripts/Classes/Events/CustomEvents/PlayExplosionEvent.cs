@@ -28,14 +28,13 @@ public class PlayExplosionEvent : CustomEventObject {
         // GameObject explosionGameObject = Factory.Explosion();
         GameObject explosionGameObject = ExplosionPool.Instance.Issue();
         Animator explosionAnimator = explosionGameObject.GetComponent<Animator>();
-        AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
+        // AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
         
         explosionGameObject.transform.position = explosionTransform.position;
         explosionAnimator.Play(explosionAnimationState);
-        explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState, () => {
-            ExplosionPool.Instance.Decomission(explosionGameObject);
-        });
-        // Don't destroy the explosion object on animation end because it needs
-        // to be recycled in the game object pool
+        // TODO: Fix this so that it can integrate leveraging the new cinematiceventsmanager logic
+        // explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState, () => {
+        //     ExplosionPool.Instance.Decomission(explosionGameObject);
+        // });
     }
 }

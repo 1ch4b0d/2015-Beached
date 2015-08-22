@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class CustomEventObject : MonoBehaviour {
     public bool loop = false;
+    public int currentIteration = 0;
     
     public List<CustomEventsManager> onStartEvents = null;
     public List<CustomEventsManager> onExecuteEvents = null;
@@ -27,10 +28,13 @@ public class CustomEventObject : MonoBehaviour {
     
     public virtual void Execute() {
         // Debug.Log(this.gameObject.name + " Executed.");
-        // Perform only if it's the first iteration, or it should loop
-        FireStartEvents();
-        ExecuteLogic();
-        FireFinishEvents();
+        if(currentIteration < 1
+            || loop) {
+            currentIteration++;
+            FireStartEvents();
+            ExecuteLogic();
+            FireFinishEvents();
+        }
     }
     
     public virtual void ExecuteLogic() {

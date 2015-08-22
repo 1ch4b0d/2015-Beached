@@ -11,19 +11,19 @@ using System.Collections.Generic;
 /// attached to each state that you want to support custom events firing on.
 /// </summary>
 public class AnimatorHelper : MonoBehaviour {
-    /// <value>The onStateEnter is a dictionary of CustomEvents that map to an animation state's name.</value>
-    protected Dictionary<string, CustomEvents> onStateEnter = new Dictionary<string, CustomEvents>();
-    /// <value>The onStateUpdate is a dictionary of CustomEvents that map to an animation state's name.</value>
-    protected Dictionary<string, CustomEvents> onStateUpdate = new Dictionary<string, CustomEvents>();
-    /// <value>The onStateExit is a dictionary of CustomEvents that map to an animation state's name.</value>
-    protected Dictionary<string, CustomEvents> onStateExit = new Dictionary<string, CustomEvents>();
-    /// <value>The onStateMove is a dictionary of CustomEvents that map to an animation state's name.</value>
-    protected Dictionary<string, CustomEvents> onStateMove = new Dictionary<string, CustomEvents>();
-    /// <value>The onStateIK is a dictionary of CustomEvents that map to an animation state's name.</value>
-    protected Dictionary<string, CustomEvents> onStateIK = new Dictionary<string, CustomEvents>();
+    /// <value>The onStateEnter is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    protected Dictionary<string, List<CustomEventsManager>> onStateEnter = new Dictionary<string, List<CustomEventsManager>>();
+    /// <value>The onStateUpdate is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    protected Dictionary<string, List<CustomEventsManager>> onStateUpdate = new Dictionary<string, List<CustomEventsManager>>();
+    /// <value>The onStateExit is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    protected Dictionary<string, List<CustomEventsManager>> onStateExit = new Dictionary<string, List<CustomEventsManager>>();
+    /// <value>The onStateMove is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    protected Dictionary<string, List<CustomEventsManager>> onStateMove = new Dictionary<string, List<CustomEventsManager>>();
+    /// <value>The onStateIK is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    protected Dictionary<string, List<CustomEventsManager>> onStateIK = new Dictionary<string, List<CustomEventsManager>>();
     //--------------------------------------------------------------------------
-    /// <value>The onAnimationFinish is a dictionary of CustomEvents that map to an animation state's name.</value>
-    public Dictionary<string, CustomEvents> onAnimationFinish = new Dictionary<string, CustomEvents>();
+    /// <value>The onAnimationFinish is a dictionary of List<CustomEventsManager> that map to an animation state's name.</value>
+    public Dictionary<string, List<CustomEventsManager>> onAnimationFinish = new Dictionary<string, List<CustomEventsManager>>();
     /// <value>The destroyOnFinish is a dictionary of bools that map to an animation state's name. If true on completion of the animationState's animation it will be destroyed.</value>
     public Dictionary<string, bool> destroyOnFinish = new Dictionary<string, bool>();
     
@@ -37,22 +37,22 @@ public class AnimatorHelper : MonoBehaviour {
     //--------------------------------------------------------------------------
     // Simple Retrieval
     //--------------------------------------------------------------------------
-    public Dictionary<string, CustomEvents> GetOnStateEnterDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnStateEnterDictionary() {
         return onStateEnter;
     }
-    public Dictionary<string, CustomEvents> GetOnStateUpdateDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnStateUpdateDictionary() {
         return onStateUpdate;
     }
-    public Dictionary<string, CustomEvents> GetOnStateExitDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnStateExitDictionary() {
         return onStateExit;
     }
-    public Dictionary<string, CustomEvents> GetOnStateMoveDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnStateMoveDictionary() {
         return onStateMove;
     }
-    public Dictionary<string, CustomEvents> GetOnStateIKDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnStateIKDictionary() {
         return onStateIK;
     }
-    public Dictionary<string, CustomEvents> GetOnAnimationFinishDictionary() {
+    public Dictionary<string, List<CustomEventsManager>> GetOnAnimationFinishDictionary() {
         return onAnimationFinish;
     }
     
@@ -72,77 +72,73 @@ public class AnimatorHelper : MonoBehaviour {
         return GetDestroyOnFinish(destroyOnFinish, animationState);
     }
     //----------------------------
-    /// <summary>
-    /// This takes a dictionary and validates that the value, which should be a CustomEvents object, is stored
-    /// for the key (stateName) exists. If it doesn't creates the CustomEvents object there
-    /// </summary>
-    public void ValidateCustomEvents(Dictionary<string, CustomEvents> statesDictionary, string stateName) {
-        CustomEvents stateBeingValidated = null;
+    public void ValidateCustomEvents(Dictionary<string, List<CustomEventsManager>> statesDictionary, string stateName) {
+        List<CustomEventsManager> stateBeingValidated = null;
         statesDictionary.TryGetValue(stateName, out stateBeingValidated);
         if(stateBeingValidated == null) {
-            statesDictionary[stateName] = CustomEvents.Create();
+            statesDictionary[stateName] = new List<CustomEventsManager>();
         }
     }
     //----------------------------
-    public void AddOnAnimationFinish(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnAnimationFinish(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onAnimationFinish, stateName);
-        onAnimationFinish[stateName].AddEvent(eventFunction, loop);
+        onAnimationFinish[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnAnimationFinish(string stateName) {
-        CustomEvents returnEvent = null;
-        onAnimationFinish.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnAnimationFinish(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onAnimationFinish.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
     //--------------------------------------------------------------------------
     // Default Unity State Machine Hook Ins
     //--------------------------------------------------------------------------
-    public void AddOnStateEnter(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnStateEnter(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onStateEnter, stateName);
-        onStateEnter[stateName].AddEvent(eventFunction, loop);
+        onStateEnter[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnStateEnter(string stateName) {
-        CustomEvents returnEvent = null;
-        onStateEnter.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnStateEnter(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onStateEnter.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
     //----------------------------
-    public void AddOnStateUpdate(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnStateUpdate(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onStateUpdate, stateName);
-        onStateUpdate[stateName].AddEvent(eventFunction, loop);
+        onStateUpdate[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnStateUpdate(string stateName) {
-        CustomEvents returnEvent = null;
-        onStateUpdate.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnStateUpdate(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onStateUpdate.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
     //----------------------------
-    public void AddOnStateExit(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnStateExit(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onStateExit, stateName);
-        onStateExit[stateName].AddEvent(eventFunction, loop);
+        onStateExit[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnStateExit(string stateName) {
-        CustomEvents returnEvent = null;
-        onStateExit.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnStateExit(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onStateExit.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
     //----------------------------
-    public void AddOnStateMove(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnStateMove(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onStateMove, stateName);
-        onStateMove[stateName].AddEvent(eventFunction, loop);
+        onStateMove[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnStateMove(string stateName) {
-        CustomEvents returnEvent = null;
-        onStateMove.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnStateMove(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onStateMove.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
     //----------------------------
-    public void AddOnStateIK(string stateName, System.Action eventFunction, bool loop = false) {
+    public void AddOnStateIK(string stateName, CustomEventsManager eventsManager) {
         ValidateCustomEvents(onStateIK, stateName);
-        onStateIK[stateName].AddEvent(eventFunction, loop);
+        onStateIK[stateName].Add(eventsManager);
     }
-    public CustomEvents GetOnStateIK(string stateName) {
-        CustomEvents returnEvent = null;
-        onStateIK.TryGetValue(stateName, out returnEvent);
-        return returnEvent;
+    public List<CustomEventsManager> GetOnStateIK(string stateName) {
+        List<CustomEventsManager> returnEventManager = null;
+        onStateIK.TryGetValue(stateName, out returnEventManager);
+        return returnEventManager;
     }
 }

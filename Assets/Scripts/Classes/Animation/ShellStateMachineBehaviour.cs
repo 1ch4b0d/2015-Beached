@@ -11,9 +11,11 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            CustomEvents stateEvents = animatorHelper.GetOnStateEnter(stateName);
+            List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateEnter(stateName);
             if(stateEvents != null) {
-                stateEvents.Execute();
+                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                    customEventsManager.Execute();
+                }
             }
         }
     }
@@ -22,9 +24,11 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            CustomEvents updateStateEvent = animatorHelper.GetOnStateUpdate(stateName);
-            if(updateStateEvent != null) {
-                updateStateEvent.Execute();
+            List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateUpdate(stateName);
+            if(stateEvents != null) {
+                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                    customEventsManager.Execute();
+                }
             }
             
             //------------------------------------------------------------------
@@ -33,18 +37,20 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
             // Checks to see if animation finished
             // TODO: FIX IT SO THAT ANIMATION FINISH CAN BE DETECTED CORRECTLY
             // THIS IS REALLY BROKEN YOU NEED TO FIX THIS
-            // if(stateInfo.normalizedTime >= 0.99) {
-            //     Debug.Log(stateName + ": Animation finished");
-            //     CustomEvents animationFinishStateEvent = animatorHelper.GetOnAnimationFinish(stateName);
-            //     if(animationFinishStateEvent != null) {
-            //         animationFinishStateEvent.Execute();
-            //     }
-            //     // Destroys object
-            //     if(animatorHelper.GetDestroyOnFinish(stateName)) {
-            //         // Debug.Log("Destroying: " + animator.gameObject.name);
-            //         Destroy(animator.gameObject);
-            //     }
-            // }
+            if(stateInfo.normalizedTime >= 0.99) {
+                Debug.Log(stateName + ": Animation finished");
+                List<CustomEventsManager> animationFinishStateEvents = animatorHelper.GetOnAnimationFinish(stateName);
+                if(animationFinishStateEvents != null) {
+                    foreach(CustomEventsManager customEventsManager in animationFinishStateEvents) {
+                        customEventsManager.Execute();
+                    }
+                }
+                // Destroys object
+                if(animatorHelper.GetDestroyOnFinish(stateName)) {
+                    // Debug.Log("Destroying: " + animator.gameObject.name);
+                    Destroy(animator.gameObject);
+                }
+            }
         }
     }
     
@@ -52,9 +58,11 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            CustomEvents stateEvents = animatorHelper.GetOnStateExit(stateName);
+            List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateExit(stateName);
             if(stateEvents != null) {
-                stateEvents.Execute();
+                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                    customEventsManager.Execute();
+                }
             }
         }
     }
@@ -63,9 +71,11 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            CustomEvents stateEvents = animatorHelper.GetOnStateMove(stateName);
+            List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateMove(stateName);
             if(stateEvents != null) {
-                stateEvents.Execute();
+                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                    customEventsManager.Execute();
+                }
             }
         }
     }
@@ -74,9 +84,11 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
     public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         AnimatorHelper animatorHelper = animator.gameObject.GetComponent<AnimatorHelper>();
         if(animatorHelper != null) {
-            CustomEvents stateEvents = animatorHelper.GetOnStateIK(stateName);
+            List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateIK(stateName);
             if(stateEvents != null) {
-                stateEvents.Execute();
+                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                    customEventsManager.Execute();
+                }
             }
         }
     }

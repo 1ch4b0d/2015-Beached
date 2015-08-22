@@ -8,17 +8,23 @@ public class AnimatorHelperValuesEvents : CustomEventObject {
     [Tooltip("This is the state name of the animator to hook into")]
     public string animationStateName = "";
     [Tooltip("These are the events that will be added for the OnStateEnter event")]
-    public List<CustomEventsManager> onStateEnterManager = null;
+    public List<CustomEventsManager> onStateEnterManagers = null;
+    public bool clearOnStateEnter = false;
     [Tooltip("These are the events that will be added for the OnStateExit event")]
-    public List<CustomEventsManager> onStateExitManager = null;
+    public List<CustomEventsManager> onStateExitManagers = null;
+    public bool clearOnStateExit = false;
     [Tooltip("These are the events that will be added for the OnStateUpdate event")]
-    public List<CustomEventsManager> onStateUpdateManager = null;
+    public List<CustomEventsManager> onStateUpdateManagers = null;
+    public bool clearOnStateUpdate = false;
     [Tooltip("These are the events that will be added for the OnStateMove event")]
-    public List<CustomEventsManager> onStateMoveManager = null;
+    public List<CustomEventsManager> onStateMoveManagers = null;
+    public bool clearOnStateMove = false;
     [Tooltip("These are the events that will be added for the OnStateIK event")]
-    public List<CustomEventsManager> onStateIKManager = null;
+    public List<CustomEventsManager> onStateIKManagers = null;
+    public bool clearOnStateIK = false;
     [Tooltip("These are the events that will be added to the custom OnAnimationFinish event")]
-    public List<CustomEventsManager> onAnimationFinishManager = null;
+    public List<CustomEventsManager> onAnimationFinishManagers = null;
+    public bool clearOnAnimationFinish = false;
     
     // // Use this for initialization
     // protected override void Awake() {
@@ -51,51 +57,40 @@ public class AnimatorHelperValuesEvents : CustomEventObject {
     }
     
     public void SetAnimatorHelperValues() {
-        if(onStateEnterManager != null) {
-            foreach(CustomEventsManager customEventsManager in onStateEnterManager) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    animatorHelper.AddOnStateEnter(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+    
+        if(onStateEnterManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onStateEnterManagers) {
+                animatorHelper.AddOnStateEnter(animationStateName, customEventsManager);
             }
         }
         
-        if(onStateExitManager != null) {
-            foreach(CustomEventsManager customEventsManager in onStateExitManager) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    animatorHelper.AddOnStateExit(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+        if(onStateExitManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onStateExitManagers) {
+                animatorHelper.AddOnStateExit(animationStateName, customEventsManager);
             }
         }
         
-        if(onStateUpdateManager != null) {
-            foreach(CustomEventsManager customEventsManager in onStateUpdateManager) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    animatorHelper.AddOnStateUpdate(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+        if(onStateUpdateManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onStateUpdateManagers) {
+                animatorHelper.AddOnStateUpdate(animationStateName, customEventsManager);
             }
         }
         
-        if(onStateMoveManager != null) {
-            foreach(CustomEventsManager customEventManager in onStateMoveManager) {
-                foreach(CustomEvent customEvent in customEventManager.GetEvents()) {
-                    animatorHelper.AddOnStateMove(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+        if(onStateMoveManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onStateMoveManagers) {
+                animatorHelper.AddOnStateMove(animationStateName, customEventsManager);
             }
         }
         
-        if(onStateIKManager != null) {
-            foreach(CustomEventsManager customEventsManager in onStateIKManager) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    animatorHelper.AddOnStateIK(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+        if(onStateIKManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onStateIKManagers) {
+                animatorHelper.AddOnStateIK(animationStateName, customEventsManager);
             }
         }
         
-        if(onAnimationFinishManager != null) {
-            foreach(CustomEventsManager customEventsManager in onAnimationFinishManager) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    animatorHelper.AddOnAnimationFinish(animationStateName, customEvent.GetEvent(), customEvent.ShouldLoop());
-                }
+        if(onAnimationFinishManagers != null) {
+            foreach(CustomEventsManager customEventsManager in onAnimationFinishManagers) {
+                animatorHelper.AddOnAnimationFinish(animationStateName, customEventsManager);
             }
         }
     }

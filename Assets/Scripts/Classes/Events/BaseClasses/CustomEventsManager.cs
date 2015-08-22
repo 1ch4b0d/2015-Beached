@@ -3,30 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-/// This is a custom event wrapper for unity in order to extend this class so
-/// that custom logic can be executed via the "CustomEventsManager" being hooked
-/// into the logic of the actual gameobject's logic.
-///
-/// In this example there is a suggested idiomatic approach that the developer
-/// builds the events that fire for each event group on one single object
-///
-/// Example:
-/// Suggested hierarchy for objects using this pattern
-/// RootGameObject
-/// |___CustomEventManagerGameObject
-///     |___OnStart   - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
-///     |___OnExecute - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
-///     |___OnFinish  - (Has "CustomEventsManager" and scripts that extend from "CustomTrigger")
-///
-/// Each one of them has the "CustomEventsManager" attached to it. This is what is
-/// managing each of the "CustomEventGameObject" scripts that are also attached
-/// to the same GameObject. You can specify a separate game object instead so
-/// that it can be decoupled, but the idiomatic suggestion is that they're all
-/// on the same object
-///
-/// OnStart/OnExecute/OnFinish all have separate scripts attached that are
-/// extended from the "CustomEventGameObject"
+// TODO: You ain't gonna need it (YAGNI) - make it so external classes can and an event to this (I think this might be a bad idea.)
 public class CustomEventsManager : MonoBehaviour {
+    /// <value>These are the custom events configured on the game object 'gameObjectWithEvents'.</value>
+    private List<CustomEventObject> customEventObjects = null;
     public CustomEvents events = null;
     public GameObject gameObjectWithEvents = null;
     
@@ -50,27 +30,24 @@ public class CustomEventsManager : MonoBehaviour {
         }
         
         if(gameObjectWithEvents != null) {
-            CustomEventObject[] customEventObjects = gameObjectWithEvents.GetComponents<CustomEventObject>();
-            
-            foreach(CustomEventObject customEventObject in customEventObjects) {
-                AddEvent(customEventObject.Execute, customEventObject.loop);
-            }
-        }
-    }
-    
-    public virtual void AddEvent(System.Action newFunction, bool loop) {
-        // Does this work? I feel like this would work?
-        if(!events.Contains(newFunction)) {
-            events.AddEvent(newFunction, loop);
+            customEventObjects = new List<CustomEventObject>(gameObjectWithEvents.GetComponents<CustomEventObject>());
         }
     }
     
     public virtual List<CustomEvent> GetEvents() {
+        CustomEvents events = new CustomEvents();
+        
+        foreach(CustomEventObject customEventObject in customEventObjects) {
+            events.AddEvent(customEventObject.Execute, customEventObject.loop);
+        }
+        
         return events.GetEvents();
     }
     
     public virtual void Execute() {
         // Debug.Log(this.gameObject.name + " Executed.");
-        events.Execute();
+        foreach(CustomEventObject customEventObject in customEventObjects) {
+            customEventObject.Execute();
+        }
     }
 }
