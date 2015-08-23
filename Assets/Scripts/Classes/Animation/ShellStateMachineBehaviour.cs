@@ -38,7 +38,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
             // TODO: FIX IT SO THAT ANIMATION FINISH CAN BE DETECTED CORRECTLY
             // THIS IS REALLY BROKEN YOU NEED TO FIX THIS
             if(stateInfo.normalizedTime >= 0.99) {
-                Debug.Log(stateName + ": Animation finished");
+                // Debug.Log(stateName + ": Animation finished");
                 List<CustomEventsManager> animationFinishStateEvents = animatorHelper.GetOnAnimationFinish(stateName);
                 if(animationFinishStateEvents != null) {
                     foreach(CustomEventsManager customEventsManager in animationFinishStateEvents) {
