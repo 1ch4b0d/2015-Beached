@@ -25,16 +25,19 @@ public class PlayExplosionEvent : CustomEventObject {
     }
     
     public void CreateExplosion() {
-        // GameObject explosionGameObject = Factory.Explosion();
         GameObject explosionGameObject = ExplosionPool.Instance.Issue();
         Animator explosionAnimator = explosionGameObject.GetComponent<Animator>();
         // AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
         
         explosionGameObject.transform.position = explosionTransform.position;
         explosionAnimator.Play(explosionAnimationState);
+        
         // TODO: Fix this so that it can integrate leveraging the new cinematiceventsmanager logic
-        // explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState, () => {
-        //     ExplosionPool.Instance.Decomission(explosionGameObject);
-        // });
+        // explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState,
+        // customEventManager
+        // () => {
+        // ExplosionPool.Instance.Decomission(explosionGameObject);
+        // }
+        // );
     }
 }
