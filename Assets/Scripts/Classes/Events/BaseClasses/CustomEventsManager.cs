@@ -38,7 +38,9 @@ public class CustomEventsManager : MonoBehaviour {
         CustomEvents events = new CustomEvents();
         
         foreach(CustomEventObject customEventObject in customEventObjects) {
-            events.AddEvent(customEventObject.Execute, customEventObject.loop);
+            if(customEventObject.enabled) {
+                events.AddEvent(customEventObject.Execute, customEventObject.loop);
+            }
         }
         
         return events.GetEvents();
@@ -47,7 +49,9 @@ public class CustomEventsManager : MonoBehaviour {
     public virtual void Execute() {
         // Debug.Log(this.gameObject.name + " Executed.");
         foreach(CustomEventObject customEventObject in customEventObjects) {
-            customEventObject.Execute();
+            if(customEventObject.enabled) {
+                customEventObject.Execute();
+            }
         }
     }
 }

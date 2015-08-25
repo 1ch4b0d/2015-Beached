@@ -4,6 +4,8 @@ using System.Collections;
 public class PlayExplosionEvent : CustomEventObject {
     public string explosionAnimationState = "ExplosionOne";
     public Transform explosionTransform = null;
+    public Vector3 positionOffset = Vector3.zero;
+    public Vector3 scaleOffset = Vector3.zero;
     
     // // Use this for initialization
     // public override void Awake() {
@@ -29,15 +31,13 @@ public class PlayExplosionEvent : CustomEventObject {
         Animator explosionAnimator = explosionGameObject.GetComponent<Animator>();
         // AnimatorHelper explosionAnimatorHelper = explosionGameObject.GetComponent<AnimatorHelper>();
         
-        explosionGameObject.transform.position = explosionTransform.position;
+        explosionGameObject.transform.position = (explosionTransform.position + positionOffset);
+        explosionGameObject.transform.localScale = (explosionTransform.localScale + scaleOffset);
+        
         explosionAnimator.Play(explosionAnimationState);
         
-        // TODO: Fix this so that it can integrate leveraging the new cinematiceventsmanager logic
-        // explosionAnimatorHelper.AddOnAnimationFinish(explosionAnimationState,
-        // customEventManager
-        // () => {
-        // ExplosionPool.Instance.Decomission(explosionGameObject);
-        // }
-        // );
+        // IMPORTANT!!!
+        // The explosion needs to have an external event created that will
+        // decomission the event from the explosion pool
     }
 }

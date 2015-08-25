@@ -24,6 +24,21 @@ public class CustomEventObject : MonoBehaviour {
     }
     
     protected virtual void Initialize() {
+        foreach(CustomEventsManager customEventsManager in onStartEvents) {
+            if(customEventsManager == null) {
+                Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onStartEvents.");
+            }
+        }
+        foreach(CustomEventsManager customEventsManager in onExecuteEvents) {
+            if(customEventsManager == null) {
+                Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onExecuteEvents.");
+            }
+        }
+        foreach(CustomEventsManager customEventsManager in onFinishEvents) {
+            if(customEventsManager == null) {
+                Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onFinishEvents.");
+            }
+        }
     }
     
     public virtual void Execute() {
