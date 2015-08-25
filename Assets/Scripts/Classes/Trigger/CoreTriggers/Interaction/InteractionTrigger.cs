@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class InteractionTrigger : CustomTrigger {
+    // This needs to be moved to the SpeechBubbleInteractionTrigger.
+    // "You're out of your element Donny!~"
     public SpeechBubble speechBubble = null;
     
     protected override void Awake() {
