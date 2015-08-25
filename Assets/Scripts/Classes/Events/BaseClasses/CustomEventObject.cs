@@ -41,6 +41,7 @@ public class CustomEventObject : MonoBehaviour {
         }
     }
     
+    
     public virtual void Execute() {
         // Debug.Log(this.gameObject.name + " Executed.");
         if(currentIteration < 1
