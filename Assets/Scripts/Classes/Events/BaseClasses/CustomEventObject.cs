@@ -24,23 +24,30 @@ public class CustomEventObject : MonoBehaviour {
     }
     
     protected virtual void Initialize() {
+        // TODO: Re-add this check back in, but make it so that it doesn't affect subclasses.
+        // if(onStartEvents.Count == 0
+        //     && onExecuteEvents.Count == 0
+        //     && onFinishEvents.Count == 0) {
+        //     Debug.LogError(this.transform.GetFullPath() + " has no events configured for the onStart, onExecute, and onFinish. Is this intentional?");
+        // }
         foreach(CustomEventsManager customEventsManager in onStartEvents) {
             if(customEventsManager == null) {
                 Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onStartEvents.");
             }
         }
+        //---------
         foreach(CustomEventsManager customEventsManager in onExecuteEvents) {
             if(customEventsManager == null) {
                 Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onExecuteEvents.");
             }
         }
+        //---------
         foreach(CustomEventsManager customEventsManager in onFinishEvents) {
             if(customEventsManager == null) {
                 Debug.LogError(this.transform.GetFullPath() + " has a NULL CustomEventsManager declared for the onFinishEvents.");
             }
         }
     }
-    
     
     public virtual void Execute() {
         // Debug.Log(this.gameObject.name + " Executed.");
