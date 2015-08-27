@@ -26,6 +26,12 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             || textSets.Count == 0) {
             Debug.LogError(this.gameObject.transform.GetFullPath() + " needs its 'textSets' reference to be set and have more than 0 elements in it for the 'SpeechBubbleInteractionTrigger' Script");
         }
+        
+        foreach(SpeechBubbleTextSet speechBubbleTextSet in textSets) {
+            if(speechBubbleTextSet == null) {
+                Debug.Log(this.gameObject.transform.GetFullPath() + " has a NULL text set. Please fix this.");
+            }
+        }
     }
     
     public virtual void SetTextSets(List<SpeechBubbleTextSet> newTextSets) {

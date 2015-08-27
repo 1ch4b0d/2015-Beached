@@ -53,42 +53,87 @@ public class AnimatorHelperValuesEvents : CustomEventObject {
     }
     
     public override void ExecuteLogic() {
+        ClearAnimatorHelperEvents();
         SetAnimatorHelperValues();
     }
     
-    public void SetAnimatorHelperValues() {
+    public void ClearAnimatorHelperEvents() {
+        if(clearOnStateEnter) {
+            List<CustomEventsManager> onStateEnterEventsManager = animatorHelper.GetOnStateEnter(animationStateName);
+            if(onStateEnterEventsManager != null) {
+                onStateEnterEventsManager.Clear();
+            }
+        }
+        if(clearOnStateExit) {
+            List<CustomEventsManager> onStateExitEventsManager = animatorHelper.GetOnStateExit(animationStateName);
+            if(onStateExitEventsManager != null) {
+                onStateExitEventsManager.Clear();
+            }
+        }
+        if(clearOnStateUpdate) {
+            List<CustomEventsManager> onStateUpdateEventsManager = animatorHelper.GetOnStateUpdate(animationStateName);
+            if(onStateUpdateEventsManager != null) {
+                onStateUpdateEventsManager.Clear();
+            }
+        }
+        if(clearOnStateMove) {
+            List<CustomEventsManager> onStateMoveEventsManager = animatorHelper.GetOnStateMove(animationStateName);
+            if(onStateMoveEventsManager != null) {
+                onStateMoveEventsManager.Clear();
+            }
+        }
+        if(clearOnStateIK) {
+            List<CustomEventsManager> onStateIKEventsManager = animatorHelper.GetOnStateIK(animationStateName);
+            if(onStateIKEventsManager != null) {
+                onStateIKEventsManager.Clear();
+            }
+        }
+        if(clearOnAnimationFinish) {
+            List<CustomEventsManager> onAnimationFinishEventsManager = animatorHelper.GetOnAnimationFinish(animationStateName);
+            if(onAnimationFinishEventsManager != null) {
+                onAnimationFinishEventsManager.Clear();
+            }
+        }
+    }
     
+    public void SetAnimatorHelperValues() {
         if(onStateEnterManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onStateEnterManagers.Count + " event managers for onStateEnter.");
             foreach(CustomEventsManager customEventsManager in onStateEnterManagers) {
                 animatorHelper.AddOnStateEnter(animationStateName, customEventsManager);
             }
         }
         
         if(onStateExitManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onStateIKManagers.Count + " event managers for onStateExit.");
             foreach(CustomEventsManager customEventsManager in onStateExitManagers) {
                 animatorHelper.AddOnStateExit(animationStateName, customEventsManager);
             }
         }
         
         if(onStateUpdateManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onStateUpdateManagers.Count + " event managers for onStateUpdate.");
             foreach(CustomEventsManager customEventsManager in onStateUpdateManagers) {
                 animatorHelper.AddOnStateUpdate(animationStateName, customEventsManager);
             }
         }
         
         if(onStateMoveManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onStateMoveManagers.Count + " event managers for onStateMove.");
             foreach(CustomEventsManager customEventsManager in onStateMoveManagers) {
                 animatorHelper.AddOnStateMove(animationStateName, customEventsManager);
             }
         }
         
         if(onStateIKManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onStateIKManagers.Count + " event managers for onStateIK.");
             foreach(CustomEventsManager customEventsManager in onStateIKManagers) {
                 animatorHelper.AddOnStateIK(animationStateName, customEventsManager);
             }
         }
         
         if(onAnimationFinishManagers != null) {
+            // Debug.Log(this.gameObject.transform.GetFullPath() + " setting " + onAnimationFinishManagers.Count + " event managers for onAnimationFinish.");
             foreach(CustomEventsManager customEventsManager in onAnimationFinishManagers) {
                 animatorHelper.AddOnAnimationFinish(animationStateName, customEventsManager);
             }
