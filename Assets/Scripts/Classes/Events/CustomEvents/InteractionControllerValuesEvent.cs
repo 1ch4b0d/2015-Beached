@@ -36,9 +36,19 @@ public class InteractionControllerValuesEvent : CustomEventObject {
             if(triggersToAdd == null) {
                 triggersToAdd = new List<InteractionTrigger>();
             }
+            foreach(InteractionTrigger interactionTrigger in triggersToAdd) {
+                if(interactionTrigger == null) {
+                    Debug.LogError(this.transform.GetFullPath() + " has a NULL element in its triggersToRemove property of the InteractionControllerValuesEvent script.");
+                }
+            }
             
             if(triggersToRemove == null) {
                 triggersToRemove = new List<InteractionTrigger>();
+            }
+            foreach(InteractionTrigger interactionTrigger in triggersToRemove) {
+                if(interactionTrigger == null) {
+                    Debug.LogError(this.transform.GetFullPath() + " has a NULL element in its triggersToRemove property of the InteractionControllerValuesEvent script.");
+                }
             }
         }
     }
