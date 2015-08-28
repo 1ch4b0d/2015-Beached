@@ -13,7 +13,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
         if(animatorHelper != null) {
             List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateEnter(stateName);
             if(stateEvents != null) {
-                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                foreach(CustomEventsManager customEventsManager in stateEvents.ToArray()) {
                     customEventsManager.Execute();
                 }
             }
@@ -26,7 +26,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
         if(animatorHelper != null) {
             List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateUpdate(stateName);
             if(stateEvents != null) {
-                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                foreach(CustomEventsManager customEventsManager in stateEvents.ToArray()) {
                     customEventsManager.Execute();
                 }
             }
@@ -41,7 +41,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
                 // Debug.Log(stateName + ": Animation finished");
                 List<CustomEventsManager> animationFinishStateEvents = animatorHelper.GetOnAnimationFinish(stateName);
                 if(animationFinishStateEvents != null) {
-                    foreach(CustomEventsManager customEventsManager in animationFinishStateEvents) {
+                    foreach(CustomEventsManager customEventsManager in animationFinishStateEvents.ToArray()) {
                         customEventsManager.Execute();
                     }
                 }
@@ -60,7 +60,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
         if(animatorHelper != null) {
             List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateExit(stateName);
             if(stateEvents != null) {
-                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                foreach(CustomEventsManager customEventsManager in stateEvents.ToArray()) {
                     customEventsManager.Execute();
                 }
             }
@@ -73,7 +73,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
         if(animatorHelper != null) {
             List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateMove(stateName);
             if(stateEvents != null) {
-                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                foreach(CustomEventsManager customEventsManager in stateEvents.ToArray()) {
                     customEventsManager.Execute();
                 }
             }
@@ -86,7 +86,7 @@ public class ShellStateMachineBehaviour : StateMachineBehaviour {
         if(animatorHelper != null) {
             List<CustomEventsManager> stateEvents = animatorHelper.GetOnStateIK(stateName);
             if(stateEvents != null) {
-                foreach(CustomEventsManager customEventsManager in stateEvents) {
+                foreach(CustomEventsManager customEventsManager in stateEvents.ToArray()) {
                     customEventsManager.Execute();
                 }
             }
