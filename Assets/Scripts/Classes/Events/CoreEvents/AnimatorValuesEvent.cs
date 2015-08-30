@@ -41,7 +41,9 @@ public class AnimatorValuesEvent : CustomEventObject {
         // Animation to Play
         //------------------------------------------------------------------
         if(!animationToPlay.Equals("")) {
-            animator.Play(animationToPlay);
+            int stateToPlay = Animator.StringToHash(animationToPlay);
+            animator.Play(stateToPlay);
+            // animator.Play(animationToPlay);
         }
     }
 }
