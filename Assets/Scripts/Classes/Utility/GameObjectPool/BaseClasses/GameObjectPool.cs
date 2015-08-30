@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class GameObjectPool : MonoBehaviour {
     public GameObject prefabToGenerate = null;
+    private GameObject parentGameObject = null;
     public List<GameObject> availableGameObjects = null;
     public List<GameObject> inUseGameObjects = null;
     
@@ -31,18 +32,23 @@ public class GameObjectPool : MonoBehaviour {
         if(inUseGameObjects == null) {
             inUseGameObjects = new List<GameObject>();
         }
+        
+        if(parentGameObject == null) {
+            parentGameObject = this.gameObject;
+        }
     }
     
     protected virtual void AddAvailable(GameObject gameObjectToAdd) {
         if(!availableGameObjects.Contains(gameObjectToAdd)) {
             availableGameObjects.Add(gameObjectToAdd);
         }
-        gameObjectToAdd.transform.parent = this.gameObject.transform;
+        gameObjectToAdd.transform.parent = parentGameObject.transform;
     }
     
     protected virtual GameObject Create() {
-        Debug.LogError("You are calling the base 'Create' method of the 'GameObjectPool' class. Please fix this so that their is an extended class that overwrites this functionality.");
-        return null;
+        GameObject newGameObject = (GameObject)GameObject.Instantiate(prefabToGenerate);
+        newGameObject.transform.parent = parentGameObject.transform;
+        return newGameObject;
     }
     
     public virtual void Decomission(GameObject gameObjectToDecomission) {

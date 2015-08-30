@@ -23,10 +23,12 @@ public class SpeechBubble : MonoBehaviour {
     InteractionTrigger interactionTrigger = null;
     
     public static GameObject Create() {
-        GameObject newSpeechBubbleGameObject = Factory.SpeechBubble();
-        newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
-        newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
-        return newSpeechBubbleGameObject;
+        return SpeechBubblePool.Instance.Issue();
+        // GameObject newSpeechBubbleGameObject = Factory.SpeechBubble();
+        // newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
+        // newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
+        // return newSpeechBubbleGameObject;
+        
     }
     
     void Awake() {
