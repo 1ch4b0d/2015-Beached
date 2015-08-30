@@ -28,9 +28,9 @@ public class ExplosionPool : GameObjectPool {
     private ExplosionPool() {
     }
     
-    protected override void Awake() {
-        Initialize();
-    }
+    // protected override void Awake() {
+    //     base.Awake();
+    // }
     //END OF SINGLETON CODE CONFIGURATION
     
     // // Use this for initialization
@@ -40,7 +40,4 @@ public class ExplosionPool : GameObjectPool {
     // // Update is called once per frame
     // protected override void Update() {
     // }
-    
-    protected override void Initialize() {
-    }
 }

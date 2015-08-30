@@ -28,25 +28,22 @@ public class BlubberPool : GameObjectPool {
     private BlubberPool() {
     }
     
-    protected override void Awake() {
-        Initialize();
-    }
-    //END OF SINGLETON CODE CONFIGURATION
+    // protected override void Awake() {
+    //     base.Awake();
+    // }
+    // END OF SINGLETON CODE CONFIGURATION
     
     // // Use this for initialization
     // protected override void Start() {
+    //     base.Start();
     // }
     
     // // Update is called once per frame
     // protected override void Update() {
+    //     base.Update();
     // }
     
     protected override void Initialize() {
-    }
-    
-    protected override GameObject Create() {
-        GameObject newBlubberGameObject = (GameObject)GameObject.Instantiate(prefabToGenerate);
-        newBlubberGameObject.transform.parent = this.gameObject.transform;
-        return newBlubberGameObject;
+        base.Initialize();
     }
 }

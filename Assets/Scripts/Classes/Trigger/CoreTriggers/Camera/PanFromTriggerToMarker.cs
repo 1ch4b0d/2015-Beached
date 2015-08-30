@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
+// TODO: This seems pretty dumb. I'd rather remove this all together and configure
+//      an external script to track if the cinmeatic completed. This seems like...
+//      really really dumb with all the event logic hooked up now.
 public class PanFromTriggerToMarker : EventTrigger {
     public GoTween currentTween = null;
     public GameObject cameraToPan = null;
@@ -13,8 +17,10 @@ public class PanFromTriggerToMarker : EventTrigger {
     public GoEaseType panOutEasingType = GoEaseType.Linear;
     
     // Events
-    public CustomEventsManager onPanInFinishEvents = null;
-    public CustomEventsManager onPanOutFinishEvents = null;
+    public List<CustomEventsManager> onPanInStartEvents = null;
+    public List<CustomEventsManager> onPanInFinishEvents = null;
+    public List<CustomEventsManager> onPanOutStartEvents = null;
+    public List<CustomEventsManager> onPanOutFinishEvents = null;
     
     // // Use this for initialization
     // protected override void Awake() {
@@ -50,6 +56,7 @@ public class PanFromTriggerToMarker : EventTrigger {
     }
     
     public void PanIn() {
+        FirePanInOnStartEvents();
         if(currentTween != null) {
             currentTween.destroy();
             currentTween = null;
@@ -74,18 +81,40 @@ public class PanFromTriggerToMarker : EventTrigger {
         if(currentTween != null) {
             currentTween.destroy();
             currentTween = null;
+            FirePanOutOnStartEvents();
             FirePanOutOnFinishEvents();
         }
     }
+    
+    public virtual void FirePanInOnStartEvents() {
+        if(onPanInFinishEvents != null) {
+            foreach(CustomEventsManager customEventsManager in onPanInStartEvents) {
+                customEventsManager.Execute();
+            }
+        }
+    }
+    
     public virtual void FirePanInOnFinishEvents() {
         if(onPanInFinishEvents != null) {
-            onPanInFinishEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onPanInFinishEvents) {
+                customEventsManager.Execute();
+            }
+        }
+    }
+    
+    public virtual void FirePanOutOnStartEvents() {
+        if(onPanInFinishEvents != null) {
+            foreach(CustomEventsManager customEventsManager in onPanOutStartEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
     
     public virtual void FirePanOutOnFinishEvents() {
         if(onPanOutFinishEvents != null) {
-            onPanOutFinishEvents.Execute();
+            foreach(CustomEventsManager customEventsManager in onPanOutFinishEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

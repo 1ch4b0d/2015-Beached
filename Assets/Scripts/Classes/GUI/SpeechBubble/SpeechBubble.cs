@@ -24,11 +24,6 @@ public class SpeechBubble : MonoBehaviour {
     
     public static GameObject Create() {
         return SpeechBubblePool.Instance.Issue();
-        // GameObject newSpeechBubbleGameObject = Factory.SpeechBubble();
-        // newSpeechBubbleGameObject.transform.parent = NGUIManager.Instance.UIRoot().gameObject.transform;
-        // newSpeechBubbleGameObject.transform.localScale = new Vector3(1, 1, 1);
-        // return newSpeechBubbleGameObject;
-        
     }
     
     void Awake() {
