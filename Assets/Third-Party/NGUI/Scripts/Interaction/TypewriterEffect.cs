@@ -25,44 +25,38 @@ public class TypewriterEffect : MonoBehaviour {
     /// <summary>
     /// How many characters will be printed per second.
     /// </summary>
-    
     public int charsPerSecond = 20;
     
     /// <summary>
     /// How long it takes for each character to fade in.
     /// </summary>
-    
     public float fadeInTime = 0f;
     
     /// <summary>
     /// How long to pause when a period is encountered (in seconds).
     /// </summary>
-    
     public float delayOnPeriod = 0f;
     
     /// <summary>
     /// How long to pause when a new line character is encountered (in seconds).
     /// </summary>
-    
     public float delayOnNewLine = 0f;
     
     /// <summary>
     /// If a scroll view is specified, its UpdatePosition() function will be called every time the text is updated.
     /// </summary>
-    
     public UIScrollView scrollView;
     
     /// <summary>
     /// If set to 'true', the label's dimensions will be that of a fully faded-in content.
     /// </summary>
-    
     public bool keepFullDimensions = false;
     
     /// <summary>
     /// Event delegate triggered when the typewriter effect finishes.
     /// </summary>
-    
     public List<EventDelegate> onFinished = new List<EventDelegate>();
+    public List<CustomEventsManager> onTypewriterFinishEvents = new List<CustomEventsManager>();
     
     UILabel mLabel;
     string mFullText = "";
@@ -76,13 +70,11 @@ public class TypewriterEffect : MonoBehaviour {
     /// <summary>
     /// Whether the typewriter effect is currently active or not.
     /// </summary>
-    
     public bool isActive { get { return mActive; } }
     
     /// <summary>
     /// Reset the typewriter effect to the beginning of the label.
     /// </summary>
-    
     public void ResetToBeginning() {
         Finish();
         mReset = true;
@@ -95,7 +87,6 @@ public class TypewriterEffect : MonoBehaviour {
     /// <summary>
     /// Finish the typewriter operation and show all the text right away.
     /// </summary>
-    
     public void Finish() {
         if(mActive) {
             mActive = false;
@@ -106,19 +97,25 @@ public class TypewriterEffect : MonoBehaviour {
                 mLabel.text = mFullText;
             }
             
-            if(keepFullDimensions && scrollView != null)
+            if(keepFullDimensions && scrollView != null) {
                 scrollView.UpdatePosition();
-                
+            }
+            
             current = this;
             EventDelegate.Execute(onFinished);
             current = null;
         }
     }
     
-    void OnEnable() { mReset = true; mActive = true; }
+    void OnEnable() {
+        mReset = true;
+        mActive = true;
+    }
     
     void Update() {
-        if(!mActive) return;
+        if(!mActive) {
+            return;
+        }
         
         if(mReset) {
             mCurrentOffset = 0;
@@ -130,7 +127,8 @@ public class TypewriterEffect : MonoBehaviour {
             if(keepFullDimensions && scrollView != null) scrollView.UpdatePosition();
         }
         
-        while(mCurrentOffset < mFullText.Length && mNextChar <= RealTime.time) {
+        while(mCurrentOffset < mFullText.Length
+              && mNextChar <= RealTime.time) {
             int lastOffset = mCurrentOffset;
             charsPerSecond = Mathf.Max(1, charsPerSecond);
             
@@ -139,7 +137,9 @@ public class TypewriterEffect : MonoBehaviour {
             ++mCurrentOffset;
             
             // Reached the end? We're done.
-            if(mCurrentOffset > mFullText.Length) break;
+            if(mCurrentOffset > mFullText.Length) {
+                break;
+            }
             
             // Periods and end-of-line characters should pause for a longer time.
             float delay = 1f / charsPerSecond;
@@ -164,7 +164,9 @@ public class TypewriterEffect : MonoBehaviour {
             if(mNextChar == 0f) {
                 mNextChar = RealTime.time + delay;
             }
-            else mNextChar += delay;
+            else {
+                mNextChar += delay;
+            }
             
             if(fadeInTime != 0f) {
                 // There is smooth fading involved
@@ -177,11 +179,13 @@ public class TypewriterEffect : MonoBehaviour {
             else {
                 // No smooth fading necessary
                 mLabel.text = keepFullDimensions ?
-                              mFullText.Substring(0, mCurrentOffset) + "[00]" + mFullText.Substring(mCurrentOffset) :
-                              mFullText.Substring(0, mCurrentOffset);
+                              mFullText.Substring(0, mCurrentOffset) + "[00]" + mFullText.Substring(mCurrentOffset)
+                              : mFullText.Substring(0, mCurrentOffset);
                               
                 // If a scroll view was specified, update its position
-                if(!keepFullDimensions && scrollView != null) scrollView.UpdatePosition();
+                if(!keepFullDimensions && scrollView != null) {
+                    scrollView.UpdatePosition();
+                }
             }
         }
         
@@ -195,12 +199,18 @@ public class TypewriterEffect : MonoBehaviour {
                     mFade[i] = fe;
                     ++i;
                 }
-                else mFade.RemoveAt(i);
+                else {
+                    mFade.RemoveAt(i);
+                }
             }
             
             if(mFade.size == 0) {
-                if(keepFullDimensions) mLabel.text = mFullText.Substring(0, mCurrentOffset) + "[00]" + mFullText.Substring(mCurrentOffset);
-                else mLabel.text = mFullText.Substring(0, mCurrentOffset);
+                if(keepFullDimensions) {
+                    mLabel.text = mFullText.Substring(0, mCurrentOffset) + "[00]" + mFullText.Substring(mCurrentOffset);
+                }
+                else {
+                    mLabel.text = mFullText.Substring(0, mCurrentOffset);
+                }
             }
             else {
                 StringBuilder sb = new StringBuilder();
@@ -229,8 +239,20 @@ public class TypewriterEffect : MonoBehaviour {
         else if(mCurrentOffset == mFullText.Length) {
             current = this;
             EventDelegate.Execute(onFinished);
+            FireTypewriterTextFinishedEvents();
+            
             current = null;
             mActive = false;
+        }
+    }
+    
+    public void OnTypewriterFinish(CustomEventsManager onFinishTypewriterTextEvents) {
+        onTypewriterFinishEvents.Add(onFinishTypewriterTextEvents);
+    }
+    
+    public void FireTypewriterTextFinishedEvents() {
+        foreach(CustomEventsManager customEventsManager in onTypewriterFinishEvents) {
+            customEventsManager.Execute();
         }
     }
 }

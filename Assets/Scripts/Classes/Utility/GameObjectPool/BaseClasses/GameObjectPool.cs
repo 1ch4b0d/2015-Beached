@@ -18,6 +18,7 @@ public class GameObjectPool : MonoBehaviour {
     
     // Update is called once per frame
     protected virtual void Update() {
+        PerformRecycleCheck();
     }
     
     protected virtual void Initialize() {
@@ -38,23 +39,10 @@ public class GameObjectPool : MonoBehaviour {
         }
     }
     
-    protected virtual void AddAvailable(GameObject gameObjectToAdd) {
-        if(!availableGameObjects.Contains(gameObjectToAdd)) {
-            availableGameObjects.Add(gameObjectToAdd);
-        }
-        gameObjectToAdd.transform.parent = parentGameObject.transform;
-    }
-    
     protected virtual GameObject Create() {
         GameObject newGameObject = (GameObject)GameObject.Instantiate(prefabToGenerate);
         newGameObject.transform.parent = parentGameObject.transform;
         return newGameObject;
-    }
-    
-    public virtual void Decomission(GameObject gameObjectToDecomission) {
-        inUseGameObjects.Remove(gameObjectToDecomission);
-        AddAvailable(gameObjectToDecomission);
-        gameObjectToDecomission.SetActive(false);
     }
     
     // The will request a new game object from the available game object pool.
@@ -76,6 +64,33 @@ public class GameObjectPool : MonoBehaviour {
         return gameObjectBeingIssued;
     }
     
-    protected virtual void Destroy() {
+    public virtual void Decomission(GameObject gameObjectToDecomission) {
+        inUseGameObjects.Remove(gameObjectToDecomission);
+        AddToAvailable(gameObjectToDecomission);
+        gameObjectToDecomission.SetActive(false);
+    }
+    
+    protected virtual void Destroy(GameObject gameObjectToDestroy) {
+        availableGameObjects.Remove(gameObjectToDestroy);
+        inUseGameObjects.Remove(gameObjectToDestroy);
+        Destroy(gameObjectToDestroy);
+    }
+    
+    protected virtual void AddToAvailable(GameObject gameObjectToAdd) {
+        if(!availableGameObjects.Contains(gameObjectToAdd)) {
+            availableGameObjects.Add(gameObjectToAdd);
+        }
+        gameObjectToAdd.transform.parent = parentGameObject.transform;
+    }
+    
+    protected virtual void AddToInUse(GameObject gameObjectToAdd) {
+        if(!inUseGameObjects.Contains(gameObjectToAdd)) {
+            inUseGameObjects.Add(gameObjectToAdd);
+        }
+        gameObjectToAdd.transform.parent = parentGameObject.transform;
+    }
+    
+    public virtual void PerformRecycleCheck() {
+        // do nothing
     }
 }

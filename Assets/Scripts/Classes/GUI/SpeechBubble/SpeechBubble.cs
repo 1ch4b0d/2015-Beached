@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO: Refactor this so that it's using the CustomEventsManager for onFinishedTextSet
 public class SpeechBubble : MonoBehaviour {
     UIPanel rootPanel = null;
     
