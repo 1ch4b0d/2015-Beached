@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class UIWidgetValuesEvent : CustomEventObject {
-    public UIWidget uiWidgetToModify = null;
+public class UIPanelValuesEvent : CustomEventObject {
+    public UIPanel uiPanelToModify = null;
     public float duration = 1f;
-    public Color finalColor;
+    public float endAlpha = 1f;
     
     // Use this for initialization
     protected override void Awake() {
@@ -36,14 +36,13 @@ public class UIWidgetValuesEvent : CustomEventObject {
     private void SetUIWidgetValues() {
         GoTweenConfig uiWidgetTweenConfig = new GoTweenConfig()
         .setEaseType(GoEaseType.Linear)
-        // .floatProp("alpha", 0f)
-        .colorProp("color", finalColor)
+        .floatProp("alpha", endAlpha)
         .onComplete(complete => {
             FireFinishEvents();
         });
         
-        uiWidgetToModify.gameObject.AddGoTween(Go.to(uiWidgetToModify,
-                                                     duration,
-                                                     uiWidgetTweenConfig));
+        uiPanelToModify.gameObject.AddGoTween(Go.to(uiPanelToModify,
+                                                    duration,
+                                                    uiWidgetTweenConfig));
     }
 }
