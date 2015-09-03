@@ -66,16 +66,15 @@ public class AudioManager : MonoBehaviour {
     
     // Returns audio source manager to enable build method calls on it
     public AudioSourceManager Play(AudioType audioToPlay, ulong delay = 0) {
-        // Debug.Log("Playing: " + audioToPlay.ToString());
+        Debug.Log("Playing: " + audioToPlay.ToString());
         GameObject audioGameObject = null;
         AudioSourceManager audioSourceManager = null;
         
         audioGameObject = audioPool.Issue();
         audioSourceManager = audioGameObject.GetComponent<AudioSourceManager>();
-        
-        audioSourceManager = audioGameObject.GetComponent<AudioSourceManager>();
         audioSourceManager.audioSourceReference = audioGameObject.GetComponent<AudioSource>();
-        audioSourceManager.Clip((AudioClip)Resources.Load(SoundLibrary.Instance.GetPath(audioToPlay), typeof(AudioClip)));
+        Debug.Log(AudioLibrary.Instance.GetPath(audioToPlay));
+        audioSourceManager.Clip((AudioClip)Resources.Load(AudioLibrary.Instance.GetPath(audioToPlay), typeof(AudioClip)));
         audioSourceManager.Play(delay);
         
         return audioSourceManager;

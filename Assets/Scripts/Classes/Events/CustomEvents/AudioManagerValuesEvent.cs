@@ -26,7 +26,9 @@ public class AudioManagerValuesEvent : CustomEventObject {
         
         if(audioPool == null) {
             audioPool = AudioPool.Instance;
-            this.gameObject.LogComponentError("audioPool", this.GetType());
+            if(audioPool == null) {
+                this.gameObject.LogComponentError("audioPool", this.GetType());
+            }
         }
     }
     

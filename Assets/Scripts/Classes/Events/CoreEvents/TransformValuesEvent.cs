@@ -5,19 +5,19 @@ using System.Collections;
 //       all three transformations work
 public class TransformValuesEvent : CustomEventObject {
     public Transform transformToModify = null;
-    public Transform endPosition = null;
+    public Transform finalPosition = null;
     public Vector3 positionOffset = Vector3.zero;
     public bool useLocalPosition = false;
     public bool excludeXPositionComponent = false;
     public bool excludeYPositionComponent = false;
     public bool excludeZPositionComponent = false;
-    public Transform endRotation = null;
+    public Transform finalRotation = null;
     public Vector3 rotationOffset = Vector3.zero;
     public bool useLocalRotation = false;
     public bool excludeXRotationComponent = false;
     public bool excludeYRotationComponent = false;
     public bool excludeZRotationComponent = false;
-    public Transform endScale = null;
+    public Transform finalScale = null;
     bool useLocalScale = true; // kept private because localScale is always going to be used
     public Vector3 scaleOffset = Vector3.zero;
     public bool excludeXScaleComponent = false;
@@ -51,13 +51,13 @@ public class TransformValuesEvent : CustomEventObject {
     }
     
     public void SetTransformValues() {
-        if(endPosition != null) {
+        if(finalPosition != null) {
             Vector3 newPosition = Vector3.zero;
             Vector3 originalPosition = (useLocalPosition) ? transformToModify.localPosition : transformToModify.position;
-            Vector3 finalPosition = (useLocalPosition) ? endPosition.localPosition : endPosition.position;
-            newPosition = new Vector3((excludeXPositionComponent) ? originalPosition.x : finalPosition.x,
-                                      (excludeYPositionComponent) ? originalPosition.y : finalPosition.y,
-                                      (excludeZPositionComponent) ? originalPosition.z : finalPosition.z);
+            Vector3 tempPosition = (useLocalPosition) ? finalPosition.localPosition : finalPosition.position;
+            newPosition = new Vector3((excludeXPositionComponent) ? originalPosition.x : tempPosition.x,
+                                      (excludeYPositionComponent) ? originalPosition.y : tempPosition.y,
+                                      (excludeZPositionComponent) ? originalPosition.z : tempPosition.z);
             newPosition += positionOffset;
             transformToModify.position = newPosition;
         }
@@ -68,9 +68,9 @@ public class TransformValuesEvent : CustomEventObject {
         //----------------------------------------------------------------------
         // LocalScale is always used. There is no global scale. I mean there's
         // Lossy scale, but that doesn't work 100%
-        if(endScale != null) {
+        if(finalScale != null) {
             if(useLocalScale) {
-                Vector3 newLocalScale = endScale.localScale;
+                Vector3 newLocalScale = finalScale.localScale;
                 if(excludeZScaleComponent) {
                     newLocalScale.z = transformToModify.localScale.z;
                 }
