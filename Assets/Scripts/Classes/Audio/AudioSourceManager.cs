@@ -69,6 +69,11 @@ public class AudioSourceManager : MonoBehaviour {
         }
     }
     
+    public AudioSourceManager Clip(string audioClipPath) {
+        Debug.Log("Loading: " + audioClipPath);
+        audioSourceReference.clip = (AudioClip)Resources.Load(audioClipPath, typeof(AudioClip));
+        return this;
+    }
     public AudioSourceManager Clip(AudioClip newAudioClip) {
         audioSourceReference.clip = newAudioClip;
         return this;

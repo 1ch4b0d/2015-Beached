@@ -62,10 +62,10 @@ public class AudioLibrary : MonoBehaviour {
     protected void ConfigureSoundDictionary() {
         audioDictionary[AudioType.None] = "path/to/file/from/root level";
         
-        audioDictionary[AudioType.Ocean] = "Audio/Placeholder/Effects/Ocean/131276__soundmanfilms__rockyseashorestereo.mp3";
+        audioDictionary[AudioType.Ocean] = "Audio/Placeholder/Effects/Ocean/131276__soundmanfilms__rockyseashorestereo";
     }
     
-    public string GetPath(AudioType audioTypeToGet) {
+    public string GetClipPath(AudioType audioTypeToGet) {
         string audioPath = "";
         audioDictionary.TryGetValue(audioTypeToGet, out audioPath);
         return (audioPath.Equals("")) ? null : audioPath;

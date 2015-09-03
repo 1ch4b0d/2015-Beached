@@ -72,9 +72,7 @@ public class AudioManager : MonoBehaviour {
         
         audioGameObject = audioPool.Issue();
         audioSourceManager = audioGameObject.GetComponent<AudioSourceManager>();
-        audioSourceManager.audioSourceReference = audioGameObject.GetComponent<AudioSource>();
-        Debug.Log(AudioLibrary.Instance.GetPath(audioToPlay));
-        audioSourceManager.Clip((AudioClip)Resources.Load(AudioLibrary.Instance.GetPath(audioToPlay), typeof(AudioClip)));
+        audioSourceManager.Clip(AudioLibrary.Instance.GetClipPath(audioToPlay));
         audioSourceManager.Play(delay);
         
         return audioSourceManager;
