@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameObjectPool : MonoBehaviour {
     public GameObject prefabToGenerate = null;
-    private GameObject parentGameObject = null;
+    protected GameObject parentGameObject = null;
     public List<GameObject> availableGameObjects = null;
     public List<GameObject> inUseGameObjects = null;
     

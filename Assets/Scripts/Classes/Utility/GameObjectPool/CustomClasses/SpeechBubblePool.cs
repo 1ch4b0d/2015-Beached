@@ -29,7 +29,13 @@ public class SpeechBubblePool : GameObjectPool {
     }
     
     protected override void Awake() {
-        Initialize();
+        Debug.Log("speechbubble pool configured");
+        base.Awake();
+        if(_instance == null) {
+            _instance = this;
+        }
+        Debug.Log("parentGameObject: " + parentGameObject);
+        Debug.Log("speechbubble pool end awake");
     }
     //END OF SINGLETON CODE CONFIGURATION
     
@@ -48,7 +54,8 @@ public class SpeechBubblePool : GameObjectPool {
     }
     
     protected override GameObject Create() {
-        GameObject newGameObject = base.Create();
+        GameObject newGameObject = (GameObject)GameObject.Instantiate(prefabToGenerate);
+        newGameObject.transform.parent = parentGameObject.transform;
         newGameObject.transform.localScale = new Vector3(1, 1, 1);
         return newGameObject;
     }
