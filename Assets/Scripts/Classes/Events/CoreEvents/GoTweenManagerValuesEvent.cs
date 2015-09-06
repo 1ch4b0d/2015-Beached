@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GoTweenManagerValuesEvent : CustomEventObject {
     public GameObject objectToModify = null;
-    private GoTweenManager goTweenManager = null;
+    // private GoTweenManager goTweenManager = null;
     public bool completeTweens = false;
     public bool destroyTweens = false;
     
@@ -26,24 +26,19 @@ public class GoTweenManagerValuesEvent : CustomEventObject {
         if(objectToModify == null) {
             this.gameObject.LogComponentError("objectToModify", this.GetType());
         }
-        goTweenManager = objectToModify.GetGoTweenManager();
-    }
-    
-    public override void Execute() {
-        FireStartEvents();
-        ExecuteLogic();
     }
     
     public override void ExecuteLogic() {
         SetGoTweenManagerValues();
+        FireExecuteEvents();
     }
     
     public virtual void SetGoTweenManagerValues() {
         if(completeTweens) {
-            goTweenManager.Complete();
+            objectToModify.CompleteGoTweens();
         }
         if(destroyTweens) {
-            goTweenManager.Destroy();
+            objectToModify.DestroyGoTweens();
         }
     }
 }

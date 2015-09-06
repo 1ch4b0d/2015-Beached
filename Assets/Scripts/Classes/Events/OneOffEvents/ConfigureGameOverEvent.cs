@@ -9,8 +9,6 @@ public class ConfigureGameOverEvent : CustomEventObject {
     public GameObject georgeThorntonSpeechBubbleTriggerGameObject = null;
     public GameObject tryAgainColliderGameObject = null;
     public GameObject spotlightGameObject = null;
-    private GoTween thorntonRunIn = null;
-    private GoTween spotlightExpandIn = null;
     
     // Use this for initialization
     protected override void Awake() {
@@ -62,6 +60,13 @@ public class ConfigureGameOverEvent : CustomEventObject {
     }
     
     public void ConfigureGameOverScreen() {
+        Vector3 georgeThorntonScreenPoint = Camera.main.WorldToViewportPoint(georgeThorntonGameObject.transform.position);
+        // set the position if thornton is off screen, otherwise, do not set his position
+        bool isThortonOnScreen = (georgeThorntonScreenPoint.x > 0
+                                  && georgeThorntonScreenPoint.x < 1
+                                  && georgeThorntonScreenPoint.y > 0
+                                  && georgeThorntonScreenPoint.y < 1) ? true : false;
+                                  
         // TODO: make it do a check if thornton is on screen. If he is on screen, don't set his position, and instead just tween to the game over position
         Vector3 georgeThorntonStartPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetRightBoundWorldPosition() + (georgeThorntonGameObject.transform.localScale.x + 2),
                                                           playerGameObject.transform.position.y,
@@ -75,10 +80,10 @@ public class ConfigureGameOverEvent : CustomEventObject {
         Player player = playerGameObject.GetComponent<Player>();
         GhostPlayer ghostPlayer = ghostPlayerGameObject.GetComponent<GhostPlayer>();
         
-        
-        georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
+        if(!isThortonOnScreen) {
+            georgeThorntonGameObject.transform.position = georgeThorntonStartPosition;
+        }
         georgeThorntonSpeechBubbleTriggerGameObject.SetActive(false);
-        tryAgainColliderGameObject.SetActive(true);
         //----------------------------------------------
         ghostPlayerGameObject.SetActive(true);
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
@@ -105,34 +110,27 @@ public class ConfigureGameOverEvent : CustomEventObject {
                                                 
         georgeThorntonAnimator.Play("Running");
         //----------------------------
-        if(thorntonRunIn != null) {
-            thorntonRunIn.destroy();
-            thorntonRunIn = null; // because I'm cautious like that
-        }
+        Debug.Log("Start POS: " + georgeThorntonGameObject.transform.position);
+        Debug.Log("End POS: " + georgeThorntonEndPosition);
         GoTweenConfig thorntonMoveTweenConfig = new GoTweenConfig()
         .position(georgeThorntonEndPosition)
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
-            FireFinishEvents();
+            tryAgainColliderGameObject.SetActive(true);
             georgeThorntonAnimator.Play("GameOverEncouragement");
+            FireFinishEvents();
         });
-        thorntonRunIn = Go.to(georgeThorntonGameObject.transform,
-                              duration,
-                              thorntonMoveTweenConfig);
+        georgeThorntonGameObject.AddGoTween(Go.to(georgeThorntonGameObject.transform,
+                                                  duration,
+                                                  thorntonMoveTweenConfig));
         //----------------------------
-        if(spotlightExpandIn != null) {
-            spotlightExpandIn.destroy();
-            spotlightExpandIn = null; // because I'm cautious like that
-        }
         // Spotlight
         GoTweenConfig spotlightTweenConfig = new GoTweenConfig()
         .scale(spotlightEndScale)
         .setEaseType(GoEaseType.Linear)
-        .onComplete(complete => {
-            FireFinishEvents();
-        });
-        spotlightExpandIn = Go.to(spotlightGameObject.transform,
-                                  duration,
-                                  spotlightTweenConfig);
+        .onComplete(complete => {});
+        spotlightGameObject.AddGoTween(Go.to(spotlightGameObject.transform,
+                                             duration,
+                                             spotlightTweenConfig));
     }
 }

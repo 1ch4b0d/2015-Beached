@@ -42,28 +42,21 @@ public class GoTweenManager : MonoBehaviour {
         goTweens.Add(newGoTween);
     }
     
-    public void Destroy() {
+    public void DestroyTweens() {
         List<GoTween> tweensToPrune = new List<GoTween>();
         foreach(GoTween goTween in goTweens) {
-            goTween.destroy();
-            tweensToPrune.Add(goTween);
-        }
-        
-        foreach(GoTween goTween in tweensToPrune) {
-            goTweens.Remove(goTween);
+            if(goTween != null) {
+                goTween.destroy();
+            }
         }
     }
     
-    public void Complete() {
+    public void CompleteTweens() {
         List<GoTween> tweensToPrune = new List<GoTween>();
         foreach(GoTween goTween in goTweens) {
-            goTween.complete();
-            tweensToPrune.Add(goTween);
-        }
-        
-        
-        foreach(GoTween goTween in tweensToPrune) {
-            goTweens.Remove(goTween);
+            if(goTween != null) {
+                goTween.complete();
+            }
         }
     }
 }

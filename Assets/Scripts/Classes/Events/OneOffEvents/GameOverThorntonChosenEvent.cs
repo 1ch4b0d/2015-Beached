@@ -42,6 +42,7 @@ public class GameOverThorntonChosenEvent : CustomEventObject {
         // At the same time have thornton celebrate that the player chose him
         // OnFinish of the head shake animation have thornton run off screen
         // Have the ghost slowly move off screen to a location
+        Debug.Log("ThortonChosen");
         FireFinishEvents();
     }
 }

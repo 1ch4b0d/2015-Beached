@@ -13,4 +13,14 @@ public static class GoTweenExtensions {
         }
         return goTweenManager;
     }
+    public static GoTweenManager CompleteGoTweens(this GameObject currentGameObject) {
+        GoTweenManager goTweenManager = currentGameObject.GetGoTweenManager();
+        goTweenManager.CompleteTweens();
+        return goTweenManager;
+    }
+    public static GoTweenManager DestroyGoTweens(this GameObject currentGameObject) {
+        GoTweenManager goTweenManager = currentGameObject.GetGoTweenManager();
+        goTweenManager.DestroyTweens();
+        return goTweenManager;
+    }
 }

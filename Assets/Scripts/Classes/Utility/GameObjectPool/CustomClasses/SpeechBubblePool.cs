@@ -29,13 +29,10 @@ public class SpeechBubblePool : GameObjectPool {
     }
     
     protected override void Awake() {
-        Debug.Log("speechbubble pool configured");
         base.Awake();
         if(_instance == null) {
             _instance = this;
         }
-        Debug.Log("parentGameObject: " + parentGameObject);
-        Debug.Log("speechbubble pool end awake");
     }
     //END OF SINGLETON CODE CONFIGURATION
     

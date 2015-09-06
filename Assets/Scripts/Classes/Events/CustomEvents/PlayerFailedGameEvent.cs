@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PlayerFailedGameEvent : CustomEventObject {
-    public Player player = null;
+    private Player player = null;
     
     // // Use this for initialization
     // protected override void Awake() {
