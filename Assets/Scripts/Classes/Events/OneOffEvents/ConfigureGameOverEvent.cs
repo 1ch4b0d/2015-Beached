@@ -110,8 +110,6 @@ public class ConfigureGameOverEvent : CustomEventObject {
                                                 
         georgeThorntonAnimator.Play("Running");
         //----------------------------
-        Debug.Log("Start POS: " + georgeThorntonGameObject.transform.position);
-        Debug.Log("End POS: " + georgeThorntonEndPosition);
         GoTweenConfig thorntonMoveTweenConfig = new GoTweenConfig()
         .position(georgeThorntonEndPosition)
         .setEaseType(GoEaseType.Linear)
