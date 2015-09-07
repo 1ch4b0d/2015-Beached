@@ -77,4 +77,17 @@ public class AudioManager : MonoBehaviour {
         
         return audioSourceManager;
     }
+    
+    public AudioSourceManager PlayScheduled(AudioType audioToPlay, double time) {
+        Debug.Log("PlayingScheduled: " + audioToPlay.ToString());
+        GameObject audioGameObject = null;
+        AudioSourceManager audioSourceManager = null;
+        
+        audioGameObject = audioPool.Issue();
+        audioSourceManager = audioGameObject.GetComponent<AudioSourceManager>();
+        audioSourceManager.Clip(AudioLibrary.Instance.GetClipPath(audioToPlay));
+        audioSourceManager.PlayScheduled(time);
+        
+        return audioSourceManager;
+    }
 }

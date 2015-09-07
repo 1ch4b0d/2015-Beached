@@ -61,8 +61,18 @@ public class AudioLibrary : MonoBehaviour {
     
     protected void ConfigureSoundDictionary() {
         audioDictionary[AudioType.None] = "path/to/file/from/root level";
-        
+        ConfigureMusic();
+        ConfigureSoundEffects();
+    }
+    
+    protected void ConfigureMusic() {
+        audioDictionary[AudioType.Fluffy] = "Audio/Placeholder/Music/Fluffy/fluffy_-_feed";
+        audioDictionary[AudioType.SufjanStevensExplodingWhale] = "Audio/Placeholder/Music/Sufjan Stevens - Exploding Whale";
+    }
+    
+    protected void ConfigureSoundEffects() {
         audioDictionary[AudioType.Ocean] = "Audio/Placeholder/Effects/Ocean/131276__soundmanfilms__rockyseashorestereo";
+        audioDictionary[AudioType.TypeWriter] = "Audio/Placeholder/Effects/TypeWriter/typewriter-1";
     }
     
     public string GetClipPath(AudioType audioTypeToGet) {

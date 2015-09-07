@@ -43,20 +43,20 @@ public class GoTweenManager : MonoBehaviour {
     }
     
     public void DestroyTweens() {
-        List<GoTween> tweensToPrune = new List<GoTween>();
         foreach(GoTween goTween in goTweens) {
             if(goTween != null) {
                 goTween.destroy();
             }
         }
+        // PruneInvalidTweens();
     }
     
     public void CompleteTweens() {
-        List<GoTween> tweensToPrune = new List<GoTween>();
         foreach(GoTween goTween in goTweens) {
             if(goTween != null) {
                 goTween.complete();
             }
         }
+        // PruneInvalidTweens();
     }
 }

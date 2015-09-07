@@ -69,6 +69,12 @@ public class AudioSourceManager : MonoBehaviour {
         }
     }
     
+    public AudioClip GetClip() {
+        return audioSourceReference.clip;
+    }
+    public float GetClipLength() {
+        return audioSourceReference.clip.length;
+    }
     public AudioSourceManager Clip(string audioClipPath) {
         Debug.Log("Loading: " + audioClipPath);
         audioSourceReference.clip = (AudioClip)Resources.Load(audioClipPath, typeof(AudioClip));
@@ -85,12 +91,27 @@ public class AudioSourceManager : MonoBehaviour {
     }
     
     public AudioSourceManager Play(ulong delay = 0) {
+        Debug.Log("Playing");
         audioSourceReference.Play(delay);
         return this;
     }
     
     public AudioSourceManager PlayDelayed(float delay) {
         audioSourceReference.PlayDelayed(delay);
+        return this;
+    }
+    public AudioSourceManager PlayScheduled(double time) {
+        audioSourceReference.PlayScheduled(time);
+        return this;
+    }
+    
+    public AudioSourceManager SetScheduledEndTime(double time) {
+        audioSourceReference.SetScheduledEndTime(time);
+        return this;
+    }
+    
+    public AudioSourceManager SetScheduledStartTime(double time) {
+        audioSourceReference.SetScheduledStartTime(time);
         return this;
     }
     
