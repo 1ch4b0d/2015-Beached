@@ -61,18 +61,49 @@ public class AudioLibrary : MonoBehaviour {
     
     protected void ConfigureSoundDictionary() {
         audioDictionary[AudioType.None] = "path/to/file/from/root level";
+        // Other sound is configured here
         ConfigureMusic();
-        ConfigureSoundEffects();
+        ConfigureEnvironmentSoundEffects();
+        ConfigureItemSoundEffects();
+        ConfigurePlayerSoundEffects();
+        ConfigureNPCSoundEffects();
+        ConfigureGUISoundEffects();
     }
     
     protected void ConfigureMusic() {
-        audioDictionary[AudioType.Fluffy] = "Audio/Placeholder/Music/Fluffy/fluffy_-_feed";
+        audioDictionary[AudioType.ExplorationSong] = "Audio/Placeholder/Music/Fluffy/fluffy_-_feed";
         audioDictionary[AudioType.SufjanStevensExplodingWhale] = "Audio/Placeholder/Music/Sufjan Stevens - Exploding Whale";
     }
     
-    protected void ConfigureSoundEffects() {
+    protected void ConfigureEnvironmentSoundEffects() {
+        audioDictionary[AudioType.Explosion] = "Audio/Placeholder/Effects/Rumble/rumble01";
         audioDictionary[AudioType.Ocean] = "Audio/Placeholder/Effects/Ocean/131276__soundmanfilms__rockyseashorestereo";
+        audioDictionary[AudioType.Rumble01] = "Audio/Placeholder/Effects/Rumble/rumble01";
+        audioDictionary[AudioType.Rumble02] = "Audio/Placeholder/Effects/Rumble/rumble02";
+        audioDictionary[AudioType.Rumble03] = "Audio/Placeholder/Effects/Rumble/rumble03";
         audioDictionary[AudioType.TypeWriter] = "Audio/Placeholder/Effects/TypeWriter/typewriter-1";
+    }
+    protected void ConfigureItemSoundEffects() {
+        // Item Sound Effects
+        audioDictionary[AudioType.BlubberExplosion] = "Audio/Placeholder/Effects/Rumble/rumble02";
+        audioDictionary[AudioType.GiantBlubberExplosion] = "Audio/Placeholder/Effects/Rumble/rumble02";
+        audioDictionary[AudioType.GiantBlubberAirResistance] = "Audio/Placeholder/Effects/rumble1";
+        audioDictionary[AudioType.DetonatorPrimerPrimed] = "Audio/Placeholder/Effects/Zap/zapTwoToneUp";
+        audioDictionary[AudioType.DetonatorPrimerUnprimed] = "Audio/Placeholder/Effects/Zap/zapTwoToneDown";
+        audioDictionary[AudioType.DetonatorActivated] = "Audio/Placeholder/Effects/RPG/dropLeather";
+    }
+    protected void ConfigurePlayerSoundEffects() {
+        audioDictionary[AudioType.PlayerJump] = "Audio/Placeholder/Effects/Jump/jump1";
+        audioDictionary[AudioType.PlayerLandOnGround] = "Audio/Placeholder/Effects/Footsteps/footstep02";
+        
+        audioDictionary[AudioType.PlayerPickedUpItem] = "Audio/Placeholder/Effects/Jump/jump1";
+        audioDictionary[AudioType.PlayerThrewItem] = "Audio/Placeholder/Effects/Laser/laser3";
+    }
+    protected void ConfigureNPCSoundEffects() {
+        audioDictionary[AudioType.InteractionStarted] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
+    }
+    protected void ConfigureGUISoundEffects() {
+        audioDictionary[AudioType.SpeechBubbleIterate] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
     }
     
     public string GetClipPath(AudioType audioTypeToGet) {

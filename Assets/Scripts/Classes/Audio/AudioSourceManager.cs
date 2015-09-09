@@ -40,9 +40,9 @@ public class AudioSourceManager : MonoBehaviour {
         // Debug.Log("Frequency: " + audioSourceReference.clip.frequency);
         // Debug.Log("Seconds: " + audioSourceReference.clip.samples/audioSourceReference.clip.frequency);
         // Debug.Log("Current Time: " + audioSourceReference.time);
-        if(Input.GetKeyDown(KeyCode.P)) {
-            Pause();
-        }
+        // if(Input.GetKeyDown(KeyCode.P)) {
+        //     Pause();
+        // }
         
         PerformStateLogic();
     }

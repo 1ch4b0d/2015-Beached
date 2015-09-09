@@ -9,6 +9,8 @@ using System.Collections;
 /// </summary>
 public class AudioManager : MonoBehaviour {
     AudioPool audioPool = null;
+    public KeyCode debugKey = KeyCode.P;
+    public AudioType debugAudioType = AudioType.None;
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION5
     private static volatile AudioManager _instance;
@@ -53,6 +55,7 @@ public class AudioManager : MonoBehaviour {
     
     // Update is called once per frame
     protected virtual void Update() {
+        PerformDebugLogic();
     }
     
     protected virtual void Initialize() {
@@ -89,5 +92,11 @@ public class AudioManager : MonoBehaviour {
         audioSourceManager.PlayScheduled(time);
         
         return audioSourceManager;
+    }
+    
+    public void PerformDebugLogic() {
+        if(Input.GetKeyDown(debugKey)) {
+            Play(debugAudioType);
+        }
     }
 }
