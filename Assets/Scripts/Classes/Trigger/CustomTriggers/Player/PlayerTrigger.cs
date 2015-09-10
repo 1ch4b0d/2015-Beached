@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerChoiceTrigger : CustomTrigger {
+public class PlayerTrigger : CustomTrigger {
     protected override void Awake() {
         Initialize();
     }

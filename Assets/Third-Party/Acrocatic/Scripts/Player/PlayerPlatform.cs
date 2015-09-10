@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Acrocatic {
     // Enums for all classes.
@@ -43,6 +44,8 @@ namespace Acrocatic {
         private bool stoppedMoving = false;         // This is used to check if the player stopped moving.
         private float previousHor = 0;              // Remember the previous horizontal input.
         private float lastXVel;                     // Get the previous X velocity.
+        
+        public List<CustomEventsManager> onLandEvents = null;
         
         // Use this for initialization.
         void Start() {
@@ -89,6 +92,8 @@ namespace Acrocatic {
                 // Let the platform know that the player is standing on it.
                 platformClass.SetPlayerOnPlatform(true);
                 // Or else...
+                
+                FireLandEvents();
             }
             else if(!platformCollider && currentPlatform) {
                 // .. let the platform know the player isn't standing on it anymore.
@@ -249,6 +254,12 @@ namespace Acrocatic {
         // Return if the player should keep the platform's speed when jumping.
         public bool KeepSpeedOnJump() {
             return movingPlatform.keepSpeedOnJump;
+        }
+        
+        protected void FireLandEvents() {
+            foreach(CustomEventsManager customEventsManager in onLandEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

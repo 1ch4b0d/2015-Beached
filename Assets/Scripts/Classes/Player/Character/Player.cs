@@ -63,15 +63,17 @@ public class Player : BasePlayer {
         return this.gameObject.GetComponent<Rigidbody2D>();
     }
     
+    public bool IsMovingVertically(Rigidbody2D rigidbody) {
+        return (rigidbody != null
+                && (rigidbody.velocity.y < 0 || rigidbody.velocity.y > 0)) ? true : false;
+    }
+    public bool IsMovingHorizontally(Rigidbody2D rigidbody) {
+        return (rigidbody != null
+                && (rigidbody.velocity.x < 0 || rigidbody.velocity.x > 0)) ? true : false;
+    }
+    
     public bool IsMoving(Rigidbody2D rigidbody) {
-        if(rigidbody != null
-            && (rigidbody.velocity.x > 0
-                || rigidbody.velocity.y > 0)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (IsMovingHorizontally(rigidbody) || IsMovingVertically(rigidbody));
     }
     
     public void ZeroOutVelocity() {
@@ -107,7 +109,7 @@ public class Player : BasePlayer {
     // TODO: For real refactor this method, it's such a mess.
     public void PerformCarryItemReleaseCheck() {
         Rigidbody2D playerRigidbody = this.gameObject.GetComponent<Rigidbody2D>();
-        if(IsMoving(playerRigidbody)) {
+        if(IsMovingHorizontally(playerRigidbody)) {
             Vector3 dropVelocity = Vector3.zero;
             if(playerController != null) {
                 if(playerController.facingRight) {

@@ -31,6 +31,7 @@ public enum AudioType {
     PlayerJump,
     PlayerLandOnGround,
     PlayerPickedUpItem,
+    PlayerDropItem,
     PlayerThrewItem,
     //------------------------------------------------
     // NPC Sound Effects

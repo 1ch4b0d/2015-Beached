@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Acrocatic {
     // Class that controls the jumping mechanic for the player.
@@ -73,11 +74,17 @@ namespace Acrocatic {
         [Tooltip("All variables used for movement in the air are located here.")]
         public AirMovement airMovement;
         
+        public List<CustomEventsManager> onJumpEvents = null;
+        
         // Private variables.
         private Player player;                                  // Get the Player class.
         private bool doubleJump = false;                        // Check if the player is performing a double jump.
         private bool initialJump = false;                       // Used for holdToJumpHigher to make the player perform an initial jump.
         private float jumpTimer;                                // Used for the holdToJumpHigher jumps. Determines how long the player can jump.
+        
+        protected void Awake() {
+            Initialize();
+        }
         
         // Use this for initialization.
         void Start() {
@@ -229,6 +236,17 @@ namespace Acrocatic {
             }
         }
         
+        protected void Initialize() {
+            if(onJumpEvents == null) {
+                onJumpEvents = new List<CustomEventsManager>();
+            }
+            foreach(CustomEventsManager customEventsManager in onJumpEvents) {
+                if(customEventsManager == null) {
+                    Debug.LogError(this.gameObject.transform.GetFullPath() + " has a NULL element in its onJumpEvents. Please fix this issue.");
+                }
+            }
+        }
+        
         // Reset the jumping variables.
         void ResetJumpVars() {
             // Make sure the player can't jump again until the jump conditions from Update are satisfied.
@@ -253,6 +271,14 @@ namespace Acrocatic {
             
             // Reset the jumpTimer.
             jumpTimer = holdToJumpHigher.jumpTime;
+            
+            FireJumpEvents();
+        }
+        
+        protected void FireJumpEvents() {
+            foreach(CustomEventsManager customEventsManager in onJumpEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

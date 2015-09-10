@@ -14,7 +14,6 @@ public class WavePlane : MonoBehaviour {
     private float randomize;
     
     void Start() {
-    
         MeshFilter myMF = this.GetComponent("MeshFilter") as MeshFilter;
         mesh = myMF.mesh;
         meshVertices = mesh.vertices;

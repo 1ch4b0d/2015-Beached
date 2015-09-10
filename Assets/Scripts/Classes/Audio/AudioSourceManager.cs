@@ -73,6 +73,7 @@ public class AudioSourceManager : MonoBehaviour {
         return audioSourceReference.clip;
     }
     public float GetClipLength() {
+        Debug.Log("" + audioSourceReference.clip.length);
         return audioSourceReference.clip.length;
     }
     public AudioSourceManager Clip(string audioClipPath) {

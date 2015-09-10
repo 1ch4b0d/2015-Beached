@@ -59,47 +59,57 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
-        ShowSpeechBubble(0.25f);
+        Player playerRef = gameObjectEntering.GetComponent<Player>();
+        if(playerRef != null) {
+            ShowSpeechBubble(0.25f);
+        }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("SpeechBubble Trigger Exited");
-        HideSpeechBubble(0.25f);
+        Player playerRef = gameObjectExiting.GetComponent<Player>();
+        if(playerRef != null) {
+            HideSpeechBubble(0.25f);
+        }
     }
     
     public override void Execute(GameObject gameObjectToExecute) {
         // Perform only if it's the first iteration, or it should loop
-        if(currentIteration < 1
-            || loop) {
-            ExecuteLogic(gameObjectToExecute);
-            // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
-            // currentIteration++;
-            
-            if(loop == false) {
-                this.GetComponent<Collider2D>().enabled = false;
+        
+        Player playerRef = gameObjectToExecute.GetComponent<Player>();
+        if(playerRef != null) {
+            if(currentIteration < 1
+                || loop) {
+                ExecuteLogic(gameObjectToExecute);
+                // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
+                // currentIteration++;
+                
+                if(loop == false) {
+                    this.GetComponent<Collider2D>().enabled = false;
+                }
             }
         }
     }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         // Debug.Log("SpeechBubble Triggered Interaction");
-        Player player = gameObjectExecuting.GetComponent<Player>();
-        if(player != null
+        Player playerRef = gameObjectExecuting.GetComponent<Player>();
+        if(playerRef != null
             && speechBubble != null) {
             // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
                 speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
                 
-                player.StartInteraction();
+                playerRef.StartInteraction();
                 speechBubble.StartInteraction();
             }
             else {
                 // Ends the speech bubble
                 if(speechBubble.HasFinished()) {
-                    // Start player gamestate first so that if events are fired
+                    // Start playerRef gamestate first so that if events are fired
                     // at the end of the speech bubble they can override any
-                    // changes that could occur in the player's state
-                    player.StartGameplayState();
+                    // changes that could occur in the playerRef's state
+                    playerRef.StartGameplayState();
                     speechBubble.FinishInteraction();
                     
                     currentIteration++;

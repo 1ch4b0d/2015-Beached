@@ -7,7 +7,7 @@ public class AudioManagerValuesEvent : CustomEventObject {
     public bool loopAudio = false;
     public float playScheduled = float.PositiveInfinity;
     // public float scheduledStartTime = float.PositiveInfinity;
-    public float scheduledEndTime = float.PositiveInfinity;
+    // public float scheduledEndTime = float.PositiveInfinity;
     
     // Use this for initialization
     protected override void Awake() {
@@ -45,26 +45,37 @@ public class AudioManagerValuesEvent : CustomEventObject {
             AudioSourceManager audioSourceManager = null;
             //-----------------------------------------------
             if(playScheduled != float.PositiveInfinity) {
+                // I'm skeptical of this.
                 audioSourceManager = AudioManager.Instance.PlayScheduled(audioToPlay, playScheduled);
             }
             else {
                 audioSourceManager = AudioManager.Instance.Play(audioToPlay);
             }
             //-----------------------------------------------
-            if(scheduledEndTime == float.PositiveInfinity) {
-                audioSourceManager.SetScheduledEndTime(audioSourceManager.GetClipLength());
-            }
-            else {
-                audioSourceManager.SetScheduledEndTime(scheduledEndTime);
-            }
-            audioSourceManager.Loop(loopAudio);
-            //-----------------------------------------------
+            // http://docs.unity3d.com/ScriptReference/AudioSource.SetScheduledStartTime.html
+            // This is really really really dumb. I don't have the time to look
+            // into this. Just know there's some stupidness that needs to be
+            // resolved on your end to get this working with Unity's API
             // if(scheduledStartTime == float.PositiveInfinity) {
             //     audioSourceManager.SetScheduledStartTime(0);
             // }
             // else {
             //     audioSourceManager.SetScheduledStartTime(scheduledStartTime);
             // }
+            //-----------------------------------------------
+            // http://docs.unity3d.com/ScriptReference/AudioSource.SetScheduledEndTime.html
+            // This is really really really dumb. I don't have the time to look
+            // into this. Just know there's some stupidness that needs to be
+            // resolved on your end to get this working with Unity's API
+            // if(scheduledEndTime == float.PositiveInfinity) {
+            //     audioSourceManager.SetScheduledEndTime(audioSourceManager.GetClipLength());
+            // }
+            // else {
+            //     audioSourceManager.SetScheduledEndTime(scheduledEndTime);
+            // }
+            //-----------------------------------------------
+            audioSourceManager.Loop(loopAudio);
+            //-----------------------------------------------
         }
     }
 }

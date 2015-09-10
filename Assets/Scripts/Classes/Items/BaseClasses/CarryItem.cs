@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CarryItem : MonoBehaviour {
     public GameObject objectCarryingItem = null;
     public GameObject itemBeingCarried = null;
     public GameObject carryItemAnchor = null;
     
+    public List<CustomEventsManager> onPickupItemEvents = null;
+    public List<CustomEventsManager> onDropItemEvents = null;
+    public List<CustomEventsManager> onThrowItemEvents = null;
     // Use this for initialization
     void Start() {
         Initializate();
@@ -64,7 +68,9 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.transform.position = carryItemAnchor.transform.position;
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = true;
             itemBeingCarried.transform.localScale = previousScale;
-            ItemManager.Instance.Remove(itemToPickUp);
+            ItemManager.Instance.Remove(itemToPickUp); // wtf is this doing? What was I thinking?
+            
+            FirePickUpItemEvents();
         }
     }
     
@@ -83,6 +89,8 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
+            
+            FireDropItemEvents();
         }
     }
     
@@ -102,6 +110,26 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
+            
+            FireThrowItemEvents();
+        }
+    }
+    
+    protected void FirePickUpItemEvents() {
+        foreach(CustomEventsManager customEventsManager in onPickupItemEvents) {
+            customEventsManager.Execute();
+        }
+    }
+    
+    protected void FireDropItemEvents() {
+        foreach(CustomEventsManager customEventsManager in onDropItemEvents) {
+            customEventsManager.Execute();
+        }
+    }
+    
+    protected void FireThrowItemEvents() {
+        foreach(CustomEventsManager customEventsManager in onThrowItemEvents) {
+            customEventsManager.Execute();
         }
     }
 }

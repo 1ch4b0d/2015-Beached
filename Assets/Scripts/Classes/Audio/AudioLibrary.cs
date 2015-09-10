@@ -96,8 +96,9 @@ public class AudioLibrary : MonoBehaviour {
         audioDictionary[AudioType.PlayerJump] = "Audio/Placeholder/Effects/Jump/jump1";
         audioDictionary[AudioType.PlayerLandOnGround] = "Audio/Placeholder/Effects/Footsteps/footstep02";
         
-        audioDictionary[AudioType.PlayerPickedUpItem] = "Audio/Placeholder/Effects/Jump/jump1";
-        audioDictionary[AudioType.PlayerThrewItem] = "Audio/Placeholder/Effects/Laser/laser3";
+        audioDictionary[AudioType.PlayerPickedUpItem] = "Audio/Placeholder/Effects/Laser/laser2";
+        audioDictionary[AudioType.PlayerDropItem] = "Audio/Placeholder/Effects/Laser/laser3";
+        audioDictionary[AudioType.PlayerThrewItem] = "Audio/Placeholder/Effects/Laser/laser1";
     }
     protected void ConfigureNPCSoundEffects() {
         audioDictionary[AudioType.InteractionStarted] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";

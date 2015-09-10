@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Acrocatic {
     // Enums for all classes.
@@ -86,6 +87,8 @@ namespace Acrocatic {
         private bool wallSliding = false;           // These variables are used to remember the wall sliding, running and jumping variables.
         private bool wallRunning = false;           // That's needed to show the correct animations.
         private bool wallJumping = false;
+        
+        public List<CustomEventsManager> onLandEvents = null;
         
         // Use this for initialization.
         void Start() {
@@ -194,6 +197,18 @@ namespace Acrocatic {
                 }
             }
             
+            //------------------------------------------------------------------
+            // CUSTOM LOGIC
+            //------------------------------------------------------------------
+            // TO DETECT LANDING
+            if(groundCollider
+                && !jumpingThrough
+                && !grounded) {
+                Debug.Log("landed");
+                FireLandEvents();
+            }
+            //------------------------------------------------------------------
+            
             // If player is grounded and not jumping through a platform...
             if(groundCollider && !jumpingThrough) {
                 // If the player isn't grounded yet and keepVelocityOnGround is activated...
@@ -209,13 +224,13 @@ namespace Acrocatic {
                 // Set jumping to false.
                 jumping = false;
                 // Rotate player to collider's position if not on a platform.
-                if(rotateOnSlope && !OnPlatform()) { transform.rotation = groundCollider.transform.localRotation; }
+                if(rotateOnSlope && !OnPlatform()) {
+                    transform.rotation = groundCollider.transform.localRotation;
+                }
                 // Call the stateComplete trigger if the player was falling.
                 if(falling) {
                     animator.SetTrigger("stateComplete");
                 }
-                falling = false;
-                // Or else...
             }
             else {
                 // ... rotate player to original position and set grounded to true.
@@ -224,7 +239,9 @@ namespace Acrocatic {
             }
             
             // If the player is moving in the opposite direction compared to the direction the player is facing...
-            if((hor > 0 && !facingRight) || (hor < 0 && facingRight) || flipAgain) {
+            if((hor > 0 && !facingRight)
+                || (hor < 0 && facingRight)
+                || flipAgain) {
                 // ... flip the player.
                 Flip();
             }
@@ -286,7 +303,8 @@ namespace Acrocatic {
                 // These if-statements are used to fix a bug where the player would be flipped before changing the animation.
                 // This caused a weird flicker.
                 AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-                if(stuckToWall && (info.IsName("PlayerWallRun") || info.IsName("PlayerWallSlide"))) {
+                if(stuckToWall &&
+                    (info.IsName("PlayerWallRun") || info.IsName("PlayerWallSlide"))) {
                     flipAgain = true;
                     if(playerWall.wallJump.enabled) {
                         animator.CrossFade("PlayerWallJump", 0f);
@@ -295,7 +313,8 @@ namespace Acrocatic {
                         animator.CrossFade("Jump/Fall", 0f);
                     }
                 }
-                else if(!stuckToWall && info.IsName("PlayerWallJump")) {
+                else if(!stuckToWall
+                        && info.IsName("PlayerWallJump")) {
                     flipAgain = true;
                 }
                 else {
@@ -478,17 +497,23 @@ namespace Acrocatic {
         // ###         ###
         // Change the total amount of jumps.
         public void SetJumps(int jumps) {
-            if(playerJump) { playerJump.jumps = jumps; }
+            if(playerJump) {
+                playerJump.jumps = jumps;
+            }
         }
         
         // Reset the total amount of jumps to the default value.
         public void ResetJumps() {
-            if(playerJump) { SetJumps(playerJump.doubleJumping.totalJumps); }
+            if(playerJump) {
+                SetJumps(playerJump.doubleJumping.totalJumps);
+            }
         }
         
         // Make the player jump.
         public void Jump() {
-            if(playerJump) { playerJump.InitJump(); }
+            if(playerJump) {
+                playerJump.InitJump();
+            }
         }
         
         // Make the player fall down.
@@ -622,7 +647,9 @@ namespace Acrocatic {
         // ###           ###
         // #################
         
-        //--------------------------------------------------------------------------
+        //------------------------------------------------------------------
+        // CUSTOM LOGIC
+        //------------------------------------------------------------------
         public void FacingUp(bool newFacingUp) {
             facingUp = newFacingUp;
         }
@@ -633,6 +660,12 @@ namespace Acrocatic {
         
         public void SetIsDead(bool newIsDead) {
             isDead = newIsDead;
+        }
+        
+        protected void FireLandEvents() {
+            foreach(CustomEventsManager customEventsManager in onLandEvents) {
+                customEventsManager.Execute();
+            }
         }
     }
 }
