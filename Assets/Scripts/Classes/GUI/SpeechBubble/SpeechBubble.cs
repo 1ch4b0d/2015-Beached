@@ -23,6 +23,10 @@ public class SpeechBubble : MonoBehaviour {
     
     InteractionTrigger interactionTrigger = null;
     
+    public List<CustomEventsManager> onStartInteraction = null;
+    public List<CustomEventsManager> onTextIteration = null;
+    public List<CustomEventsManager> onFinishInteraction = null;
+    
     public static GameObject Create() {
         return SpeechBubblePool.Instance.Issue();
     }
@@ -114,6 +118,19 @@ public class SpeechBubble : MonoBehaviour {
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
         onFinishedTextSet = new CustomEvents();
+        
+        //----------------------------------------------------------------------
+        // Configure Custom Events
+        //----------------------------------------------------------------------
+        if(onStartInteraction == null) {
+            onStartInteraction = new List<CustomEventsManager>();
+        }
+        if(onTextIteration == null) {
+            onTextIteration = new List<CustomEventsManager>();
+        }
+        if(onFinishInteraction == null) {
+            onFinishInteraction = new List<CustomEventsManager>();
+        }
     }
     
     void DebugInfo() {
@@ -132,7 +149,7 @@ public class SpeechBubble : MonoBehaviour {
         }
         
         if(Input.GetKeyDown(KeyCode.Space)) {
-            Debug.Log(this.gameObject.name + " - Total Text - #: " + textSet.Count);
+            Debug.Log(this.gameObject.transform.GetFullPath() + " - Total Text - #: " + textSet.Count);
             foreach(string text in textSet) {
                 Debug.Log("Text: " + text);
             }
@@ -248,6 +265,7 @@ public class SpeechBubble : MonoBehaviour {
     public void StartInteraction() {
         isInUse = true;
         SetSpeechBubbleImage(SpeechBubbleImage.None);
+        FireStartInteractionEvents();
     }
     public void FinishInteraction() {
         // Debug.Log("Finished Interaction");
@@ -262,6 +280,7 @@ public class SpeechBubble : MonoBehaviour {
         
         // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
         onFinishedTextSet.Execute();
+        FireFinishInteractionEvents();
     }
     
     public bool HasFinished() {
@@ -288,10 +307,11 @@ public class SpeechBubble : MonoBehaviour {
     // Dumb convenience method
     public void MoveToNextText() {
         PopTextAndUpdateSpeechBubbleText();
+        FireTextIterationEvents();
     }
     
     // I don't know if this is necessarily needed, but fuggit you know
-    public void PopTextAndUpdateSpeechBubbleText() {
+    private void PopTextAndUpdateSpeechBubbleText() {
         // Pops the next text node
         if(textSet.Count > 0) {
             if(labelTypeWriterEffect != null) {
@@ -368,5 +388,29 @@ public class SpeechBubble : MonoBehaviour {
         ClearTweens();
         tweens.Add(rootPanel.alphaTo(duration, 0f));
         return this;
+    }
+    
+    public virtual void FireStartInteractionEvents() {
+        if(onStartInteraction != null) {
+            foreach(CustomEventsManager customEventsManager in onStartInteraction) {
+                customEventsManager.Execute();
+            }
+        }
+    }
+    
+    public virtual void FireTextIterationEvents() {
+        if(onTextIteration != null) {
+            foreach(CustomEventsManager customEventsManager in onTextIteration) {
+                customEventsManager.Execute();
+            }
+        }
+    }
+    
+    public virtual void FireFinishInteractionEvents() {
+        if(onFinishInteraction != null) {
+            foreach(CustomEventsManager customEventsManager in onFinishInteraction) {
+                customEventsManager.Execute();
+            }
+        }
     }
 }

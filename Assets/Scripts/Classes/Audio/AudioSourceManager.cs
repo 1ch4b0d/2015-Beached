@@ -6,7 +6,7 @@ using System.Collections;
 /// INTERFACE TO EXECUTE CALLS TO. THE AUDIOSOURCEMANAGER IS A WRAPPER FOR UNITY
 /// You're going to forget why you created this in the first place.
 /// The unity audio source class is just terrible in providing information that
-/// lets you knw when it finished. Because of this, you created a wrapper that
+/// lets you know when it finished. Because of this, you created a wrapper that
 /// allows you to track the logic of the audio source as it plays through. Typically
 /// the audio source's isPlaying variable could be relied on to know if it's
 /// playing, but on focus changes and when paused the audio source isPlaying

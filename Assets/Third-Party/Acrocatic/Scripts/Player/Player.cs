@@ -201,10 +201,15 @@ namespace Acrocatic {
             // CUSTOM LOGIC
             //------------------------------------------------------------------
             // TO DETECT LANDING
-            if(groundCollider
+            if(groundCollider != null
                 && !jumpingThrough
                 && !grounded) {
-                Debug.Log("landed");
+                // Ugh this is such a garbage solution and it calls get component
+                // way too often
+                // PlatformCollider platformCollider = groundCollider.GetComponent<PlatformCollider>();
+                // if(platformCollider != null) {
+                //     Debug.Log("landed");
+                // }
                 FireLandEvents();
             }
             //------------------------------------------------------------------
