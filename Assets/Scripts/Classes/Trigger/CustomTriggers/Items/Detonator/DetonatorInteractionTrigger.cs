@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DetonatorInteractionTrigger : InteractionTrigger {
+public class DetonatorInteractionTrigger : ItemInteractionTrigger {
     public Detonator detonator = null;
     
     // Use this for initialization
@@ -32,23 +32,23 @@ public class DetonatorInteractionTrigger : InteractionTrigger {
     }
     
     public override void HideSpeechBubble(float duration) {
-        if(speechBubble != null) {
-            speechBubble.Hide(duration);
-        }
+        // if(speechBubble != null) {
+        //     speechBubble.Hide(duration);
+        // }
+        base.HideSpeechBubble(duration);
     }
     
     public override void Entered(GameObject gameObjectEntering) {
-        // base.Entered(gameObjectEntering);
-        ShowSpeechBubble(0.25f);
+        base.Entered(gameObjectEntering);
     }
     
-    // public override void Exited(GameObject gameObjectExiting) {
-    //     base.Exited(gameObjectExiting);
-    // }
+    public override void Exited(GameObject gameObjectExiting) {
+        base.Exited(gameObjectExiting);
+    }
     
-    // public override void Execute(GameObject gameObjectToExecute) {
-    //     base.Execute(gameObjectToExecute);
-    // }
+    public override void Execute(GameObject gameObjectToExecute) {
+        base.Execute(gameObjectToExecute);
+    }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         detonator.Detonate();

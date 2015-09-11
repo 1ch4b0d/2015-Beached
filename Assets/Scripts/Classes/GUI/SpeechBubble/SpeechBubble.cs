@@ -21,7 +21,7 @@ public class SpeechBubble : MonoBehaviour {
     public bool hasFinishedTextSet = false;
     CustomEvents onFinishedTextSet = null;
     
-    InteractionTrigger interactionTrigger = null;
+    public SpeechBubbleInteractionTrigger interactionTrigger = null;
     
     public List<CustomEventsManager> onStartInteraction = null;
     public List<CustomEventsManager> onTextIteration = null;
@@ -112,7 +112,7 @@ public class SpeechBubble : MonoBehaviour {
         //----------------------------------------------------------------------
         // This is optional and does not need to be configured
         if(interactionTrigger == null) {
-            interactionTrigger = Utility.GetFirstChildOfType<InteractionTrigger>(this.gameObject);
+            interactionTrigger = Utility.GetFirstChildOfType<SpeechBubbleInteractionTrigger>(this.gameObject);
             interactionTrigger.speechBubble = this;
         }
         

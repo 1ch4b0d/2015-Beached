@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemInteractionTrigger : InteractionTrigger {
+public class ItemInteractionTrigger : SpeechBubbleInteractionTrigger {
     public GameObject itemGameObject = null;
     // public SpeechBubble speechBubble = null;
     public float speechBubbleFadeSpeed = 0.25f;
@@ -64,5 +64,13 @@ public class ItemInteractionTrigger : InteractionTrigger {
             carryItem.PickUpItem(itemGameObject);
             HideSpeechBubble(speechBubbleFadeSpeed);
         }
+    }
+    
+    public override void ShowSpeechBubble(float duration) {
+        base.ShowSpeechBubble(duration);
+    }
+    
+    public override void HideSpeechBubble(float duration) {
+        base.HideSpeechBubble(duration);
     }
 }

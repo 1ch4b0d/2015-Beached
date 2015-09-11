@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
+    public SpeechBubble speechBubble = null;
     public List<SpeechBubbleTextSet> textSets = null;
     private SpeechBubbleTextSet placeholderTextSet = null;
     
@@ -32,6 +33,9 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 Debug.Log(this.gameObject.transform.GetFullPath() + " has a NULL text set. Please fix this.");
             }
         }
+        if(speechBubble == null) {
+            this.gameObject.LogComponentError("speechBubble", this.GetType());
+        }
     }
     
     public virtual void SetTextSets(List<SpeechBubbleTextSet> newTextSets) {
@@ -59,34 +63,24 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
-        Player playerRef = gameObjectEntering.GetComponent<Player>();
-        if(playerRef != null) {
-            ShowSpeechBubble(0.25f);
-        }
+        ShowSpeechBubble(0.25f);
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("SpeechBubble Trigger Exited");
-        Player playerRef = gameObjectExiting.GetComponent<Player>();
-        if(playerRef != null) {
-            HideSpeechBubble(0.25f);
-        }
+        HideSpeechBubble(0.25f);
     }
     
     public override void Execute(GameObject gameObjectToExecute) {
         // Perform only if it's the first iteration, or it should loop
-        
-        Player playerRef = gameObjectToExecute.GetComponent<Player>();
-        if(playerRef != null) {
-            if(currentIteration < 1
-                || loop) {
-                ExecuteLogic(gameObjectToExecute);
-                // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
-                // currentIteration++;
-                
-                if(loop == false) {
-                    this.GetComponent<Collider2D>().enabled = false;
-                }
+        if(currentIteration < 1
+            || loop) {
+            ExecuteLogic(gameObjectToExecute);
+            // This isn't used in the execute logic, this is iterated in the ExecuteLogic function
+            // currentIteration++;
+            
+            if(loop == false) {
+                this.GetComponent<Collider2D>().enabled = false;
             }
         }
     }
@@ -119,6 +113,20 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                     speechBubble.MoveToNextText();
                 }
             }
+        }
+    }
+    
+    public virtual void ShowSpeechBubble(float duration) {
+        if(speechBubble != null
+            && speechBubble.enabled) {
+            speechBubble.Show(duration);
+        }
+    }
+    
+    public virtual void HideSpeechBubble(float duration) {
+        if(speechBubble != null
+            && speechBubble.enabled) {
+            speechBubble.Hide(duration);
         }
     }
 }
