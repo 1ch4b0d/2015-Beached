@@ -92,14 +92,12 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             && speechBubble != null) {
             // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
-                speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
-                
                 playerRef.StartInteraction();
-                speechBubble.StartInteraction();
+                speechBubble.StartInteraction(PopNextTextSet().GetTextSet().ToArray());
             }
             else {
                 // Ends the speech bubble
-                if(speechBubble.HasFinished()) {
+                if(speechBubble.HasFinishedInteraction()) {
                     // Start playerRef gamestate first so that if events are fired
                     // at the end of the speech bubble they can override any
                     // changes that could occur in the playerRef's state
@@ -110,7 +108,11 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 }
                 // Proceeds in the speech bubble
                 else {
-                    speechBubble.MoveToNextText();
+                    if(speechBubble.HasFinishedDisplayingText()) {
+                        Debug.Log("Finished Displaying Text: " + speechBubble.HasFinishedDisplayingText());
+                        Debug.Log("Finished Interaction: " + speechBubble.HasFinishedInteraction());
+                        speechBubble.MoveToNextText();
+                    }
                 }
             }
         }

@@ -17,9 +17,6 @@ public class SpeechBubble : MonoBehaviour {
     
     public Queue<string> textSet = new Queue<string>();
     public bool isInUse = false;
-    // public bool clearTextInBubbleOnFinish = false; // this is something I'm not sure about...
-    public bool hasFinishedTextSet = false;
-    CustomEvents onFinishedTextSet = null;
     
     public SpeechBubbleInteractionTrigger interactionTrigger = null;
     
@@ -44,9 +41,6 @@ public class SpeechBubble : MonoBehaviour {
     
     // Update is called once per frame
     void Update() {
-        if(this.enabled) {
-            PerformLogic();
-        }
         UpdateAnimator();
         // DebugInfo();
     }
@@ -117,7 +111,6 @@ public class SpeechBubble : MonoBehaviour {
         }
         
         labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
-        onFinishedTextSet = new CustomEvents();
         
         //----------------------------------------------------------------------
         // Configure Custom Events
@@ -240,62 +233,49 @@ public class SpeechBubble : MonoBehaviour {
         speechBubbleImage = newSpeechBubbleImage;
     }
     
-    protected void PerformLogic() {
-        PerformHasFinishedCheck();
-    }
-    
-    protected void PerformHasFinishedCheck() {
-        if(IsInUse()
-            && !hasFinishedTextSet) {
-            if(labelTypeWriterEffect != null) {
-                if(!labelTypeWriterEffect.isActive) {
-                    if(textSet.Count == 0) {
-                        hasFinishedTextSet = true;
-                    }
-                }
-            }
-            else {
-                if(textSet.Count == 0) {
-                    hasFinishedTextSet = true;
-                }
-            }
-        }
-    }
-    
-    public void StartInteraction() {
-        isInUse = true;
+    public void StartInteraction(params string[] newText) {
+        SetTextSet(newText);
+        SetInUse(true);
         SetSpeechBubbleImage(SpeechBubbleImage.None);
         FireStartInteractionEvents();
     }
     public void FinishInteraction() {
         // Debug.Log("Finished Interaction");
-        isInUse = false;
+        SetInUse(false);
         SetSpeechBubbleImageToDevice();
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
-        // if(clearTextInBubbleOnFinish) {
         label.text = "";
-        // }
         
         // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
-        onFinishedTextSet.Execute();
         FireFinishInteractionEvents();
     }
     
-    public bool HasFinished() {
-        return (hasFinishedTextSet && textSet.Count == 0) ? true : false;
+    public bool HasFinishedInteraction() {
+        return (HasFinishedDisplayingText() && textSet.Count == 0) ? true : false;
+    }
+    
+    public void SetInUse(bool newInUse) {
+        isInUse = newInUse;
     }
     public bool IsInUse() {
         return isInUse;
     }
     
-    public SpeechBubble OnFinish(System.Action newOnFinish, bool loop = false) {
-        onFinishedTextSet.AddEvent(newOnFinish, loop);
-        return this;
+    public bool HasFinishedDisplayingText() {
+        bool hasFinishedDisplayingText = false;
+        if(IsInUse()) {
+            if(labelTypeWriterEffect != null) {
+                if(!labelTypeWriterEffect.isActive) {
+                    hasFinishedDisplayingText = true;
+                }
+            }
+        }
+        return hasFinishedDisplayingText;
     }
     
-    public string PopText() {
+    private string PopText() {
         string returnString = label.text;
         if(textSet.Count > 0) {
             returnString = textSet.Dequeue();
@@ -311,6 +291,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     // I don't know if this is necessarily needed, but fuggit you know
+    // lol cyclomatic complexity
     private void PopTextAndUpdateSpeechBubbleText() {
         // Pops the next text node
         if(textSet.Count > 0) {
@@ -342,7 +323,6 @@ public class SpeechBubble : MonoBehaviour {
     /// </summary>
     public SpeechBubble SetTextSet(params string[] newText) {
         ClearText();
-        hasFinishedTextSet = false;
         
         foreach(string text in newText) {
             textSet.Enqueue(text);

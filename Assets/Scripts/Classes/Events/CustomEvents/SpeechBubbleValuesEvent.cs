@@ -29,7 +29,8 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     // base.Update();
     // }
     
-    // public override void Execute() {
+    // // public override void Execute() {
+    // base.Execute();
     // }
     
     protected override void Initialize() {
@@ -90,9 +91,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         //------------------------------
         if(onSpeechBubbleFinish != null) {
             foreach(CustomEventsManager customEventsManager in onSpeechBubbleFinish) {
-                foreach(CustomEvent customEvent in customEventsManager.GetEvents()) {
-                    speechBubble.OnFinish(customEvent.GetEvent(), customEvent.loop);
-                }
+                speechBubble.onFinishInteraction.Add(customEventsManager);
             }
         }
     }

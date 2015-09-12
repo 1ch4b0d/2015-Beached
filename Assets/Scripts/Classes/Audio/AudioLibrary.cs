@@ -101,10 +101,11 @@ public class AudioLibrary : MonoBehaviour {
         audioDictionary[AudioType.PlayerThrewItem] = "Audio/Placeholder/Effects/Laser/laser1";
     }
     protected void ConfigureNPCSoundEffects() {
-        audioDictionary[AudioType.InteractionStarted] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
     }
     protected void ConfigureGUISoundEffects() {
+        audioDictionary[AudioType.SpeechBubbleInteractionStarted] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
         audioDictionary[AudioType.SpeechBubbleIterate] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
+        audioDictionary[AudioType.SpeechBubbleInteractionFinished] = "Audio/Placeholder/Effects/Digital_Sounds/powerUp2";
     }
     
     public string GetClipPath(AudioType audioTypeToGet) {

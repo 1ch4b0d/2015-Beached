@@ -36,10 +36,11 @@ public enum AudioType {
     //------------------------------------------------
     // NPC Sound Effects
     //------------------------------------------------
-    InteractionStarted,
     //------------------------------------------------
     // GUI Sound Effects
     //------------------------------------------------
+    SpeechBubbleInteractionStarted,
     SpeechBubbleIterate,
+    SpeechBubbleInteractionFinished,
 }
 
