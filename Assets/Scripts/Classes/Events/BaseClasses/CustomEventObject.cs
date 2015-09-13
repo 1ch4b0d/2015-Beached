@@ -67,7 +67,8 @@ public class CustomEventObject : MonoBehaviour {
     public virtual void FireStartEvents() {
         if(onStartEvents != null
             && onStartEvents.Count > 0) {
-            foreach(CustomEventsManager customEventsManager in onStartEvents) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onStartEvents.ToArray()) {
                 customEventsManager.Execute();
             }
         }
@@ -75,7 +76,8 @@ public class CustomEventObject : MonoBehaviour {
     
     public virtual void FireExecuteEvents() {
         if(onExecuteEvents != null) {
-            foreach(CustomEventsManager customEventsManager in onExecuteEvents) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onExecuteEvents.ToArray()) {
                 customEventsManager.Execute();
             }
         }
@@ -83,7 +85,8 @@ public class CustomEventObject : MonoBehaviour {
     
     public virtual void FireFinishEvents() {
         if(onFinishEvents != null) {
-            foreach(CustomEventsManager customEventsManager in onFinishEvents) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onFinishEvents.ToArray()) {
                 customEventsManager.Execute();
             }
         }

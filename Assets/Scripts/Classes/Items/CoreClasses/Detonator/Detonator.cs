@@ -5,40 +5,44 @@ using System.Collections.Generic;
 public class Detonator : Item {
     public List<DetonatorPrimer> detonatorPrimers = null;
     public bool hasBeenDetonated = false;
-    public CustomEventsManager onDetonate = null;
+    public List<CustomEventsManager> onDetonate = null;
     
-    // protected virtual void Awake() {
-    //     Initialize();
-    // }
+    protected override void Awake() {
+        base.Awake();
+    }
     
-    // // Use this for initialization
-    // protected override void Start() {
-    // }
+    // Use this for initialization
+    protected override void Start() {
+        base.Start();
+    }
     
-    // // Update is called once per frame
-    // protected override void Update() {
-    // }
+    // Update is called once per frame
+    protected override void Update() {
+        base.Update();
+    }
     
-    // protected override void Initialize() {
-    //     base.Initialize();
-    // }
+    protected override void Initialize() {
+        base.Initialize();
+    }
     
     public bool IsPrimed() {
+        bool allDetonatorsActive = true;
         if(detonatorPrimers.Count == 0) {
-            return true;
+            // Base Case - Do nothing, all detonators are active
         }
         else {
-            bool allDetonatorsActive = true;
             foreach(DetonatorPrimer detonatorPrimer in detonatorPrimers) {
                 if(!detonatorPrimer.IsPrimed()) {
                     allDetonatorsActive = false;
-                    // exit the loop - because why waste the cycles
-                    break;
                 }
             }
-            
-            return allDetonatorsActive;
         }
+        
+        return allDetonatorsActive;
+    }
+    
+    public void SetHasBeenDetonated(bool newHasBeenDetonated) {
+        hasBeenDetonated = newHasBeenDetonated;
     }
     
     public bool HasBeenDetonated() {
@@ -52,14 +56,16 @@ public class Detonator : Item {
     public virtual void Detonate() {
         if(IsPrimed()
             && !HasBeenDetonated()) {
-            hasBeenDetonated = true;
+            SetHasBeenDetonated(true);
             FireOnDetonateEvents();
         }
     }
     
     public virtual void FireOnDetonateEvents() {
         if(onDetonate != null) {
-            onDetonate.Execute();
+            foreach(CustomEventsManager customEventsManager in onDetonate) {
+                customEventsManager.Execute();
+            }
         }
     }
 }

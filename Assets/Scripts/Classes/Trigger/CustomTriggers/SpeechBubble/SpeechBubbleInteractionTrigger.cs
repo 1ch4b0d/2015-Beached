@@ -46,7 +46,6 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         SpeechBubbleTextSet textSetToReturn = null;
         if(textSets.Count > 0) {
             textSetToReturn = textSets[0];
-            //
             textSets.Remove(textSetToReturn);
             textSets.Add(textSetToReturn);
         }
@@ -93,7 +92,9 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
                 playerRef.StartInteraction();
-                speechBubble.StartInteraction(PopNextTextSet().GetTextSet().ToArray());
+                
+                speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
+                speechBubble.StartInteraction();
             }
             else {
                 // Ends the speech bubble

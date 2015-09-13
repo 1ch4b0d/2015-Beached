@@ -28,19 +28,19 @@ public class SpeechBubble : MonoBehaviour {
         return SpeechBubblePool.Instance.Issue();
     }
     
-    void Awake() {
+    protected void Awake() {
         Initialize();
     }
     
     // Use this for initialization
-    void Start() {
+    protected void Start() {
         // by default the speech bubble is hidden on start
         Hide(float.Epsilon);
         SetSpeechBubbleImageToDevice();
     }
     
     // Update is called once per frame
-    void Update() {
+    protected void Update() {
         UpdateAnimator();
         // DebugInfo();
     }
@@ -233,8 +233,7 @@ public class SpeechBubble : MonoBehaviour {
         speechBubbleImage = newSpeechBubbleImage;
     }
     
-    public void StartInteraction(params string[] newText) {
-        SetTextSet(newText);
+    public void StartInteraction() {
         SetInUse(true);
         SetSpeechBubbleImage(SpeechBubbleImage.None);
         FireStartInteractionEvents();
@@ -372,7 +371,8 @@ public class SpeechBubble : MonoBehaviour {
     
     public virtual void FireStartInteractionEvents() {
         if(onStartInteraction != null) {
-            foreach(CustomEventsManager customEventsManager in onStartInteraction) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onStartInteraction.ToArray()) {
                 customEventsManager.Execute();
             }
         }
@@ -380,7 +380,8 @@ public class SpeechBubble : MonoBehaviour {
     
     public virtual void FireTextIterationEvents() {
         if(onTextIteration != null) {
-            foreach(CustomEventsManager customEventsManager in onTextIteration) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onTextIteration.ToArray()) {
                 customEventsManager.Execute();
             }
         }
@@ -388,7 +389,8 @@ public class SpeechBubble : MonoBehaviour {
     
     public virtual void FireFinishInteractionEvents() {
         if(onFinishInteraction != null) {
-            foreach(CustomEventsManager customEventsManager in onFinishInteraction) {
+            // .ToArray() used in order to get copy of elements
+            foreach(CustomEventsManager customEventsManager in onFinishInteraction.ToArray()) {
                 customEventsManager.Execute();
             }
         }

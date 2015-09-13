@@ -38,6 +38,9 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         if(speechBubble == null) {
             this.gameObject.LogComponentError("speechBubble", this.GetType());
         }
+        if(textSet == null) {
+            textSet = new List<string>();
+        }
     }
     
     public override void ExecuteLogic() {
@@ -60,8 +63,7 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         //------------------------------
         // Text Set
         //------------------------------
-        if(textSet != null
-            && textSet.Count > 0) {
+        if(textSet.Count > 0) {
             speechBubble.SetTextSet(textSet.ToArray());
         }
         
@@ -90,7 +92,9 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         // Speech Bubble - On Finish
         //------------------------------
         if(onSpeechBubbleFinish != null) {
-            foreach(CustomEventsManager customEventsManager in onSpeechBubbleFinish) {
+            // ToArray() is used to get a copy so that this doesn't trip over itself recursively
+            // when it modifies the finish
+            foreach(CustomEventsManager customEventsManager in onSpeechBubbleFinish.ToArray()) {
                 speechBubble.onFinishInteraction.Add(customEventsManager);
             }
         }
