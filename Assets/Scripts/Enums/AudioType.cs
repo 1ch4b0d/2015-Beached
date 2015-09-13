@@ -19,7 +19,8 @@ public enum AudioType {
     //------------------------------------------------
     // Item Sound Effects
     //------------------------------------------------
-    BlubberExplosion,
+    BlubberSquish01,
+    BlubberSquish02,
     GiantBlubberExplosion,
     GiantBlubberAirResistance,
     DetonatorPrimerPrimed,

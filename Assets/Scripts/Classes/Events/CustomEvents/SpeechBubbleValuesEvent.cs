@@ -96,9 +96,11 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         }
         
         //----------------------------------------------------------------------
+        // Events
+        //----------------------------------------------------------------------
+        
         //------------------------------
         // Speech Bubble - On Start Interation
-        //------------------------------
         if(clearOnStartInteraction) {
             speechBubble.onStartInteraction.Clear();
         }
@@ -108,8 +110,9 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.onStartInteraction.Add(customEventsManager);
         }
         //------------------------------
-        // Speech Bubble - On Iteratie
+        
         //------------------------------
+        // Speech Bubble - On Iteratie
         if(clearOnTextIteration) {
             speechBubble.onTextIteration.Clear();
         }
@@ -119,8 +122,9 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.onTextIteration.Add(customEventsManager);
         }
         //------------------------------
-        // Speech Bubble - On Finish Interaction
+        
         //------------------------------
+        // Speech Bubble - On Finish Interaction
         if(clearOnFinishInteraction) {
             speechBubble.onFinishInteraction.Clear();
         }
@@ -129,5 +133,6 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         foreach(CustomEventsManager customEventsManager in onFinishInteraction.ToArray()) {
             speechBubble.onFinishInteraction.Add(customEventsManager);
         }
+        //------------------------------
     }
 }

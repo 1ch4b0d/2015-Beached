@@ -76,16 +76,17 @@ public class AudioLibrary : MonoBehaviour {
     }
     
     protected void ConfigureEnvironmentSoundEffects() {
-        audioDictionary[AudioType.Explosion] = "Audio/Placeholder/Effects/Rumble/rumble01";
+        audioDictionary[AudioType.Explosion] = "Audio/Placeholder/Effects/Rumble/rumble1";
         audioDictionary[AudioType.Ocean] = "Audio/Placeholder/Effects/Ocean/131276__soundmanfilms__rockyseashorestereo";
-        audioDictionary[AudioType.Rumble01] = "Audio/Placeholder/Effects/Rumble/rumble01";
-        audioDictionary[AudioType.Rumble02] = "Audio/Placeholder/Effects/Rumble/rumble02";
-        audioDictionary[AudioType.Rumble03] = "Audio/Placeholder/Effects/Rumble/rumble03";
+        audioDictionary[AudioType.Rumble01] = "Audio/Placeholder/Effects/Rumble/rumble1";
+        audioDictionary[AudioType.Rumble02] = "Audio/Placeholder/Effects/Rumble/rumble2";
+        audioDictionary[AudioType.Rumble03] = "Audio/Placeholder/Effects/Rumble/rumble3";
         audioDictionary[AudioType.TypeWriter] = "Audio/Placeholder/Effects/TypeWriter/typewriter-1";
     }
     protected void ConfigureItemSoundEffects() {
         // Item Sound Effects
-        audioDictionary[AudioType.BlubberExplosion] = "Audio/Placeholder/Effects/Rumble/rumble02";
+        audioDictionary[AudioType.BlubberSquish01] = "Audio/Placeholder/Effects/Squishes/196725__paulmorek__sz-squish-12";
+        audioDictionary[AudioType.BlubberSquish02] = "Audio/Placeholder/Effects/Squishes/271666__honorhunter__tomato-squish-wet";
         audioDictionary[AudioType.GiantBlubberExplosion] = "Audio/Placeholder/Effects/Rumble/rumble02";
         audioDictionary[AudioType.GiantBlubberAirResistance] = "Audio/Placeholder/Effects/rumble1";
         audioDictionary[AudioType.DetonatorPrimerPrimed] = "Audio/Placeholder/Effects/Zap/zapTwoToneUp";
