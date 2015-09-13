@@ -110,8 +110,6 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 // Proceeds in the speech bubble
                 else {
                     if(speechBubble.HasFinishedDisplayingText()) {
-                        Debug.Log("Finished Displaying Text: " + speechBubble.HasFinishedDisplayingText());
-                        Debug.Log("Finished Interaction: " + speechBubble.HasFinishedInteraction());
                         speechBubble.MoveToNextText();
                     }
                 }

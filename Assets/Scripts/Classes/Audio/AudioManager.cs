@@ -69,6 +69,7 @@ public class AudioManager : MonoBehaviour {
     
     // Returns audio source manager to enable build method calls on it
     public AudioSourceManager Play(AudioType audioToPlay, ulong delay = 0) {
+        Debug.Log("---------------------------");
         Debug.Log("Playing: " + audioToPlay.ToString());
         GameObject audioGameObject = null;
         AudioSourceManager audioSourceManager = null;

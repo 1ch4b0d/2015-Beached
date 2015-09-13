@@ -91,7 +91,7 @@ public class CustomCollision : MonoBehaviour {
     
     public virtual void ExecuteEvents(List<CustomEventsManager> customEventsManagers) {
         if(customEventsManagers != null) {
-            foreach(CustomEventsManager customEventsManager in customEventsManagers) {
+            foreach(CustomEventsManager customEventsManager in customEventsManagers.ToArray()) {
                 customEventsManager.Execute();
             }
         }

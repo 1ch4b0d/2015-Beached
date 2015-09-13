@@ -12,7 +12,12 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public bool hide = false;
     public bool startInteraction = false;
     public bool finishInteraction = false;
-    public List<CustomEventsManager> onSpeechBubbleFinish = null;
+    public bool clearOnStartInteraction = false;
+    public List<CustomEventsManager> onStartInteraction = null;
+    public bool clearOnTextIteration = false;
+    public List<CustomEventsManager> onTextIteration = null;
+    public bool clearOnFinishInteraction = false;
+    public List<CustomEventsManager> onFinishInteraction = null;
     
     // // Use this for initialization
     // protected override void Awake(){
@@ -81,22 +86,48 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.Hide(duration);
         }
         
-        if(startInteraction) {
+        if(startInteraction
+            && !speechBubble.IsInUse()) {
             speechBubble.StartInteraction();
         }
-        if(finishInteraction) {
+        if(finishInteraction
+            && speechBubble.IsInUse()) {
             speechBubble.FinishInteraction();
         }
         
+        //----------------------------------------------------------------------
         //------------------------------
-        // Speech Bubble - On Finish
+        // Speech Bubble - On Start Interation
         //------------------------------
-        if(onSpeechBubbleFinish != null) {
-            // ToArray() is used to get a copy so that this doesn't trip over itself recursively
-            // when it modifies the finish
-            foreach(CustomEventsManager customEventsManager in onSpeechBubbleFinish.ToArray()) {
-                speechBubble.onFinishInteraction.Add(customEventsManager);
-            }
+        if(clearOnStartInteraction) {
+            speechBubble.onStartInteraction.Clear();
+        }
+        // ToArray() is used to get a copy so that this doesn't trip over itself recursively
+        // when it modifies the finish
+        foreach(CustomEventsManager customEventsManager in onStartInteraction.ToArray()) {
+            speechBubble.onStartInteraction.Add(customEventsManager);
+        }
+        //------------------------------
+        // Speech Bubble - On Iteratie
+        //------------------------------
+        if(clearOnTextIteration) {
+            speechBubble.onTextIteration.Clear();
+        }
+        // ToArray() is used to get a copy so that this doesn't trip over itself recursively
+        // when it modifies the finish
+        foreach(CustomEventsManager customEventsManager in onTextIteration.ToArray()) {
+            speechBubble.onTextIteration.Add(customEventsManager);
+        }
+        //------------------------------
+        // Speech Bubble - On Finish Interaction
+        //------------------------------
+        if(clearOnFinishInteraction) {
+            speechBubble.onFinishInteraction.Clear();
+        }
+        // ToArray() is used to get a copy so that this doesn't trip over itself recursively
+        // when it modifies the finish
+        foreach(CustomEventsManager customEventsManager in onFinishInteraction.ToArray()) {
+            speechBubble.onFinishInteraction.Add(customEventsManager);
         }
     }
 }
