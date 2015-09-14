@@ -83,17 +83,21 @@ namespace Acrocatic {
         private float jumpTimer;                                // Used for the holdToJumpHigher jumps. Determines how long the player can jump.
         
         protected void Awake() {
+            //----------------------
+            // Custom Code
             Initialize();
+            //----------------------
+            
         }
         
         // Use this for initialization.
-        void Start() {
+        protected void Start() {
             // Setting up references.
-            player = GetComponent<Player>();
+            player = this.gameObject.GetComponent<Player>();
         }
         
         // Update is called once per frame.
-        void Update() {
+        protected void Update() {
             // Reset total jumps allowed when not performing a jump and grounded or when on a moving/sinking platform.
             if(!jump
                 && (player.grounded || player.IsStuckToPlatform())
@@ -236,6 +240,8 @@ namespace Acrocatic {
             }
         }
         
+        //----------------------
+        // Custom Code
         protected void Initialize() {
             if(onJumpEvents == null) {
                 onJumpEvents = new List<CustomEventsManager>();
@@ -246,6 +252,7 @@ namespace Acrocatic {
                 }
             }
         }
+        //----------------------
         
         // Reset the jumping variables.
         void ResetJumpVars() {
@@ -272,13 +279,19 @@ namespace Acrocatic {
             // Reset the jumpTimer.
             jumpTimer = holdToJumpHigher.jumpTime;
             
+            //----------------------
+            // Custom Code
             FireJumpEvents();
+            //----------------------
         }
         
+        //----------------------
+        // Custom Code
         protected void FireJumpEvents() {
             foreach(CustomEventsManager customEventsManager in onJumpEvents) {
                 customEventsManager.Execute();
             }
         }
+        //----------------------
     }
 }
