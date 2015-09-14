@@ -85,6 +85,8 @@ public class CarryItem : MonoBehaviour {
             if(this.gameObject.transform.localScale.x < 0) {
                 itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
             }
+            itemBeingCarried.transform.eulerAngles = Vector3.zero;
+            
             ItemManager.Instance.Add(itemBeingCarried);
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
@@ -106,6 +108,8 @@ public class CarryItem : MonoBehaviour {
             if(objectCarryingItem.transform.localScale.x < 0) {
                 itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
             }
+            itemBeingCarried.transform.eulerAngles = Vector3.zero;
+            
             ItemManager.Instance.Add(itemBeingCarried);
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
