@@ -16,26 +16,26 @@ public class DetonatorInteractionTrigger : ItemInteractionTrigger {
     protected override void Initialize() {
         base.Initialize();
         if(detonator == null) {
-            detonator = Utility.GetFirstParentOfType<Detonator>(this.gameObject);
+            detonator = this.gameObject.GetFirstParentOfType<Detonator>();
             if(detonator == null) {
                 Debug.LogError("Please assign the 'Detonator' property, or make " + this.gameObject.name + " a child of an object with the 'Detonator' script. Because, it is currently null.");
             }
         }
     }
     
-    public override void ShowSpeechBubble(float duration) {
+    public override void ShowSpeechBubble(float horizontalScaleDuration, float verticalScalueDuration) {
         if(speechBubble != null
             && detonator.IsPrimed()
             && !detonator.HasBeenDetonated()) {
-            speechBubble.Show(duration);
+            speechBubble.Show(verticalScalueDuration, horizontalScaleDuration);
         }
     }
     
-    public override void HideSpeechBubble(float duration) {
+    public override void HideSpeechBubble(float horizontalScaleDuration, float verticalScalueDuration) {
         // if(speechBubble != null) {
-        //     speechBubble.Hide(duration);
+        //     speechBubble.Hide(horizontalScaleDuration, verticalScalueDuration);
         // }
-        base.HideSpeechBubble(duration);
+        base.HideSpeechBubble(horizontalScaleDuration, verticalScalueDuration);
     }
     
     public override void Entered(GameObject gameObjectEntering) {

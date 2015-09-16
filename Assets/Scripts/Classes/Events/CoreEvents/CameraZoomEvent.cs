@@ -7,7 +7,6 @@ public class CameraZoomEvent : CustomEventObject {
     public float delay = 0f;
     public float duration = 1f;
     public GoEaseType easingType = GoEaseType.Linear;
-    private GoTween zoomTween = null;
     
     // protected override void Awake() {
     //     base.Awake();
@@ -42,10 +41,7 @@ public class CameraZoomEvent : CustomEventObject {
     
     public void Zoom() {
         // Debug.Log("Executing zoom");
-        if(zoomTween != null) {
-            zoomTween.destroy();
-            zoomTween = null; // because I'm cautious like that
-        }
+        cameraToZoom.gameObject.DestroyGoTweens();
         
         GoTweenConfig zoomTweenConfig = new GoTweenConfig()
         .floatProp("orthographicSize", endZoom)
@@ -53,8 +49,8 @@ public class CameraZoomEvent : CustomEventObject {
         .onComplete(complete => {
             FireFinishEvents();
         });
-        zoomTween = Go.to(cameraToZoom,
-                          duration,
-                          zoomTweenConfig);
+        cameraToZoom.gameObject.AddGoTween(Go.to(cameraToZoom,
+                                                 duration,
+                                                 zoomTweenConfig));
     }
 }

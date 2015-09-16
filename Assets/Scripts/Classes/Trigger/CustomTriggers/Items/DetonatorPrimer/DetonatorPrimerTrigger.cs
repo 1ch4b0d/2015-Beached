@@ -22,7 +22,7 @@ public class DetonatorPrimerTrigger : CustomTrigger {
         }
         
         if(detonatorPrimer == null) {
-            detonatorPrimer = Utility.GetFirstParentOfType<DetonatorPrimer>(this.gameObject);
+            detonatorPrimer = this.gameObject.GetFirstParentOfType<DetonatorPrimer>();
             if(detonatorPrimer == null) {
                 Debug.Log("The DetonatorPrimerTrigger of the gameObject: " + this.gameObject.name + " is null. Fix it.");
             }

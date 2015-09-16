@@ -25,7 +25,7 @@ public class NPCInteractionTrigger : SpeechBubbleInteractionTrigger {
         // Debug.Log("SpeechBubble Trigger Entered");
         Player playerReference = gameObjectEntering.GetComponent<Player>();
         if(playerReference != null) {
-            ShowSpeechBubble(0.25f);
+            ShowSpeechBubble(horizontalScaleOutDuration, verticalScaleOutDuration);
         }
     }
     
@@ -33,7 +33,7 @@ public class NPCInteractionTrigger : SpeechBubbleInteractionTrigger {
         // Debug.Log("SpeechBubble Trigger Exited");
         Player playerReference = gameObjectExiting.GetComponent<Player>();
         if(playerReference != null) {
-            HideSpeechBubble(0.25f);
+            HideSpeechBubble(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }
 }

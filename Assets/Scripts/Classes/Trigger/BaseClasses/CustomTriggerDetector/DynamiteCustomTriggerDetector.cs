@@ -27,7 +27,7 @@ public class DynamiteCustomTriggerDetector : ItemCustomTriggerDetector {
         // sub gameobject that is a child of the actual game object interacting
         // (the collider is a sub game object of the main game object)
         //----------------------------
-        Detonator detonator = Utility.GetFirstParentOfType<Detonator>(collider.gameObject);
+        Detonator detonator = collider.gameObject.GetFirstParentOfType<Detonator>();
         if(customTrigger != null) {
             if(detonator == null) {
                 customTrigger.Entered(this.gameObject);
@@ -41,7 +41,7 @@ public class DynamiteCustomTriggerDetector : ItemCustomTriggerDetector {
     public override void OnTriggerExit2D(Collider2D collider) {
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
         // Detonator detonator = collider.gameObject.GetComponent<Detonator>();
-        Detonator detonator = Utility.GetFirstParentOfType<Detonator>(collider.gameObject);
+        Detonator detonator = collider.gameObject.GetFirstParentOfType<Detonator>();
         if(customTrigger != null) {
             if(detonator == null) {
                 customTrigger.Exited(this.gameObject);

@@ -21,39 +21,45 @@ public class ItemInteractionTrigger : SpeechBubbleInteractionTrigger {
     
     protected override void Initialize() {
         if(itemGameObject == null) {
-            itemGameObject = Utility.GetFirstParentOfType<Item>(this.gameObject).gameObject;
+            itemGameObject = this.gameObject.GetFirstParentOfType<Item>().gameObject;
             if(itemGameObject == null) {
                 Debug.LogError("Could not find the " + this.gameObject.name + ": itemGameObject");
             }
         }
     }
     
+    // TODO: Look into this speechbubble fade speed thing. It looks poorly named
+    //       and seems... suspicious
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("Item Trigger Entered");
         CarryItem carryItem = gameObjectEntering.GetComponent<CarryItem>();
         if(carryItem != null) {
             if(carryItem.itemBeingCarried == null) {
-                ShowSpeechBubble(speechBubbleFadeSpeed);
+                ShowSpeechBubble(speechBubbleFadeSpeed, speechBubbleFadeSpeed);
             }
         }
         else {
-            ShowSpeechBubble(speechBubbleFadeSpeed);
+            ShowSpeechBubble(speechBubbleFadeSpeed, speechBubbleFadeSpeed);
         }
     }
     
+    // TODO: Look into this speechbubble fade speed thing. It looks poorly named
+    //       and seems... suspicious
     public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("Item Trigger Exited");
         CarryItem carryItem = gameObjectExiting.GetComponent<CarryItem>();
         if(carryItem != null) {
             if(carryItem.itemBeingCarried == null) {
-                HideSpeechBubble(speechBubbleFadeSpeed);
+                HideSpeechBubble(speechBubbleFadeSpeed, speechBubbleFadeSpeed);
             }
         }
         else {
-            HideSpeechBubble(speechBubbleFadeSpeed);
+            HideSpeechBubble(speechBubbleFadeSpeed, speechBubbleFadeSpeed);
         }
     }
     
+    // TODO: Look into this speechbubble fade speed thing. It looks poorly named
+    //       and seems... suspicious
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
         // Debug.Log("Item Triggered Interaction");
         CarryItem carryItem = gameObjectExecuting.GetComponent<CarryItem>();
@@ -62,15 +68,15 @@ public class ItemInteractionTrigger : SpeechBubbleInteractionTrigger {
             && carryItem.itemBeingCarried == null) {
             // Debug.Log("give this player an item!!!");
             carryItem.PickUpItem(itemGameObject);
-            HideSpeechBubble(speechBubbleFadeSpeed);
+            HideSpeechBubble(speechBubbleFadeSpeed, speechBubbleFadeSpeed);
         }
     }
     
-    public override void ShowSpeechBubble(float duration) {
-        base.ShowSpeechBubble(duration);
+    public override void ShowSpeechBubble(float horizontalScaleDuration, float verticalScaleDuration) {
+        base.ShowSpeechBubble(horizontalScaleDuration, verticalScaleDuration);
     }
     
-    public override void HideSpeechBubble(float duration) {
-        base.HideSpeechBubble(duration);
+    public override void HideSpeechBubble(float horizontalScaleDuration, float verticalScaleDuration) {
+        base.HideSpeechBubble(horizontalScaleDuration, verticalScaleDuration);
     }
 }

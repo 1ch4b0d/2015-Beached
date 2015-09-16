@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class SpeechBubbleInteractionTrigger : InteractionTrigger {
+    public float horizontalScaleOutDuration = 0.25f;
+    public float verticalScaleOutDuration = 0.25f;
+    public float horizontalScaleInDuration = 0.25f;
+    public float verticalScaleInDuration = 0.25f;
     public SpeechBubble speechBubble = null;
     public List<SpeechBubbleTextSet> textSets = null;
     private SpeechBubbleTextSet placeholderTextSet = null;
@@ -62,12 +66,12 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
-        ShowSpeechBubble(0.25f);
+        ShowSpeechBubble(horizontalScaleOutDuration, verticalScaleOutDuration);
     }
     
     public override void Exited(GameObject gameObjectExiting) {
         // Debug.Log("SpeechBubble Trigger Exited");
-        HideSpeechBubble(0.25f);
+        HideSpeechBubble(horizontalScaleInDuration, verticalScaleInDuration);
     }
     
     public override void Execute(GameObject gameObjectToExecute) {
@@ -117,17 +121,17 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         }
     }
     
-    public virtual void ShowSpeechBubble(float duration) {
+    public virtual void ShowSpeechBubble(float horizontalScaleOutDuration, float verticalScaleOutDuration) {
         if(speechBubble != null
             && speechBubble.enabled) {
-            speechBubble.Show(duration);
+            speechBubble.Show(horizontalScaleOutDuration, verticalScaleOutDuration);
         }
     }
     
-    public virtual void HideSpeechBubble(float duration) {
+    public virtual void HideSpeechBubble(float horizontalScaleInDuration, float verticalScaleInDuration) {
         if(speechBubble != null
             && speechBubble.enabled) {
-            speechBubble.Hide(duration);
+            speechBubble.Hide(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }
 }

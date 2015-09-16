@@ -32,7 +32,7 @@ public static class Factory {
     }
     
     public static GameObject SpeechBubble() {
-        GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/SpeechBubble") as GameObject);
+        GameObject newSpeechBubbleGameObject = (GameObject)GameObject.Instantiate(Resources.Load("Prefabs/GUI/SpeechBubble/UISpeechBubble") as GameObject);
         return newSpeechBubbleGameObject;
     }
 }

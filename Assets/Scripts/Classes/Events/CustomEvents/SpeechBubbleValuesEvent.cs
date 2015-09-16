@@ -6,7 +6,10 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
     public SpeechBubble speechBubble = null;
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     public List<string> textSet = null;
-    public float duration = 1f;
+    public float showVerticalScaleDuration = 0.25f;
+    public float showHorizontalScaleDuration = 0.25f;
+    public float hideVerticalScaleDuration = 0.25f;
+    public float hideHorizontalScaleDuration = 0.25f;
     public bool isEnabled = true;
     public bool show = false;
     public bool hide = false;
@@ -80,10 +83,10 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             Debug.LogError("Show and hide cannot BOTH be TRUE. Please fix this on " + this.gameObject.name);
         }
         else if(show) {
-            speechBubble.Show(duration);
+            speechBubble.Show(showVerticalScaleDuration, showHorizontalScaleDuration);
         }
         else if(hide) {
-            speechBubble.Hide(duration);
+            speechBubble.Hide(hideVerticalScaleDuration, hideHorizontalScaleDuration);
         }
         
         if(startInteraction

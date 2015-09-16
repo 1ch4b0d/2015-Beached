@@ -20,7 +20,7 @@ public class CinematicDetonatorInteractionTrigger : DetonatorInteractionTrigger 
     protected override void Initialize() {
         base.Initialize();
         if(cinematicDetonator == null) {
-            cinematicDetonator = Utility.GetFirstParentOfType<CinematicDetonator>(this.gameObject);
+            cinematicDetonator = this.gameObject.GetFirstParentOfType<CinematicDetonator>();
             if(cinematicDetonator == null) {
                 Debug.LogError("Please assign the 'CinematicDetonator' property, or make " + this.gameObject.name + " a child of an object with the 'CinematicDetonator' script. Because, it is currently null.");
             }
