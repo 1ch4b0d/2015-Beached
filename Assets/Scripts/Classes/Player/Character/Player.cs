@@ -260,7 +260,7 @@ public class Player : BasePlayer {
             rigidbody2DSnapshot.Capture(rigidbody2D);
             rigidbody2D.isKinematic = true;
             //------
-            ToggleColliders(colliders, false);
+            // ToggleColliders(colliders, false);
             //------
             ToggleController(this.gameObject, false);
             //------
@@ -277,7 +277,7 @@ public class Player : BasePlayer {
             Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
             rigidbody2DSnapshot.Restore(rigidbody2D);
             //------
-            ToggleColliders(colliders, true);
+            // ToggleColliders(colliders, true);
             //------
             ToggleController(this.gameObject, true);
             //------

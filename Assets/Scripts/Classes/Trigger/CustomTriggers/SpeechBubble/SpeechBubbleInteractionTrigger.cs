@@ -89,20 +89,25 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     }
     
     public override void ExecuteLogic(GameObject gameObjectExecuting) {
+        // Debug.Log("----------------------------------");
         // Debug.Log("SpeechBubble Triggered Interaction");
+        // Debug.Log("SpeechBubble In Use: " + speechBubble.IsInUse());
         Player playerRef = gameObjectExecuting.GetComponent<Player>();
         if(playerRef != null
             && speechBubble != null) {
             // Starts the speech bubble
             if(!speechBubble.IsInUse()) {
+                // Debug.Log("Starting");
                 playerRef.StartInteraction();
                 
-                speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
-                speechBubble.StartInteraction();
+                // speechBubble.SetTextSet(PopNextTextSet().GetTextSet().ToArray());
+                speechBubble.StartInteraction(PopNextTextSet().GetTextSet().ToArray());
             }
             else {
                 // Ends the speech bubble
                 if(speechBubble.HasFinishedInteraction()) {
+                    // Debug.Log("Finished");
+                    
                     // Start playerRef gamestate first so that if events are fired
                     // at the end of the speech bubble they can override any
                     // changes that could occur in the playerRef's state
@@ -114,6 +119,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                 // Proceeds in the speech bubble
                 else {
                     if(speechBubble.HasFinishedDisplayingText()) {
+                        // Debug.Log("Moving To Next");
                         speechBubble.MoveToNextText();
                     }
                 }
@@ -123,14 +129,16 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
     
     public virtual void ShowSpeechBubble(float horizontalScaleOutDuration, float verticalScaleOutDuration) {
         if(speechBubble != null
-            && speechBubble.enabled) {
+            && speechBubble.enabled
+            && !speechBubble.IsDisplayed()) {
             speechBubble.Show(horizontalScaleOutDuration, verticalScaleOutDuration);
         }
     }
     
     public virtual void HideSpeechBubble(float horizontalScaleInDuration, float verticalScaleInDuration) {
         if(speechBubble != null
-            && speechBubble.enabled) {
+            && speechBubble.enabled
+            && speechBubble.IsDisplayed()) {
             speechBubble.Hide(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }

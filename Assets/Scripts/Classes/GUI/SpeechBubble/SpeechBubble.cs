@@ -20,6 +20,7 @@ public class SpeechBubble : MonoBehaviour {
     TypewriterEffect labelTypeWriterEffect = null;
     
     public Queue<string> textSet = new Queue<string>();
+    public bool isDisplayed = false;
     public bool isInUse = false;
     
     public SpeechBubbleInteractionTrigger interactionTrigger = null;
@@ -32,6 +33,7 @@ public class SpeechBubble : MonoBehaviour {
     private string speechBubbleSpriteName = "SpeechBubbleSprite";
     public Vector2 controllerButtonBubbleSize = new Vector2(100, 100);
     public Vector2 controllerButtonSize = new Vector2(100, 100);
+    public float controllerButtonFadeDuration = 0.25f;
     public Vector2 textBubleWidthMinAndMax = new Vector2(100, 200);
     public Vector2 textBubbleHeightMinAndMax = new Vector2(100, 200);
     public GoEaseType horizontalScaleOutEaseType = GoEaseType.Linear;
@@ -54,7 +56,7 @@ public class SpeechBubble : MonoBehaviour {
     // Use this for initialization
     protected void Start() {
         // by default the speech bubble is hidden on start
-        // Hide(float.Epsilon, float.Epsilon);
+        Hide(float.Epsilon, float.Epsilon);
         SetSpeechBubbleImageToDevice();
     }
     
@@ -332,25 +334,62 @@ public class SpeechBubble : MonoBehaviour {
         speechBubbleImage = newSpeechBubbleImage;
     }
     
-    public void StartInteraction() {
-        SetInUse(true);
-        SetSpeechBubbleImage(SpeechBubbleImage.None);
-        FireStartInteractionEvents();
+    public void StartInteraction(params string[] newTextSet) {
+    
+        // this is done to enable the controller button to fade on start interaction
+        if(newTextSet.Length >= 0) {
+            textSet.Clear();
+        }
+        
+        GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 0)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+            // this is done to enable the controller button to fade on start interaction
+            if(newTextSet.Length >= 0) {
+                SetTextSet(newTextSet);
+            }
+            SetInUse(true);
+            SetSpeechBubbleImage(SpeechBubbleImage.None);
+            FireStartInteractionEvents();
+        });
+        
+        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
+                                         controllerButtonFadeDuration,
+                                         fadeButtonTweenConfig));
     }
+    
     public void FinishInteraction() {
-        // Debug.Log("Finished Interaction");
-        SetInUse(false);
+        // Debug.Log("Finishing Interaction.");
+        
+        // Not sure this is needed?
+        // this.gameObject.DestroyGoTweens();
+        
         SetSpeechBubbleImageToDevice();
+        
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
         label.text = "";
         
-        // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
-        FireFinishInteractionEvents();
+        GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 1f)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+            // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
+            SetInUse(false);
+            FireFinishInteractionEvents();
+        });
+        
+        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
+                                         controllerButtonFadeDuration,
+                                         fadeButtonTweenConfig));
     }
     
     public bool HasFinishedInteraction() {
+        // Debug.Log("HasFinishedDisplayingText: " + HasFinishedDisplayingText() + "\n" + "Text Set Size: " + textSet.Count);
         return (HasFinishedDisplayingText() && textSet.Count == 0) ? true : false;
     }
     
@@ -359,6 +398,14 @@ public class SpeechBubble : MonoBehaviour {
     }
     public bool IsInUse() {
         return isInUse;
+    }
+    public void SetIsDisplayed(bool newIsDisplayed) {
+        isDisplayed = newIsDisplayed;
+    }
+    public bool IsDisplayed() {
+        // TODO: make this a value that is returned based on the current
+        //          alpha of the panel and sprite that are tweened respectively
+        return isDisplayed;
     }
     
     public bool HasFinishedDisplayingText() {
@@ -378,7 +425,7 @@ public class SpeechBubble : MonoBehaviour {
         if(textSet.Count > 0) {
             returnString = textSet.Dequeue();
         }
-        // Debug.Log("Pop! " + returnString);
+        // Debug.Log("Pop!\n" + returnString);
         return returnString;
     }
     
@@ -448,30 +495,30 @@ public class SpeechBubble : MonoBehaviour {
         label.text = "";
     }
     
-    public void ClearTweens() {
-        foreach(GoTween tween in tweens) {
-            tween.pause();
-            tween.destroy();
-        }
-        tweens.Clear();
-    }
-    
     public SpeechBubble Show(float horizontalScaleDuration, float verticalScaleDuration) {
+        // Debug.Log("Show.");
+        
         // clears the tweens
         this.gameObject.DestroyGoTweens();
         
         ScaleVerticalThenHorizontal(speechBubbleSprite, (int)controllerButtonBubbleSize.x, (int)controllerButtonBubbleSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
         ScaleVerticalThenHorizontal(controllerButtonSprite, (int)controllerButtonSize.x, (int)controllerButtonSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
         
+        isDisplayed = true;
+        
         return this;
     }
     
     public SpeechBubble Hide(float horizontalScaleDuration, float verticalScaleDuration) {
+        // Debug.Log("Hide");
+        
         // clears the tweens
         this.gameObject.DestroyGoTweens();
         
         ScaleHorizontalThenVertical(speechBubbleSprite, 0, 0, horizontalScaleInEaseType, verticalScaleInEaseType, horizontalScaleDuration, verticalScaleDuration);
         ScaleHorizontalThenVertical(controllerButtonSprite, 0, 0, horizontalScaleInEaseType, verticalScaleInEaseType, horizontalScaleDuration, verticalScaleDuration);
+        
+        isDisplayed = false;
         
         return this;
     }
