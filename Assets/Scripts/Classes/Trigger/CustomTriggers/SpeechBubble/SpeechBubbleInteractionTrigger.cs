@@ -96,7 +96,8 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         if(playerRef != null
             && speechBubble != null) {
             // Starts the speech bubble
-            if(!speechBubble.IsInUse()) {
+            if(!speechBubble.IsInUse()
+                && speechBubble.hasFinishedShowing) {
                 // Debug.Log("Starting");
                 playerRef.StartInteraction();
                 
@@ -106,15 +107,17 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
             else {
                 // Ends the speech bubble
                 if(speechBubble.HasFinishedInteraction()) {
-                    // Debug.Log("Finished");
-                    
-                    // Start playerRef gamestate first so that if events are fired
-                    // at the end of the speech bubble they can override any
-                    // changes that could occur in the playerRef's state
-                    playerRef.StartGameplayState();
-                    speechBubble.FinishInteraction();
-                    
-                    currentIteration++;
+                    if(speechBubble.IsDisplayingText()) {
+                        // Debug.Log("Finished");
+                        
+                        // Start playerRef gamestate first so that if events are fired
+                        // at the end of the speech bubble they can override any
+                        // changes that could occur in the playerRef's state
+                        playerRef.StartGameplayState();
+                        speechBubble.FinishInteraction();
+                        
+                        currentIteration++;
+                    }
                 }
                 // Proceeds in the speech bubble
                 else {
@@ -131,6 +134,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         if(speechBubble != null
             && speechBubble.enabled
             && !speechBubble.IsDisplayed()) {
+            // Debug.Log("Showing");
             speechBubble.Show(horizontalScaleOutDuration, verticalScaleOutDuration);
         }
     }
@@ -139,6 +143,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         if(speechBubble != null
             && speechBubble.enabled
             && speechBubble.IsDisplayed()) {
+            // Debug.Log("Hiding");
             speechBubble.Hide(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }

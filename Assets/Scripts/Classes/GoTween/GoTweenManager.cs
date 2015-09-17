@@ -41,6 +41,9 @@ public class GoTweenManager : MonoBehaviour {
     public void Add(GoTween newGoTween) {
         goTweens.Add(newGoTween);
     }
+    public List<GoTween> GetGoTweens() {
+        return goTweens;
+    }
     
     public void DestroyTweens() {
         foreach(GoTween goTween in goTweens) {

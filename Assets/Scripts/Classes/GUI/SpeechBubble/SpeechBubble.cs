@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 // This class is so tightly coupled it hurts....
+// This is garbage. Rewrite this better so that it reflects the correct transitions
+// between how it's displaying and how information should be displayed
 // Makes the assumption that the speech bubble image has the pivot set to the bottom
 public class SpeechBubble : MonoBehaviour {
     public GameObject speechBubbleGameObject = null;
@@ -20,7 +22,9 @@ public class SpeechBubble : MonoBehaviour {
     public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     
     public Queue<string> textSet = new Queue<string>();
-    public bool isDisplayed = false;
+    public bool hasFinishedShowing = false; // used to prevent starting interaction before show finishes
+    public bool isDisplayed = false; // used to determine when the speech bubble is started so that the show and hide function are not called more than once
+    public bool isDisplayingText = false;
     public bool isInUse = false;
     
     public SpeechBubbleInteractionTrigger interactionTrigger = null;
@@ -64,16 +68,17 @@ public class SpeechBubble : MonoBehaviour {
     // Update is called once per frame
     protected void Update() {
         // Resize Logic goes here
-        if(IsInUse()) {
-            Debug.Log("---------------------");
-            Debug.Log("Speech Bubble Sprite:");
-            Debug.Log("Width: " + speechBubbleSprite.width + "\nHeight: " + speechBubbleSprite.height);
-            Debug.Log("Text Label:");
-            Debug.Log("Width: " + uiLabelText.width + "\nHeight: " + uiLabelText.height);
+        if(IsInUse()
+            && !HasFinishedInteraction()) {
+            // Debug.Log("---------------------");
+            // Debug.Log("Speech Bubble Sprite:");
+            // Debug.Log("Width: " + speechBubbleSprite.width + "\nHeight: " + speechBubbleSprite.height);
+            // Debug.Log("Text Label:");
+            // Debug.Log("Width: " + uiLabelText.width + "\nHeight: " + uiLabelText.height);
             
             // accounts for anchors
             int labelHeight = uiLabelText.height - textPanel.topAnchor.absolute + textPanel.bottomAnchor.absolute;
-            Debug.Log("CalculatedHeight: " + labelHeight);
+            // Debug.Log("CalculatedHeight: " + labelHeight);
             // automatically handles scaling speech bubble with text
             if(labelHeight >= speechBubbleSprite.height) {
                 if(speechBubbleSprite.height < textBubbleHeightMinAndMax.y) {
@@ -366,7 +371,9 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public void StartInteraction(params string[] newTextSet) {
-    
+        // Debug.Log("Starting Interaction.");
+        this.gameObject.DestroyGoTweens();
+        
         // this is done to enable the controller button to fade on start interaction
         if(newTextSet.Length >= 0) {
             textSet.Clear();
@@ -378,18 +385,12 @@ public class SpeechBubble : MonoBehaviour {
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
         });
-        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
-                                         controllerButtonFadeDuration,
-                                         horizontalScaleTweenConfig));
         // scale vertical
         GoTweenConfig verticalScaleTweenConfig = new GoTweenConfig()
         .intProp("height", (int)textBubbleHeightMinAndMax.x)
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
         });
-        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
-                                         controllerButtonFadeDuration,
-                                         verticalScaleTweenConfig));
         //-----------------------------------
         // Button Fade
         //-----------------------------------
@@ -397,33 +398,37 @@ public class SpeechBubble : MonoBehaviour {
         .floatProp("alpha", 0)
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
-            // this is done to enable the controller button to fade on start interaction
+            // Pretty sure setting the button image isn't needed now
+            // SetSpeechBubbleImage(SpeechBubbleImage.None);
             if(newTextSet.Length >= 0) {
                 SetTextSet(newTextSet);
             }
-            SetInUse(true);
-            SetSpeechBubbleImage(SpeechBubbleImage.None);
+            SetIsDisplayingText(true);
             FireStartInteractionEvents();
         });
-        
-        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         horizontalScaleTweenConfig));
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         verticalScaleTweenConfig));
         this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
                                          controllerButtonFadeDuration,
                                          fadeButtonTweenConfig));
+        // this is done to enable the controller button to fade on start interaction
+        SetIsInUse(true);
     }
     
     public void FinishInteraction() {
         // Debug.Log("Finishing Interaction.");
-        
-        // Not sure this is needed?
-        // this.gameObject.DestroyGoTweens();
+        this.gameObject.DestroyGoTweens();
         
         SetSpeechBubbleImageToDevice();
         
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
-        uiLabelText.text = "";
+        // uiLabelText.text = "";
         
         // scale horizontal
         GoTweenConfig horizontalScaleTweenConfig = new GoTweenConfig()
@@ -431,9 +436,6 @@ public class SpeechBubble : MonoBehaviour {
         .setEaseType(GoEaseType.Linear)
         .onComplete(complete => {
         });
-        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
-                                         controllerButtonFadeDuration,
-                                         horizontalScaleTweenConfig));
         // scale vertical
         GoTweenConfig verticalScaleTweenConfig = new GoTweenConfig()
         .intProp("height", (int)controllerButtonBubbleSize.y)
@@ -442,23 +444,27 @@ public class SpeechBubble : MonoBehaviour {
         });
         this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
                                          controllerButtonFadeDuration,
+                                         horizontalScaleTweenConfig));
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
                                          verticalScaleTweenConfig));
+                                         
         //-----------------------------------
         // Button Fade
         //-----------------------------------
         GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
         .floatProp("alpha", 1f)
         .setEaseType(GoEaseType.Linear)
+        .setDelay(0.15f)
         .onComplete(complete => {
             // Debug.Log(this.gameObject.name + " executed OnSpeechBubbleFinish events.");
-            SetInUse(false);
-            FireFinishInteractionEvents();
+            SetIsInUse(false);
         });
-        
-        // scale horizontal
         this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
                                          controllerButtonFadeDuration,
                                          fadeButtonTweenConfig));
+        FireFinishInteractionEvents();
+        SetIsDisplayingText(false);
     }
     
     public bool HasFinishedInteraction() {
@@ -466,7 +472,7 @@ public class SpeechBubble : MonoBehaviour {
         return (HasFinishedDisplayingText() && textSet.Count == 0) ? true : false;
     }
     
-    public void SetInUse(bool newInUse) {
+    public void SetIsInUse(bool newInUse) {
         isInUse = newInUse;
     }
     public bool IsInUse() {
@@ -475,18 +481,31 @@ public class SpeechBubble : MonoBehaviour {
     public void SetIsDisplayed(bool newIsDisplayed) {
         isDisplayed = newIsDisplayed;
     }
+    /// <summary>
+    /// This is for identifying when the speech bubble is showing in the world
+    /// </summary>
     public bool IsDisplayed() {
         // TODO: make this a value that is returned based on the current
         //          alpha of the panel and sprite that are tweened respectively
         return isDisplayed;
     }
+    /// <summary>
+    /// This is for identifying when the speech bubble is showing in the world
+    /// AND displaying text
+    /// </summary>
+    public bool IsDisplayingText() {
+        return isDisplayingText;
+    }
+    public void SetIsDisplayingText(bool newSetIsDisplayingText) {
+        isDisplayingText = newSetIsDisplayingText;
+    }
     
     public bool HasFinishedDisplayingText() {
-        bool hasFinishedDisplayingText = false;
+        bool hasFinishedDisplayingText = true;
         if(IsInUse()) {
             if(labelTypeWriterEffect != null) {
-                if(!labelTypeWriterEffect.isActive) {
-                    hasFinishedDisplayingText = true;
+                if(labelTypeWriterEffect.isActive) {
+                    hasFinishedDisplayingText = false;
                 }
             }
         }
@@ -575,7 +594,7 @@ public class SpeechBubble : MonoBehaviour {
         this.gameObject.DestroyGoTweens();
         
         ScaleVerticalThenHorizontal(speechBubbleSprite, (int)controllerButtonBubbleSize.x, (int)controllerButtonBubbleSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
-        ScaleVerticalThenHorizontal(controllerButtonSprite, (int)controllerButtonSize.x, (int)controllerButtonSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
+        ScaleVerticalThenHorizontal(controllerButtonSprite, (int)controllerButtonSize.x, (int)controllerButtonSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration, () => { hasFinishedShowing = true; });
         ScaleVerticalThenHorizontal(speechBubbleTailSprite, (int)tailSize.x, (int)tailSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
         //----------------------------------------
         GoTweenConfig rootAlphaTweenConfig = new GoTweenConfig()
@@ -585,10 +604,11 @@ public class SpeechBubble : MonoBehaviour {
         });
         // scale horizontal
         this.gameObject.AddGoTween(Go.to(rootContainer,
-                                         0.25f,
+                                         Mathf.Max(horizontalScaleDuration, verticalScaleDuration),
                                          rootAlphaTweenConfig));
                                          
         isDisplayed = true;
+        hasFinishedShowing = false;
         
         return this;
     }
@@ -610,10 +630,21 @@ public class SpeechBubble : MonoBehaviour {
         });
         // scale horizontal
         this.gameObject.AddGoTween(Go.to(rootContainer,
-                                         0.25f,
+                                         Mathf.Max(horizontalScaleDuration, verticalScaleDuration),
                                          rootAlphaTweenConfig));
                                          
+        GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 1f)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
+                                         Mathf.Max(horizontalScaleDuration, verticalScaleDuration),
+                                         fadeButtonTweenConfig));
+                                         
         isDisplayed = false;
+        hasFinishedShowing = false;
+        SetIsInUse(false);
         
         return this;
     }
@@ -642,13 +673,16 @@ public class SpeechBubble : MonoBehaviour {
                                          horizontalScaleDuration,
                                          scaleHorizontalTweenConfig));
     }
-    public void ScaleVerticalThenHorizontal(UIWidget widget, int width, int height, GoEaseType horizontalScaleEaseType, GoEaseType verticalScaleEaseType, float horizontalScaleDuration, float verticalScaleDuration) {
+    public void ScaleVerticalThenHorizontal(UIWidget widget, int width, int height, GoEaseType horizontalScaleEaseType, GoEaseType verticalScaleEaseType, float horizontalScaleDuration, float verticalScaleDuration, System.Action onFinish = null) {
         // second
         GoTweenConfig scaleHorizontalTweenConfig = new GoTweenConfig()
         .intProp("width", width)
         .setEaseType(horizontalScaleEaseType)
         .onComplete(complete => {
             // do nothing
+            if(onFinish != null) {
+                onFinish();
+            }
         });
         // first
         GoTweenConfig scaleVerticalTweenConfig = new GoTweenConfig()
