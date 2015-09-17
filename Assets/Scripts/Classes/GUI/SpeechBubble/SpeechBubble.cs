@@ -7,17 +7,17 @@ using System.Collections.Generic;
 public class SpeechBubble : MonoBehaviour {
     public GameObject speechBubbleGameObject = null;
     public GameObject speechBubbleAnchorGameObject = null;
-    public UIPanel container = null;
-    public UIPanel controllerButtonPanel = null;
+    public UIPanel rootContainer = null;
     public UI2DSprite controllerButtonSprite = null;
-    public UIPanel speechBubblePanel = null;
     public UI2DSprite speechBubbleSprite = null;
+    public UI2DSprite speechBubbleTailSprite = null;
+    public UIScrollView scrollView = null;
+    public UIPanel textPanel = null;
+    public UILabel uiLabelText = null;
+    private TypewriterEffect labelTypeWriterEffect = null;
     
     Animator animatorReference = null;
-    SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
-    List<GoTween> tweens = null;
-    UILabel label = null;
-    TypewriterEffect labelTypeWriterEffect = null;
+    public SpeechBubbleImage speechBubbleImage = SpeechBubbleImage.None;
     
     public Queue<string> textSet = new Queue<string>();
     public bool isDisplayed = false;
@@ -26,15 +26,16 @@ public class SpeechBubble : MonoBehaviour {
     public SpeechBubbleInteractionTrigger interactionTrigger = null;
     
     // private string rootContainerName = "RootContainer";
+    private string textPanelName = "TextPanel";
     private string textLabelName = "Text";
-    private string controllerButtonSpriteContainerName = "ButtonSpriteContainer";
     private string controllerButtonSpriteName = "ButtonSprite";
-    private string speechBubbleSpriteContainerName = "SpeechBubbleSpriteContainer";
     private string speechBubbleSpriteName = "SpeechBubbleSprite";
+    private string speechBubbleTailSpriteName = "SpeechBubbleTailSprite";
     public Vector2 controllerButtonBubbleSize = new Vector2(100, 100);
     public Vector2 controllerButtonSize = new Vector2(100, 100);
     public float controllerButtonFadeDuration = 0.25f;
-    public Vector2 textBubleWidthMinAndMax = new Vector2(100, 200);
+    public Vector2 tailSize = new Vector2(30, 10);
+    public Vector2 textBubbleWidthMinAndMax = new Vector2(100, 200);
     public Vector2 textBubbleHeightMinAndMax = new Vector2(100, 200);
     public GoEaseType horizontalScaleOutEaseType = GoEaseType.Linear;
     public GoEaseType verticalScaleOutEaseType = GoEaseType.Linear;
@@ -62,6 +63,46 @@ public class SpeechBubble : MonoBehaviour {
     
     // Update is called once per frame
     protected void Update() {
+        // Resize Logic goes here
+        if(IsInUse()) {
+            Debug.Log("---------------------");
+            Debug.Log("Speech Bubble Sprite:");
+            Debug.Log("Width: " + speechBubbleSprite.width + "\nHeight: " + speechBubbleSprite.height);
+            Debug.Log("Text Label:");
+            Debug.Log("Width: " + uiLabelText.width + "\nHeight: " + uiLabelText.height);
+            
+            // accounts for anchors
+            int labelHeight = uiLabelText.height - textPanel.topAnchor.absolute + textPanel.bottomAnchor.absolute;
+            Debug.Log("CalculatedHeight: " + labelHeight);
+            // automatically handles scaling speech bubble with text
+            if(labelHeight >= speechBubbleSprite.height) {
+                if(speechBubbleSprite.height < textBubbleHeightMinAndMax.y) {
+                    float binarySearch = ((labelHeight - speechBubbleSprite.height) / 2f);
+                    if(binarySearch > 1) {
+                        speechBubbleSprite.height += (int)binarySearch;
+                    }
+                    else {
+                        speechBubbleSprite.height = labelHeight;
+                    }
+                    speechBubbleSprite.height = (int)Mathf.Clamp(speechBubbleSprite.height, textBubbleHeightMinAndMax.x, textBubbleHeightMinAndMax.y);
+                }
+            }
+            else {
+                // shrink back down if greater than min, and greater than text
+                if(speechBubbleSprite.height >= textBubbleHeightMinAndMax.x
+                    && speechBubbleSprite.height > labelHeight) {
+                    float binarySearch = ((speechBubbleSprite.height - labelHeight) / 2f);
+                    if(binarySearch > 1) {
+                        speechBubbleSprite.height -= (int)binarySearch;
+                    }
+                    else {
+                        speechBubbleSprite.height = labelHeight;
+                    }
+                    speechBubbleSprite.height = (int)Mathf.Clamp(speechBubbleSprite.height, textBubbleHeightMinAndMax.x, textBubbleHeightMinAndMax.y);
+                }
+            }
+        }
+        
         UpdateAnimator();
         DebugInfo();
     }
@@ -76,36 +117,14 @@ public class SpeechBubble : MonoBehaviour {
         //----------------------------------------------------------------------
         // Root Panel
         //----------------------------------------------------------------------
-        if(container == null) {
-            // GameObject rootPanelGameObject = speechBubbleGameObject.FindInChildren(rootContainerName);
-            // if(rootPanelGameObject != null) {
-            container = speechBubbleGameObject.GetComponent<UIPanel>();
-            if(container == null) {
-                this.gameObject.LogComponentError("container", this.GetType());
+        if(rootContainer == null) {
+            rootContainer = speechBubbleGameObject.GetComponent<UIPanel>();
+            if(rootContainer == null) {
+                this.gameObject.LogComponentError("rootContainer", this.GetType());
             }
-            // }
-            // else {
-            //     this.gameObject.LogComponentError("containerPanelGameObject", this.GetType());
-            // }
         }
         // Sets the size just in case, I don't know.
-        container.SetRect(0f, 0f, controllerButtonBubbleSize.x, controllerButtonBubbleSize.y);
-        
-        //----------------------------------------------------------------------
-        // Controller Button Sprite Container Panel
-        //----------------------------------------------------------------------
-        if(controllerButtonPanel == null) {
-            GameObject controllerButtonPanelGameObject = speechBubbleGameObject.FindInChildren(controllerButtonSpriteContainerName);
-            if(controllerButtonPanelGameObject != null) {
-                controllerButtonPanel = controllerButtonPanelGameObject.GetComponent<UIPanel>();
-                if(controllerButtonPanel == null) {
-                    this.gameObject.LogComponentError("controllerButtonPanel", this.GetType());
-                }
-            }
-            else {
-                this.gameObject.LogComponentError("containerPanelGameObject", this.GetType());
-            }
-        }
+        rootContainer.SetRect(0f, 0f, controllerButtonBubbleSize.x, controllerButtonBubbleSize.y);
         
         //----------------------------------------------------------------------
         // Controller Button Sprite
@@ -115,27 +134,11 @@ public class SpeechBubble : MonoBehaviour {
             if(controllerButtonSpriteGameObject != null) {
                 controllerButtonSprite = controllerButtonSpriteGameObject.GetComponent<UI2DSprite>();
                 if(controllerButtonSprite == null) {
-                    this.gameObject.LogComponentError("controllerButtonPanel", this.GetType());
+                    this.gameObject.LogComponentError("controllerButtonSprite", this.GetType());
                 }
             }
             else {
-                this.gameObject.LogComponentError("containerPanelGameObject", this.GetType());
-            }
-        }
-        
-        //----------------------------------------------------------------------
-        // Speech Bubble Container Panel
-        //----------------------------------------------------------------------
-        if(speechBubblePanel == null) {
-            GameObject speechBubblePanelGameObject = speechBubbleGameObject.FindInChildren(speechBubbleSpriteContainerName);
-            if(speechBubblePanelGameObject != null) {
-                speechBubblePanel = speechBubblePanelGameObject.GetComponent<UIPanel>();
-                if(speechBubblePanel == null) {
-                    this.gameObject.LogComponentError("speechBubblePanel", this.GetType());
-                }
-            }
-            else {
-                this.gameObject.LogComponentError("containerPanelGameObject", this.GetType());
+                this.gameObject.LogComponentError("controllerButtonSpriteGameObject", this.GetType());
             }
         }
         
@@ -151,19 +154,53 @@ public class SpeechBubble : MonoBehaviour {
                 }
             }
             else {
-                this.gameObject.LogComponentError("containerPanelGameObject", this.GetType());
+                this.gameObject.LogComponentError("speechBubbleSpriteGameObject", this.GetType());
+            }
+        }
+        //----------------------------------------------------------------------
+        // Speech Bubble Tail Sprite
+        //----------------------------------------------------------------------
+        if(speechBubbleTailSprite == null) {
+            GameObject speechBubbleTailSpriteGameObject = speechBubbleGameObject.FindInChildren(speechBubbleTailSpriteName);
+            if(speechBubbleTailSpriteGameObject != null) {
+                speechBubbleTailSprite = speechBubbleTailSpriteGameObject.GetComponent<UI2DSprite>();
+                if(speechBubbleTailSprite == null) {
+                    this.gameObject.LogComponentError("speechBubbleTailSprite", this.GetType());
+                }
+            }
+            else {
+                this.gameObject.LogComponentError("speechBubbleTailSpriteGameObject", this.GetType());
             }
         }
         
         //----------------------------------------------------------------------
-        // Label
+        // Text Panel
         //----------------------------------------------------------------------
-        if(label == null) {
+        if(textPanel == null) {
+            GameObject textPanelGameObject = speechBubbleGameObject.FindInChildren(textPanelName);
+            if(textPanelGameObject != null) {
+                textPanel = textPanelGameObject.GetComponent<UIPanel>();
+                if(textPanel == null) {
+                    this.gameObject.LogComponentError("textPanel", this.GetType());
+                }
+                scrollView = textPanelGameObject.GetComponent<UIScrollView>();
+                if(scrollView == null) {
+                    this.gameObject.LogComponentError("scrollView", this.GetType());
+                }
+            }
+            else {
+                this.gameObject.LogComponentError("textPanelGameObject", this.GetType());
+            }
+        }
+        //----------------------------------------------------------------------
+        // UILabel Text
+        //----------------------------------------------------------------------
+        if(uiLabelText == null) {
             GameObject labelGameObject = speechBubbleGameObject.FindInChildren(textLabelName);
             if(labelGameObject != null) {
-                label = labelGameObject.GetComponent<UILabel>();
-                if(label == null) {
-                    this.gameObject.LogComponentError("label", this.GetType());
+                uiLabelText = labelGameObject.GetComponent<UILabel>();
+                if(uiLabelText == null) {
+                    this.gameObject.LogComponentError("uiLabelText", this.GetType());
                 }
             }
             else {
@@ -178,12 +215,6 @@ public class SpeechBubble : MonoBehaviour {
             if(animatorReference == null) {
                 this.gameObject.LogComponentError("animator", this.GetType());
             }
-        }
-        //----------------------------------------------------------------------
-        // Tweens
-        //----------------------------------------------------------------------
-        if(tweens == null) {
-            tweens = new List<GoTween>();
         }
         //----------------------------------------------------------------------
         // Configure Speech Bubble's UIFollowTarget
@@ -211,7 +242,7 @@ public class SpeechBubble : MonoBehaviour {
             }
         }
         
-        labelTypeWriterEffect = label.GetComponent<TypewriterEffect>();
+        labelTypeWriterEffect = uiLabelText.GetComponent<TypewriterEffect>();
         
         //----------------------------------------------------------------------
         // Configure Custom Events
@@ -328,7 +359,7 @@ public class SpeechBubble : MonoBehaviour {
     
     public void SetSpeechBubbleImage(SpeechBubbleImage newSpeechBubbleImage) {
         if(newSpeechBubbleImage != SpeechBubbleImage.None) {
-            label.text = "";
+            uiLabelText.text = "";
         }
         
         speechBubbleImage = newSpeechBubbleImage;
@@ -341,6 +372,27 @@ public class SpeechBubble : MonoBehaviour {
             textSet.Clear();
         }
         
+        // scale horizontal
+        GoTweenConfig horizontalScaleTweenConfig = new GoTweenConfig()
+        .intProp("width", (int)textBubbleWidthMinAndMax.x)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         horizontalScaleTweenConfig));
+        // scale vertical
+        GoTweenConfig verticalScaleTweenConfig = new GoTweenConfig()
+        .intProp("height", (int)textBubbleHeightMinAndMax.x)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         verticalScaleTweenConfig));
+        //-----------------------------------
+        // Button Fade
+        //-----------------------------------
         GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
         .floatProp("alpha", 0)
         .setEaseType(GoEaseType.Linear)
@@ -371,8 +423,29 @@ public class SpeechBubble : MonoBehaviour {
         // You need to finish the typewriter effect first before setting it to
         // an empty string
         labelTypeWriterEffect.Finish();
-        label.text = "";
+        uiLabelText.text = "";
         
+        // scale horizontal
+        GoTweenConfig horizontalScaleTweenConfig = new GoTweenConfig()
+        .intProp("width", (int)controllerButtonBubbleSize.x)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         horizontalScaleTweenConfig));
+        // scale vertical
+        GoTweenConfig verticalScaleTweenConfig = new GoTweenConfig()
+        .intProp("height", (int)controllerButtonBubbleSize.y)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        this.gameObject.AddGoTween(Go.to(speechBubbleSprite,
+                                         controllerButtonFadeDuration,
+                                         verticalScaleTweenConfig));
+        //-----------------------------------
+        // Button Fade
+        //-----------------------------------
         GoTweenConfig fadeButtonTweenConfig = new GoTweenConfig()
         .floatProp("alpha", 1f)
         .setEaseType(GoEaseType.Linear)
@@ -421,7 +494,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     private string PopText() {
-        string returnString = label.text;
+        string returnString = uiLabelText.text;
         if(textSet.Count > 0) {
             returnString = textSet.Dequeue();
         }
@@ -455,7 +528,7 @@ public class SpeechBubble : MonoBehaviour {
     /// This sets the UILabel's text
     /// </summary>
     private void SetSpeechBubbleText(string newText, bool resetTypeWriter = true) {
-        label.text = newText;
+        uiLabelText.text = newText;
         
         if(labelTypeWriterEffect != null
             && resetTypeWriter) {
@@ -478,7 +551,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public bool IsHidden() {
-        return (container.alpha > 0f) ? true : false;
+        return (rootContainer.alpha > 0f) ? true : false;
     }
     
     protected void UpdateAnimator() {
@@ -492,7 +565,7 @@ public class SpeechBubble : MonoBehaviour {
     
     public void ClearText() {
         textSet.Clear();
-        label.text = "";
+        uiLabelText.text = "";
     }
     
     public SpeechBubble Show(float horizontalScaleDuration, float verticalScaleDuration) {
@@ -503,7 +576,18 @@ public class SpeechBubble : MonoBehaviour {
         
         ScaleVerticalThenHorizontal(speechBubbleSprite, (int)controllerButtonBubbleSize.x, (int)controllerButtonBubbleSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
         ScaleVerticalThenHorizontal(controllerButtonSprite, (int)controllerButtonSize.x, (int)controllerButtonSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
-        
+        ScaleVerticalThenHorizontal(speechBubbleTailSprite, (int)tailSize.x, (int)tailSize.y, horizontalScaleOutEaseType, verticalScaleOutEaseType, horizontalScaleDuration, verticalScaleDuration);
+        //----------------------------------------
+        GoTweenConfig rootAlphaTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 1)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(rootContainer,
+                                         0.25f,
+                                         rootAlphaTweenConfig));
+                                         
         isDisplayed = true;
         
         return this;
@@ -517,7 +601,18 @@ public class SpeechBubble : MonoBehaviour {
         
         ScaleHorizontalThenVertical(speechBubbleSprite, 0, 0, horizontalScaleInEaseType, verticalScaleInEaseType, horizontalScaleDuration, verticalScaleDuration);
         ScaleHorizontalThenVertical(controllerButtonSprite, 0, 0, horizontalScaleInEaseType, verticalScaleInEaseType, horizontalScaleDuration, verticalScaleDuration);
-        
+        ScaleHorizontalThenVertical(speechBubbleTailSprite, 0, 0, horizontalScaleInEaseType, verticalScaleInEaseType, horizontalScaleDuration, verticalScaleDuration);
+        //----------------------------------------
+        GoTweenConfig rootAlphaTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 0)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
+        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(rootContainer,
+                                         0.25f,
+                                         rootAlphaTweenConfig));
+                                         
         isDisplayed = false;
         
         return this;
