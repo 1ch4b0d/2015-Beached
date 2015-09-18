@@ -109,7 +109,7 @@ public class SpeechBubble : MonoBehaviour {
         }
         
         UpdateAnimator();
-        DebugInfo();
+        // DebugInfo();
     }
     
     protected void Initialize() {
