@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Item : MonoBehaviour {
     public Animator animator = null;
     
+    public SpeechBubble speechBubble = null;
+    
     public List<Collider2D> colliders = null;
     public List<Collider2D> triggers = null;
     
@@ -39,6 +41,29 @@ public class Item : MonoBehaviour {
             if(animator == null) {
                 Debug.LogError("Animator is missing from the 'Item' script of the gameObject: " + this.gameObject.name);
             }
+        }
+        // speech bubbl is optional, does not need to be assigned
+    }
+    
+    public void SetFacing(bool isFacingRight) {
+        if(isFacingRight) {
+            if(this.gameObject.transform.localScale.x < 0) {
+                this.gameObject.transform.localScale = new Vector3((this.gameObject.transform.localScale.x * -1),
+                                                                   this.gameObject.transform.localScale.y,
+                                                                   this.gameObject.transform.localScale.z);
+            }
+        }
+        // facing left
+        else {
+            if(this.gameObject.transform.localScale.x > 0) {
+                this.gameObject.transform.localScale = new Vector3((this.gameObject.transform.localScale.x * -1),
+                                                                   this.gameObject.transform.localScale.y,
+                                                                   this.gameObject.transform.localScale.z);
+            }
+        }
+        
+        if(speechBubble != null) {
+            speechBubble.SetFacing(isFacingRight);
         }
     }
     

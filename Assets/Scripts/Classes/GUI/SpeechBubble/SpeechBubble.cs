@@ -478,6 +478,24 @@ public class SpeechBubble : MonoBehaviour {
     public bool IsInUse() {
         return isInUse;
     }
+    public void SetFacing(bool isFacingRight) {
+        Debug.Log("Setting Facing");
+        if(isFacingRight) {
+            if(speechBubbleTailSprite.gameObject.transform.localScale.x < 0) {
+                speechBubbleTailSprite.gameObject.transform.localScale = new Vector3((speechBubbleTailSprite.gameObject.transform.localScale.x * -1),
+                                                                                     speechBubbleTailSprite.gameObject.transform.localScale.y,
+                                                                                     speechBubbleTailSprite.gameObject.transform.localScale.z);
+            }
+        }
+        // facing left
+        else {
+            if(speechBubbleTailSprite.gameObject.transform.localScale.x > 0) {
+                speechBubbleTailSprite.gameObject.transform.localScale = new Vector3((speechBubbleTailSprite.gameObject.transform.localScale.x * -1),
+                                                                                     speechBubbleTailSprite.gameObject.transform.localScale.y,
+                                                                                     speechBubbleTailSprite.gameObject.transform.localScale.z);
+            }
+        }
+    }
     public void SetIsDisplayed(bool newIsDisplayed) {
         isDisplayed = newIsDisplayed;
     }

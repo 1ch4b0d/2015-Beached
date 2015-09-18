@@ -83,7 +83,10 @@ public class CarryItem : MonoBehaviour {
             
             // Flips the item on drop so it looks the right way
             if(this.gameObject.transform.localScale.x < 0) {
-                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
+                item.SetFacing(false);
+            }
+            else {
+                item.SetFacing(true);
             }
             itemBeingCarried.transform.eulerAngles = Vector3.zero;
             
@@ -105,8 +108,11 @@ public class CarryItem : MonoBehaviour {
             item.EnableTriggers();
             
             // Flips the item on drop so it looks the right way
-            if(objectCarryingItem.transform.localScale.x < 0) {
-                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
+            if(this.gameObject.transform.localScale.x < 0) {
+                item.SetFacing(false);
+            }
+            else {
+                item.SetFacing(true);
             }
             itemBeingCarried.transform.eulerAngles = Vector3.zero;
             
