@@ -379,6 +379,12 @@ public class SpeechBubble : MonoBehaviour {
             textSet.Clear();
         }
         
+        // root container - this is done to guarantee that cinematics work so that this won't be hidden when start interaction is called
+        GoTweenConfig rootAlphaTweenConfig = new GoTweenConfig()
+        .floatProp("alpha", 1)
+        .setEaseType(GoEaseType.Linear)
+        .onComplete(complete => {
+        });
         // scale horizontal
         GoTweenConfig horizontalScaleTweenConfig = new GoTweenConfig()
         .intProp("width", (int)textBubbleWidthMinAndMax.x)
@@ -415,6 +421,10 @@ public class SpeechBubble : MonoBehaviour {
         this.gameObject.AddGoTween(Go.to(controllerButtonSprite,
                                          controllerButtonFadeDuration,
                                          fadeButtonTweenConfig));
+        // scale horizontal
+        this.gameObject.AddGoTween(Go.to(rootContainer,
+                                         controllerButtonFadeDuration,
+                                         rootAlphaTweenConfig));
         // this is done to enable the controller button to fade on start interaction
         SetIsInUse(true);
     }
@@ -479,7 +489,7 @@ public class SpeechBubble : MonoBehaviour {
         return isInUse;
     }
     public void SetFacing(bool isFacingRight) {
-        Debug.Log("Setting Facing");
+        // Debug.Log("Setting Facing");
         if(isFacingRight) {
             if(speechBubbleTailSprite.gameObject.transform.localScale.x < 0) {
                 speechBubbleTailSprite.gameObject.transform.localScale = new Vector3((speechBubbleTailSprite.gameObject.transform.localScale.x * -1),
@@ -606,7 +616,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public SpeechBubble Show(float horizontalScaleDuration, float verticalScaleDuration) {
-        // Debug.Log("Show.");
+        // Debug.Log("Show");
         
         // clears the tweens
         this.gameObject.DestroyGoTweens();

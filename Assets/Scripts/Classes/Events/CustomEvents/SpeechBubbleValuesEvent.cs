@@ -69,13 +69,6 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
         speechBubble.SetSpeechBubbleImage(speechBubbleImage);
         
         //------------------------------
-        // Text Set
-        //------------------------------
-        if(textSet.Count > 0) {
-            speechBubble.SetTextSet(textSet.ToArray());
-        }
-        
-        //------------------------------
         // Show/Hide
         //------------------------------
         if(show
@@ -89,10 +82,20 @@ public class SpeechBubbleValuesEvent : CustomEventObject {
             speechBubble.Hide(hideVerticalScaleDuration, hideHorizontalScaleDuration);
         }
         
-        if(startInteraction
-            && !speechBubble.IsInUse()) {
-            speechBubble.StartInteraction();
+        if(startInteraction) {
+            // && !speechBubble.IsInUse()) {
+            speechBubble.StartInteraction(textSet.ToArray());
         }
+        else {
+            //------------------------------
+            // Text Set
+            //------------------------------
+            if(textSet.Count > 0) {
+                speechBubble.SetTextSet(textSet.ToArray());
+            }
+            
+        }
+        
         if(finishInteraction
             && speechBubble.IsInUse()) {
             speechBubble.FinishInteraction();
