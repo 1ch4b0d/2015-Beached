@@ -26,7 +26,7 @@ namespace Acrocatic {
         // This function is called every fixed framerate frame.
         void FixedUpdate() {
             // Cache the run input.
-            bool running = InputManager.Instance.GetButton("Run");
+            bool running = SimpleInputManager.Instance.GetButton("Run");
             
             // Get the current speed.
             float speed = GetSpeed();
@@ -52,7 +52,7 @@ namespace Acrocatic {
         // Get the current speed for the player.
         public float GetSpeed(bool withPlatform = true) {
             // Cache the horizontal input, run input and speed.
-            bool running = InputManager.Instance.GetButton("Run");
+            bool running = SimpleInputManager.Instance.GetButton("Run");
             float speed = runSpeed;
             
             // If a button needs to be pressed to run...

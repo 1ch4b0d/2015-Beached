@@ -70,12 +70,12 @@ public class CustomCharacterController : MonoBehaviour {
     protected void PerformInputLogic() {
         // Horizontal movement (Left/Right)
         // Right
-        if(InputManager.Instance.GetAxis("Horizontal") > 0) {
+        if(SimpleInputManager.Instance.GetAxis("Horizontal") > 0) {
             isMoving = true;
             facingRight = true;
         }
         // Left
-        else if(InputManager.Instance.GetAxis("Horizontal") < 0) {
+        else if(SimpleInputManager.Instance.GetAxis("Horizontal") < 0) {
             isMoving = true;
             facingRight = false;
         }
@@ -84,26 +84,26 @@ public class CustomCharacterController : MonoBehaviour {
         }
         
         // Jumping
-        if(InputManager.Instance.GetButtonDown("Jump")) {
+        if(SimpleInputManager.Instance.GetButtonDown("Jump")) {
             isJumping = true;
         }
-        if(InputManager.Instance.GetButtonUp("Jump")) {
+        if(SimpleInputManager.Instance.GetButtonUp("Jump")) {
             isJumping = false;
         }
         
         // // Vertical Movement (Up/Down)
         // // Up
-        // if(InputManager.Instance.GetKeyDown(KeyCode.W)) {
+        // if(SimpleInputManager.Instance.GetKeyDown(KeyCode.W)) {
         //     movingUp = true;
         // }
-        // if(InputManager.Instance.GetKeyUp(KeyCode.W)) {
+        // if(SimpleInputManager.Instance.GetKeyUp(KeyCode.W)) {
         //     movingUp = false;
         // }
         // // Down
-        // if(InputManager.Instance.GetKeyDown(KeyCode.S)) {
+        // if(SimpleInputManager.Instance.GetKeyDown(KeyCode.S)) {
         //     movingDown = true;
         // }
-        // if(InputManager.Instance.GetKeyUp(KeyCode.S)) {
+        // if(SimpleInputManager.Instance.GetKeyUp(KeyCode.S)) {
         //     movingDown = false;
         // }
     }

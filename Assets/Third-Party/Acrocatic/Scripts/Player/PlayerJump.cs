@@ -107,7 +107,7 @@ namespace Acrocatic {
             
             // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
             if(!jump
-                && InputManager.Instance.GetButtonDown("Jump")
+                && SimpleInputManager.Instance.GetButtonDown("Jump")
                 && jumps > 0
                 && !player.dashing
                 && !player.sliding
@@ -209,7 +209,7 @@ namespace Acrocatic {
                         initialJump = false;
                         // When the jump button is being pressed and the timer isn't finished yet...
                     }
-                    else if(InputManager.Instance.GetButton("Jump")
+                    else if(SimpleInputManager.Instance.GetButton("Jump")
                             && jumpTimer > 0) {
                         // ... decrease the timer's value.
                         jumpTimer -= Time.deltaTime;

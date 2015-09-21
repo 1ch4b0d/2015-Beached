@@ -43,11 +43,11 @@ namespace Acrocatic {
         // Update is called once per frame.
         void Update() {
             // Cache Crouch button press.
-            bool crouch = InputManager.Instance.GetButton("Crouch");
-            bool crouchSlide = InputManager.Instance.GetButtonDown("Crouch");
+            bool crouch = SimpleInputManager.Instance.GetButton("Crouch");
+            bool crouchSlide = SimpleInputManager.Instance.GetButtonDown("Crouch");
             
             // Cache Dash button press.
-            bool dash = InputManager.Instance.GetButtonDown("Dash");
+            bool dash = SimpleInputManager.Instance.GetButtonDown("Dash");
             
             // Check if a slide is allowed.
             SetSlideAllowed();

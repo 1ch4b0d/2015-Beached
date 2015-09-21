@@ -15,7 +15,7 @@ public class DebugCustomEventsManager : MonoBehaviour {
     }
     
     protected void Update() {
-        if(InputManager.Instance.GetKeyDown(debugKeyCode)) {
+        if(SimpleInputManager.Instance.GetKeyDown(debugKeyCode)) {
             // Debug.Log("Executing");
             customEventsManager.Execute();
         }

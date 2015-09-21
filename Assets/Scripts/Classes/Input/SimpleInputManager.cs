@@ -9,27 +9,27 @@ using System.Collections.Generic;
 //       actual input. This means that it will serve of the Input.Get* logic as a
 //       primary, and then if it doesn't work, fall back to a cache of values that
 //       are arbitrary. I don't know, these are all hypotheticals
-public class InputManager : MonoBehaviour {
+public class SimpleInputManager : MonoBehaviour {
     public Dictionary<string, bool> onKeyDown = null;
     public Dictionary<string, bool> onKeyHeld = null;
     public Dictionary<string, bool> onKeyUp = null;
     
     //BEGINNING OF SINGLETON CODE CONFIGURATION
-    private static volatile InputManager _instance;
+    private static volatile SimpleInputManager _instance;
     private static object _lock = new object();
     
     //Stops the lock being created ahead of time if it's not necessary
-    static InputManager() {
+    static SimpleInputManager() {
     }
     
-    public static InputManager Instance {
+    public static SimpleInputManager Instance {
         get {
             if(_instance == null) {
                 lock(_lock) {
-                    _instance = GameObject.FindObjectOfType<InputManager>();
+                    _instance = GameObject.FindObjectOfType<SimpleInputManager>();
                     if(_instance == null) {
-                        GameObject CameraManagerGameObject = new GameObject("InputManager");
-                        _instance = (CameraManagerGameObject.AddComponent<InputManager>()).GetComponent<InputManager>();
+                        GameObject CameraManagerGameObject = new GameObject("SimpleInputManager");
+                        _instance = (CameraManagerGameObject.AddComponent<SimpleInputManager>()).GetComponent<SimpleInputManager>();
                     }
                 }
             }
@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour {
         }
     }
     
-    private InputManager() {
+    private SimpleInputManager() {
     }
     
     // Use this for initialization
@@ -157,24 +157,24 @@ public class InputManager : MonoBehaviour {
     }
     
     protected void PerformInputLogic(string keyName) {
-        InputManager.Instance.SetButtonDown(keyName, Input.GetButtonDown(keyName));
-        InputManager.Instance.SetButton(keyName, Input.GetButton(keyName));
-        InputManager.Instance.SetButtonUp(keyName, Input.GetButtonUp(keyName));
+        SimpleInputManager.Instance.SetButtonDown(keyName, Input.GetButtonDown(keyName));
+        SimpleInputManager.Instance.SetButton(keyName, Input.GetButton(keyName));
+        SimpleInputManager.Instance.SetButtonUp(keyName, Input.GetButtonUp(keyName));
         
         foreach(KeyCode keyCode in KeyCode.GetValues(typeof(KeyCode))) {
             string keyCodeString = keyCode.ToString();
-            InputManager.Instance.SetButtonDown(keyCodeString, Input.GetKeyDown(keyCode));
-            InputManager.Instance.SetButton(keyCodeString, Input.GetKey(keyCode));
-            InputManager.Instance.SetButtonUp(keyCodeString, Input.GetKeyUp(keyCode));
+            SimpleInputManager.Instance.SetButtonDown(keyCodeString, Input.GetKeyDown(keyCode));
+            SimpleInputManager.Instance.SetButton(keyCodeString, Input.GetKey(keyCode));
+            SimpleInputManager.Instance.SetButtonUp(keyCodeString, Input.GetKeyUp(keyCode));
         }
         // if(Input.GetButtonDown(keyName)) {
-        //     InputManager.Instance.SetKeyDown(keyName, true);
+        //     SimpleInputManager.Instance.SetKeyDown(keyName, true);
         // }
         // if(Input.GetButton(keyName)) {
-        //     InputManager.Instance.SetKey(keyName, true);
+        //     SimpleInputManager.Instance.SetKey(keyName, true);
         // }
         // if(Input.GetButtonUp(keyName)) {
-        //     InputManager.Instance.SetKeyUp(keyName, true);
+        //     SimpleInputManager.Instance.SetKeyUp(keyName, true);
         // }
     }
 }
