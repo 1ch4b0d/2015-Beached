@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using InControl;
 
 namespace Acrocatic {
     // Class that controls the jumping mechanic for the player.
@@ -74,7 +75,10 @@ namespace Acrocatic {
         [Tooltip("All variables used for movement in the air are located here.")]
         public AirMovement airMovement;
         
+        //---------------------------------------------------
+        // Custom Code
         public List<CustomEventsManager> onJumpEvents = null;
+        //---------------------------------------------------
         
         // Private variables.
         private Player player;                                  // Get the Player class.
@@ -107,7 +111,8 @@ namespace Acrocatic {
             
             // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
             if(!jump
-                && SimpleInputManager.Instance.GetButtonDown("Jump")
+                // && SimpleInputManager.Instance.GetButtonDown("Jump")
+                && InputManager.ActiveDevice.GetControl(InputControlType.Action2).WasPressed
                 && jumps > 0
                 && !player.dashing
                 && !player.sliding
@@ -209,8 +214,9 @@ namespace Acrocatic {
                         initialJump = false;
                         // When the jump button is being pressed and the timer isn't finished yet...
                     }
-                    else if(SimpleInputManager.Instance.GetButton("Jump")
-                            && jumpTimer > 0) {
+                    else if(// SimpleInputManager.Instance.GetButtonDown("Jump")
+                        InputManager.ActiveDevice.GetControl(InputControlType.Action2).IsPressed
+                        && jumpTimer > 0) {
                         // ... decrease the timer's value.
                         jumpTimer -= Time.deltaTime;
                         

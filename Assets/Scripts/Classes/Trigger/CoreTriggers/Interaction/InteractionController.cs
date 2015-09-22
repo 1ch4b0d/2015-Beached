@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using InControl;
 
 public class InteractionController : MonoBehaviour {
     public List<InteractionTrigger> triggers = new List<InteractionTrigger>();
@@ -42,10 +43,12 @@ public class InteractionController : MonoBehaviour {
     
     protected void PerformInputLogic() {
         // Action
-        if(Input.GetKeyDown(KeyCode.J)) {
+        // if(Input.GetKeyDown(KeyCode.J)) {
+        if(InputManager.ActiveDevice.Action1) {
             interactionButtonPressed = true;
         }
-        if(Input.GetKeyUp(KeyCode.J)) {
+        // if(Input.GetKeyUp(KeyCode.J)) {
+        if(!InputManager.ActiveDevice.Action1) {
             interactionButtonPressed = false;
         }
     }

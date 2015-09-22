@@ -225,10 +225,6 @@ public class Player : BasePlayer {
         if(acrocaticPlayerLadder) {
             acrocaticPlayerLadder.enabled = enabled;
         }
-        PlayerFaceUp acrocaticPlayerFaceUp = acrocaticGameObject.GetComponent<PlayerFaceUp>();
-        if(acrocaticPlayerFaceUp) {
-            acrocaticPlayerFaceUp.enabled = enabled;
-        }
     }
     
     private void ToggleColliders(List<Collider2D> colliders, bool isEnabled) {

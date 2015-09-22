@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using InControl;
 
 namespace Acrocatic {
     // Enums for all classes.
@@ -74,7 +75,6 @@ namespace Acrocatic {
         private PlayerDash playerDash;              // Get the PlayerDash class.
         private PlayerHitbox playerHitbox;          // Get the PlayerHitbox class.
         private PlayerPlatform playerPlatform;      // Get the PlayerPlatform class.
-        private PlayerFaceUp playerFaceUp;          // Get the PlayerFaceUp class.
         private Quaternion normalRotation;          // The default rotation for the player.
         private Animator animator;                  // The player's animator.
         private bool flipAgain = false;             // Used to fix a bug.
@@ -88,7 +88,10 @@ namespace Acrocatic {
         private bool wallRunning = false;           // That's needed to show the correct animations.
         private bool wallJumping = false;
         
+        //-----------------------------------------------
+        // Custom Code
         public List<CustomEventsManager> onLandEvents = null;
+        //-----------------------------------------------
         
         // Use this for initialization.
         void Start() {
@@ -104,7 +107,6 @@ namespace Acrocatic {
             playerDash = GetComponent<PlayerDash>();
             playerHitbox = GetComponent<PlayerHitbox>();
             playerPlatform = GetComponent<PlayerPlatform>();
-            playerFaceUp = GetComponent<PlayerFaceUp>();          // Get the PlayerFaceUp class.
             normalRotation = transform.localRotation;
             animator = GetComponent<Animator>();
             gravityScale = rigidbody.gravityScale;
@@ -161,7 +163,8 @@ namespace Acrocatic {
         // Update is called once per frame.
         void Update() {
             // Cache the horizontal input.
-            hor = SimpleInputManager.Instance.GetAxis("Horizontal");
+            // hor = SimpleInputManager.Instance.GetAxis("Horizontal");
+            hor = InputManager.ActiveDevice.LeftStickX;
             
             // Set the animator values.
             animator.SetBool("grounded", grounded);
@@ -272,9 +275,6 @@ namespace Acrocatic {
         }
         public PlayerPlatform GetPlayerPlatform() {
             return playerPlatform;      // Get the PlayerPlatform class.
-        }
-        public PlayerFaceUp GetPlayerFaceUp() {
-            return playerFaceUp;          // Get the PlayerFaceUp class.
         }
         public Quaternion GetQuaternion() {
             return normalRotation;          // The default rotation for the player.
@@ -451,7 +451,7 @@ namespace Acrocatic {
         
         // #################
         // ### PLATFORMS ###
-        // ###           ###
+        // #################
         // Unstick the player from the platform.
         public void UnstickFromPlatform() {
             playerPlatform.Unstick();
@@ -655,10 +655,6 @@ namespace Acrocatic {
         //------------------------------------------------------------------
         // CUSTOM LOGIC
         //------------------------------------------------------------------
-        public void FacingUp(bool newFacingUp) {
-            facingUp = newFacingUp;
-        }
-        
         public bool IsDead() {
             return isDead;
         }
