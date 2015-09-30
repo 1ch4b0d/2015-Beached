@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-
 namespace InControl {
     /// <summary>
     /// This class represents a single action that may have multiple controls bound to it.
@@ -55,7 +54,6 @@ namespace InControl {
             new MouseBindingSourceListener()
         };
         
-        
         /// <summary>
         /// Construct an action belonging to a given action set.
         /// </summary>
@@ -67,7 +65,6 @@ namespace InControl {
             Owner = owner;
             bindings = new ReadOnlyCollection<BindingSource>(visibleBindings);
         }
-        
         
         /// <summary>
         /// Adds a default binding for the action. This will also add it to the regular bindings.
@@ -97,7 +94,6 @@ namespace InControl {
             }
         }
         
-        
         /// <summary>
         /// A convenience method for adding a KeyBindingSource to the default bindings.
         /// </summary>
@@ -105,7 +101,6 @@ namespace InControl {
         public void AddDefaultBinding(params Key[] keys) {
             AddDefaultBinding(new KeyBindingSource(keys));
         }
-        
         
         /// <summary>
         /// A convenience method for adding a MouseBindingSource to the default bindings.
@@ -115,7 +110,6 @@ namespace InControl {
             AddDefaultBinding(new MouseBindingSource(control));
         }
         
-        
         /// <summary>
         /// A convenience method for adding a DeviceBindingSource to the default bindings.
         /// </summary>
@@ -123,7 +117,6 @@ namespace InControl {
         public void AddDefaultBinding(InputControlType control) {
             AddDefaultBinding(new DeviceBindingSource(control));
         }
-        
         
         /// <summary>
         /// Add a regular binding to the action. A binding cannot be added if it matches an
@@ -154,7 +147,6 @@ namespace InControl {
             return true;
         }
         
-        
         internal bool HasBinding(BindingSource binding) {
             if(binding == null) {
                 return false;
@@ -168,7 +160,6 @@ namespace InControl {
             return foundBinding.BoundTo == this;
         }
         
-        
         internal BindingSource FindBinding(BindingSource binding) {
             if(binding == null) {
                 return null;
@@ -181,7 +172,6 @@ namespace InControl {
             
             return null;
         }
-        
         
         internal void FindAndRemoveBinding(BindingSource binding) {
             if(binding == null) {
@@ -199,7 +189,6 @@ namespace InControl {
             }
         }
         
-        
         internal int CountBindingsOfType(BindingSourceType bindingSourceType) {
             int count = 0;
             var bindingCount = regularBindings.Count;
@@ -211,7 +200,6 @@ namespace InControl {
             }
             return count;
         }
-        
         
         internal void RemoveFirstBindingOfType(BindingSourceType bindingSourceType) {
             var bindingCount = regularBindings.Count;
@@ -225,7 +213,6 @@ namespace InControl {
             }
         }
         
-        
         internal int IndexOfFirstInvalidBinding() {
             var bindingCount = regularBindings.Count;
             for(int i = 0; i < bindingCount; i++) {
@@ -236,7 +223,6 @@ namespace InControl {
             
             return -1;
         }
-        
         
         /// <summary>
         /// Removes the binding from the action.
@@ -256,7 +242,6 @@ namespace InControl {
             binding.BoundTo = null;
         }
         
-        
         /// <summary>
         /// Clears the bindings for this action.
         /// </summary>
@@ -268,7 +253,6 @@ namespace InControl {
             regularBindings.Clear();
             visibleBindings.Clear();
         }
-        
         
         /// <summary>
         /// Resets the bindings to the default bindings.
@@ -290,7 +274,6 @@ namespace InControl {
             }
         }
         
-        
         /// <summary>
         /// Begin listening for a new user defined binding. Which types of BindingSource are detected
         /// depends on the value of ListenOptions and DefaultListenOptions. Once one is found, it will
@@ -305,7 +288,6 @@ namespace InControl {
             }
         }
         
-        
         /// <summary>
         /// Stop listening for new user defined bindings.
         /// </summary>
@@ -314,7 +296,6 @@ namespace InControl {
                 Owner.listenWithAction = null;
             }
         }
-        
         
         /// <summary>
         /// Gets a value indicating whether this action is listening for new user defined bindings.
@@ -325,7 +306,6 @@ namespace InControl {
             }
         }
         
-        
         /// <summary>
         /// Gets the current bindings for this action as a readonly collection.
         /// </summary>
@@ -334,7 +314,6 @@ namespace InControl {
                 return bindings;
             }
         }
-        
         
         void RemoveOrphanedBindings() {
             var bindingCount = regularBindings.Count;
@@ -345,13 +324,11 @@ namespace InControl {
             }
         }
         
-        
         internal void Update(ulong updateTick, float deltaTime, InputDevice device) {
             Device = device;
             UpdateBindings(updateTick, deltaTime);
             DetectBindings();
         }
-        
         
         void UpdateBindings(ulong updateTick, float deltaTime) {
             var bindingCount = regularBindings.Count;
@@ -374,7 +351,6 @@ namespace InControl {
             
             Enabled = Owner.Enabled;
         }
-        
         
         void DetectBindings() {
             if(IsListeningForBinding) {
@@ -446,7 +422,6 @@ namespace InControl {
             }
         }
         
-        
         void UpdateVisibleBindings() {
             visibleBindings.Clear();
             var bindingCount = regularBindings.Count;
@@ -457,7 +432,6 @@ namespace InControl {
                 }
             }
         }
-        
         
         InputDevice device;
         internal InputDevice Device {
@@ -477,8 +451,6 @@ namespace InControl {
                 }
             }
         }
-        
-        
         
         internal void Load(BinaryReader reader) {
             ClearBindings();
@@ -513,7 +485,6 @@ namespace InControl {
                 AddBinding(bindingSource);
             }
         }
-        
         
         internal void Save(BinaryWriter writer) {
             RemoveOrphanedBindings();

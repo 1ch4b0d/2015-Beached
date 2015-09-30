@@ -77,6 +77,7 @@ namespace Acrocatic {
         
         //---------------------------------------------------
         // Custom Code
+        public CustomPlayerActions customPlayerActions;
         public List<CustomEventsManager> onJumpEvents = null;
         //---------------------------------------------------
         
@@ -111,8 +112,7 @@ namespace Acrocatic {
             
             // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
             if(!jump
-                // && SimpleInputManager.Instance.GetButtonDown("Jump")
-                && InputManager.ActiveDevice.GetControl(InputControlType.Action2).WasPressed
+                && customPlayerActions.GetCustomPlayerActionSet().Jump.WasPressed
                 && jumps > 0
                 && !player.dashing
                 && !player.sliding
@@ -214,9 +214,8 @@ namespace Acrocatic {
                         initialJump = false;
                         // When the jump button is being pressed and the timer isn't finished yet...
                     }
-                    else if(// SimpleInputManager.Instance.GetButtonDown("Jump")
-                        InputManager.ActiveDevice.GetControl(InputControlType.Action2).IsPressed
-                        && jumpTimer > 0) {
+                    else if(customPlayerActions.GetCustomPlayerActionSet().Jump.IsPressed
+                            && jumpTimer > 0) {
                         // ... decrease the timer's value.
                         jumpTimer -= Time.deltaTime;
                         
@@ -249,6 +248,11 @@ namespace Acrocatic {
         //----------------------
         // Custom Code
         protected void Initialize() {
+            // Custom Player Actions
+            if(customPlayerActions == null) {
+                this.gameObject.LogComponentError("customPlayerActions", this.GetType());
+            }
+            // On Jump Events
             if(onJumpEvents == null) {
                 onJumpEvents = new List<CustomEventsManager>();
             }

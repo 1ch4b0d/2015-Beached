@@ -5,19 +5,8 @@ using InControl;
 public class CustomPlayerActions : MonoBehaviour {
     static CustomPlayerActionSet characterActions;
     
-    public static CustomPlayerActionSet Instance {
-        get {
-            if(characterActions == null) {
-                Initialize();
-            }
-            return characterActions;
-        }
-    }
-    
     protected void Awake() {
-        if(characterActions == null) {
-            Initialize();
-        }
+        Initialize();
     }
     
     protected void Start() {
@@ -58,16 +47,24 @@ public class CustomPlayerActions : MonoBehaviour {
         // characterActions.Dash.AddDefaultBinding(InputControlType.Action2);
     }
     
+    public CustomPlayerActionSet GetCustomPlayerActionSet() {
+        return characterActions;
+    }
+    
     protected void DebugInfo() {
         // Left Was Pressed
-        Debug.Log("-----------------------------------------------------");
-        Debug.Log("Left");
-        Debug.Log("-----------------------------------------------------");
-        DebugAction(characterActions.Left);
+        // Debug.Log("-----------------------------------------------------");
+        // Debug.Log("Left");
+        // Debug.Log("-----------------------------------------------------");
+        // DebugAction(characterActions.Left);
         // Debug.Log("-----------------------------------------------------");
         // Debug.Log("Right");
         // Debug.Log("-----------------------------------------------------");
         // DebugAction(characterActions.Right);
+        // Debug.Log("-----------------------------------------------------");
+        // Debug.Log("Move");
+        // Debug.Log("-----------------------------------------------------");
+        // DebugOneAxisAction(characterActions.Move);
         // Debug.Log("-----------------------------------------------------");
         // Debug.Log("Jump");
         // Debug.Log("-----------------------------------------------------");
@@ -75,13 +72,34 @@ public class CustomPlayerActions : MonoBehaviour {
     }
     
     protected void DebugAction(PlayerAction playerAction) {
-        Debug.Log("WasPressed: " + characterActions.Left.WasPressed);
-        Debug.Log("IsPressed: " + characterActions.Left.IsPressed);
-        Debug.Log("WasReleased: " + characterActions.Left.WasReleased);
-        Debug.Log("HasChanged: " + characterActions.Left.HasChanged);
-        Debug.Log("State: " + characterActions.Left.State);
-        Debug.Log("Value: " + characterActions.Left.Value);
-        Debug.Log("LastState: " + characterActions.Left.LastState);
-        Debug.Log("LastValue: " + characterActions.Left.LastValue);
+        Debug.Log("HasChanged: " + playerAction.HasChanged);
+        Debug.Log("IsPressed: " + playerAction.IsPressed);
+        Debug.Log("LastState: " + playerAction.LastState);
+        Debug.Log("LastValue: " + playerAction.LastValue);
+        Debug.Log("LowerDeadZone: " + playerAction.LowerDeadZone);
+        Debug.Log("Raw Value: " + playerAction.RawValue);
+        Debug.Log("Sensitivity: " + playerAction.Sensitivity);
+        Debug.Log("State: " + playerAction.State);
+        Debug.Log("StateThreshold: " + playerAction.StateThreshold);
+        Debug.Log("WasPressed: " + playerAction.WasPressed);
+        Debug.Log("WasReleased: " + playerAction.WasReleased);
+        Debug.Log("WasRepeated: " + playerAction.WasRepeated);
+        Debug.Log("Value: " + playerAction.Value);
+    }
+    
+    protected void DebugOneAxisAction(PlayerOneAxisAction playerOneAxisAction) {
+        Debug.Log("HasChanged: " + playerOneAxisAction.HasChanged);
+        Debug.Log("IsPressed: " + playerOneAxisAction.IsPressed);
+        Debug.Log("LastState: " + playerOneAxisAction.LastState);
+        Debug.Log("LastValue: " + playerOneAxisAction.LastValue);
+        Debug.Log("LowerDeadZone: " + playerOneAxisAction.LowerDeadZone);
+        Debug.Log("Raw Value: " + playerOneAxisAction.RawValue);
+        Debug.Log("Sensitivity: " + playerOneAxisAction.Sensitivity);
+        Debug.Log("State: " + playerOneAxisAction.State);
+        Debug.Log("StateThreshold: " + playerOneAxisAction.StateThreshold);
+        Debug.Log("WasPressed: " + playerOneAxisAction.WasPressed);
+        Debug.Log("WasReleased: " + playerOneAxisAction.WasReleased);
+        Debug.Log("WasRepeated: " + playerOneAxisAction.WasRepeated);
+        Debug.Log("Value: " + playerOneAxisAction.Value);
     }
 }

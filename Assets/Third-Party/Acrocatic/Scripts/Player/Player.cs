@@ -95,7 +95,28 @@ namespace Acrocatic {
         // Custom Code
         public CustomPlayerActions customPlayerActions;
         public List<CustomEventsManager> onLandEvents = null;
+        
+        protected void Awake() {
+            Initialize();
+        }
+        
+        protected void Initialize() {
+            // Custom Player Actions
+            if(customPlayerActions == null) {
+                this.gameObject.LogComponentError("customPlayerActions", this.GetType());
+            }
+            // On Land Events
+            if(onLandEvents == null) {
+                onLandEvents = new List<CustomEventsManager>();
+            }
+            foreach(CustomEventsManager customEventsManager in onLandEvents) {
+                if(customEventsManager == null) {
+                    Debug.LogError(this.gameObject.transform.GetFullPath() + " has a NULL element in its onJumpEvents. Please fix this issue.");
+                }
+            }
+        }
         //-----------------------------------------------
+        
         
         // Use this for initialization.
         void Start() {
@@ -167,8 +188,7 @@ namespace Acrocatic {
         // Update is called once per frame.
         void Update() {
             // Cache the horizontal input.
-            // hor = SimpleInputManager.Instance.GetAxis("Horizontal");
-            hor = InputManager.ActiveDevice.LeftStickX;
+            hor = customPlayerActions.GetCustomPlayerActionSet().Move.Value;
             
             // Set the animator values.
             animator.SetBool("grounded", grounded);
