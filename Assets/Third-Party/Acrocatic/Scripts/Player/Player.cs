@@ -5,7 +5,10 @@ using InControl;
 
 namespace Acrocatic {
     // Enums for all classes.
-    public enum Direction { Left, Right };
+    public enum Direction {
+        Left,
+        Right
+    };
     
     // This class is used to communicate between the different Player movement classes.
     public class Player : MonoBehaviour {
@@ -90,6 +93,7 @@ namespace Acrocatic {
         
         //-----------------------------------------------
         // Custom Code
+        public CustomPlayerActions customPlayerActions;
         public List<CustomEventsManager> onLandEvents = null;
         //-----------------------------------------------
         

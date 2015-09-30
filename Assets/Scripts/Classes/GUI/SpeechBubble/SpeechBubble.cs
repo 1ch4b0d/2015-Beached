@@ -241,7 +241,7 @@ public class SpeechBubble : MonoBehaviour {
         //----------------------------------------------------------------------
         // This is optional and does not need to be configured
         if(interactionTrigger == null) {
-            interactionTrigger = this.gameObject.GetFirstChildOfType<SpeechBubbleInteractionTrigger>();
+            interactionTrigger = this.gameObject.GetFirstChild<SpeechBubbleInteractionTrigger>();
             if(interactionTrigger != null) {
                 interactionTrigger.speechBubble = this;
             }

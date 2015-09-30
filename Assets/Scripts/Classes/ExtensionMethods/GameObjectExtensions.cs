@@ -5,7 +5,7 @@ using System.Linq;
 // Grabbed from here:
 // http://answers.unity3d.com/questions/8500/how-can-i-get-the-full-path-to-a-gameobject.html
 public static class GameObjectExtensions {
-    public static T GetFirstChildOfType<T>(this GameObject go) {
+    public static T GetFirstChild<T>(this GameObject go) {
         int currentChildTransform = 0;
         while(currentChildTransform < go.transform.childCount) {
             GameObject currentChildGameObject = go.transform.GetChild(currentChildTransform).gameObject;
@@ -14,7 +14,7 @@ public static class GameObjectExtensions {
                 return currentTypeCheck;
             }
             else {
-                T childOfType = GetFirstChildOfType<T>(currentChildGameObject);
+                T childOfType = GetFirstChild<T>(currentChildGameObject);
                 if(childOfType != null) {
                     return childOfType;
                 }
@@ -24,7 +24,7 @@ public static class GameObjectExtensions {
         return default(T);
     }
     
-    public static T GetFirstParentOfType<T>(this GameObject go) {
+    public static T GetFirstParent<T>(this GameObject go) {
         if(go != null) {
             T currentTypeCheck = go.GetComponent<T>();
             if(currentTypeCheck != null) {
@@ -33,10 +33,10 @@ public static class GameObjectExtensions {
             else {
                 Transform parentTransform = go.transform.parent;
                 if(parentTransform != null) {
-                    return GetFirstParentOfType<T>(parentTransform.gameObject);
+                    return GetFirstParent<T>(parentTransform.gameObject);
                 }
                 else {
-                    return GetFirstParentOfType<T>(null);
+                    return GetFirstParent<T>(null);
                 }
             }
         }

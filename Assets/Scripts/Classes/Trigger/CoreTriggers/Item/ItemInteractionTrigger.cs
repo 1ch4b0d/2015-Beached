@@ -21,7 +21,7 @@ public class ItemInteractionTrigger : SpeechBubbleInteractionTrigger {
     
     protected override void Initialize() {
         if(itemGameObject == null) {
-            itemGameObject = this.gameObject.GetFirstParentOfType<Item>().gameObject;
+            itemGameObject = this.gameObject.GetFirstParent<Item>().gameObject;
             if(itemGameObject == null) {
                 Debug.LogError("Could not find the " + this.gameObject.name + ": itemGameObject");
             }

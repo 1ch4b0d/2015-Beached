@@ -19,7 +19,7 @@ public class DetonatorCameraZoomTrigger : CameraZoomTrigger {
         base.Initialize();
         
         if(detonator == null) {
-            detonator = this.gameObject.GetFirstParentOfType<Detonator>();
+            detonator = this.gameObject.GetFirstParent<Detonator>();
             if(detonator == null) {
                 Debug.LogError("The 'detonator' variable for the 'DetonatorPanFromTriggerToMarker' component of the '" + this.gameObject.name + "' is null. Please fix this and try again.");
             }

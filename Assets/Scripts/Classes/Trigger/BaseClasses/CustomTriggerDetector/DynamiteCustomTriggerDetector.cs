@@ -19,7 +19,7 @@ public class DynamiteCustomTriggerDetector : ItemCustomTriggerDetector {
         //----------------------------
         // WARNING WARNING WARNING!!! - Performance concern
         //----------------------------
-        // Using the Utility.GetFirstParentOfType<Detonator>() method he is
+        // Using the Utility.GetFirstParent<Detonator>() method he is
         // very likely a performance issue if this project were to scale up.
         //
         // The correct solution would provide a reference to the object that
@@ -27,7 +27,7 @@ public class DynamiteCustomTriggerDetector : ItemCustomTriggerDetector {
         // sub gameobject that is a child of the actual game object interacting
         // (the collider is a sub game object of the main game object)
         //----------------------------
-        Detonator detonator = collider.gameObject.GetFirstParentOfType<Detonator>();
+        Detonator detonator = collider.gameObject.GetFirstParent<Detonator>();
         if(customTrigger != null) {
             if(detonator == null) {
                 customTrigger.Entered(this.gameObject);
@@ -41,7 +41,7 @@ public class DynamiteCustomTriggerDetector : ItemCustomTriggerDetector {
     public override void OnTriggerExit2D(Collider2D collider) {
         CustomTrigger customTrigger = collider.gameObject.GetComponent<CustomTrigger>();
         // Detonator detonator = collider.gameObject.GetComponent<Detonator>();
-        Detonator detonator = collider.gameObject.GetFirstParentOfType<Detonator>();
+        Detonator detonator = collider.gameObject.GetFirstParent<Detonator>();
         if(customTrigger != null) {
             if(detonator == null) {
                 customTrigger.Exited(this.gameObject);

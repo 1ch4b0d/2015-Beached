@@ -16,7 +16,7 @@ public class DetonatorInteractionTrigger : ItemInteractionTrigger {
     protected override void Initialize() {
         base.Initialize();
         if(detonator == null) {
-            detonator = this.gameObject.GetFirstParentOfType<Detonator>();
+            detonator = this.gameObject.GetFirstParent<Detonator>();
             if(detonator == null) {
                 Debug.LogError("Please assign the 'Detonator' property, or make " + this.gameObject.name + " a child of an object with the 'Detonator' script. Because, it is currently null.");
             }
