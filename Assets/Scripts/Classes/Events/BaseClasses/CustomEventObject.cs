@@ -23,6 +23,10 @@ public class CustomEventObject : MonoBehaviour {
     protected virtual void Update() {
     }
     
+    // Update is called once per frame
+    protected virtual void LateUpdate() {
+    }
+    
     protected virtual void Initialize() {
         // TODO: Re-add this check back in, but make it so that it doesn't affect subclasses.
         // if(onStartEvents.Count == 0
