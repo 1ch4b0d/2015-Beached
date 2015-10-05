@@ -23,6 +23,9 @@ public class RuntimePlatformConditionalEvent : ConditionalEventObject {
         base.Initialize();
     }
     
-    public override void ExecuteLogic() {
+    public override void Execute() {
+        if(Application.platform == runtimePlatform) {
+            base.Execute();
+        }
     }
 }
