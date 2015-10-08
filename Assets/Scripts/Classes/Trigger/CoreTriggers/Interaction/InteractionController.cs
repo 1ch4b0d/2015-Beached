@@ -8,15 +8,22 @@ public class InteractionController : MonoBehaviour {
     public bool interactionButtonPressed = false;
     
     // Use this for initialization
-    void Start() {
+    protected virtual void Awake() {
+        Initialize();
+    }
+    // Use this for initialization
+    protected virtual void Start() {
     }
     
     // Update is called once per frame
-    void Update() {
+    protected virtual void Update() {
         PerformLogic();
     }
-    void LateUpdate() {
+    protected virtual void LateUpdate() {
         Reset();
+    }
+    
+    protected virtual void Initialize() {
     }
     
     public InteractionTrigger GetNewestTrigger() {
@@ -41,14 +48,11 @@ public class InteractionController : MonoBehaviour {
         PerformInputLogic();
     }
     
-    protected void PerformInputLogic() {
-        // Action
-        // if(Input.GetKeyDown(KeyCode.J)) {
-        if(InputManager.ActiveDevice.Action1) {
+    protected virtual void PerformInputLogic() {
+        if(Input.GetKeyDown(KeyCode.J)) {
             interactionButtonPressed = true;
         }
-        // if(Input.GetKeyUp(KeyCode.J)) {
-        if(!InputManager.ActiveDevice.Action1) {
+        if(Input.GetKeyUp(KeyCode.J)) {
             interactionButtonPressed = false;
         }
     }
