@@ -45,6 +45,7 @@ public class SpeechBubble : MonoBehaviour {
     public GoEaseType verticalScaleOutEaseType = GoEaseType.Linear;
     public GoEaseType horizontalScaleInEaseType = GoEaseType.Linear;
     public GoEaseType verticalScaleInEaseType = GoEaseType.Linear;
+    public Color defaultTextColor = Color.black;
     
     public List<CustomEventsManager> onStartInteraction = null;
     public List<CustomEventsManager> onTextIteration = null;
@@ -212,6 +213,7 @@ public class SpeechBubble : MonoBehaviour {
                 this.gameObject.LogComponentError("labelGameObject", this.GetType());
             }
         }
+		uiLabelText.color = defaultTextColor;
         //----------------------------------------------------------------------
         // Animator
         //----------------------------------------------------------------------

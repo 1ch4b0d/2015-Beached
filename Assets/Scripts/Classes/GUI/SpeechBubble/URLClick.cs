@@ -17,6 +17,10 @@ public class URLClick : MonoBehaviour {
     protected virtual void OnClick() {
         UILabel lbl = GetComponent<UILabel>();
         string url = lbl.GetUrlAtPosition(UICamera.lastWorldPosition);
-        Debug.Log("Clicked on: " + url);
+        // Debug.Log("Clicked on: " + url);
+        if(url != null
+            && url.Length > 0) {
+            Application.OpenURL(url);
+        }
     }
 }
