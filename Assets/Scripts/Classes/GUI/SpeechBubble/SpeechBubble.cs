@@ -47,6 +47,7 @@ public class SpeechBubble : MonoBehaviour {
     public GoEaseType verticalScaleInEaseType = GoEaseType.Linear;
     public Color defaultTextColor = Color.black;
     
+    public List<CustomEventsManager> onHideFinish = null;
     public List<CustomEventsManager> onStartInteraction = null;
     public List<CustomEventsManager> onTextIteration = null;
     public List<CustomEventsManager> onFinishInteraction = null;
@@ -213,7 +214,7 @@ public class SpeechBubble : MonoBehaviour {
                 this.gameObject.LogComponentError("labelGameObject", this.GetType());
             }
         }
-		uiLabelText.color = defaultTextColor;
+        uiLabelText.color = defaultTextColor;
         //----------------------------------------------------------------------
         // Animator
         //----------------------------------------------------------------------
@@ -254,6 +255,9 @@ public class SpeechBubble : MonoBehaviour {
         //----------------------------------------------------------------------
         // Configure Custom Events
         //----------------------------------------------------------------------
+        if(onHideFinish == null) {
+            onHideFinish = new List<CustomEventsManager>();
+        }
         if(onStartInteraction == null) {
             onStartInteraction = new List<CustomEventsManager>();
         }

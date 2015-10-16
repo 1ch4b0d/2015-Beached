@@ -6,6 +6,7 @@ public class Item : MonoBehaviour {
     public Animator animator = null;
     
     public SpeechBubble speechBubble = null;
+    public GameObject speechBubbleAnchor = null;
     
     public List<Collider2D> colliders = null;
     public List<Collider2D> triggers = null;
@@ -42,7 +43,12 @@ public class Item : MonoBehaviour {
                 Debug.LogError("Animator is missing from the 'Item' script of the gameObject: " + this.gameObject.name);
             }
         }
-        // speech bubbl is optional, does not need to be assigned
+        // speech bubble is optional, does not need to be assigned
+        if(speechBubble != null
+            && speechBubbleAnchor == null) {
+            this.gameObject.LogComponentError("speechBubbleAnchor", this.GetType());
+        }
+        // speech bubble anchor is optional, and does not need to be assigned
     }
     
     public void SetFacing(bool isFacingRight) {
@@ -61,9 +67,25 @@ public class Item : MonoBehaviour {
                                                                    this.gameObject.transform.localScale.z);
             }
         }
-        
+    }
+    
+    public void SetSpeechBubbleFacing(bool isFacingRight) {
+        // if(speechBubble != null) {
+        //     float currentFacing = this.gameObject.transform.localScale.x;
+        //     if(currentFacing > 0) {
+        //         speechBubble.SetFacing(true);
+        //     }
+        //     else {
+        //         speechBubble.SetFacing(false);
+        //     }
+        // }
         if(speechBubble != null) {
-            speechBubble.SetFacing(isFacingRight);
+            if(isFacingRight) {
+                speechBubble.SetFacing(true);
+            }
+            else {
+                speechBubble.SetFacing(false);
+            }
         }
     }
     

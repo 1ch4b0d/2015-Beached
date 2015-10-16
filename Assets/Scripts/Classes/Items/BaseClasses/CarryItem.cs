@@ -10,6 +10,7 @@ public class CarryItem : MonoBehaviour {
     public List<CustomEventsManager> onPickupItemEvents = null;
     public List<CustomEventsManager> onDropItemEvents = null;
     public List<CustomEventsManager> onThrowItemEvents = null;
+    
     // Use this for initialization
     void Start() {
         Initializate();
@@ -53,15 +54,13 @@ public class CarryItem : MonoBehaviour {
     public void PickUpItem(GameObject itemToPickUp) {
         Item item = itemToPickUp.GetComponent<Item>();
         if(item != null) {
+            // Debug.Log("----------");
             // Debug.Log("picking up");
-            // item.DisableColliders();
+            
             item.DisableTriggers();
             
             itemBeingCarried = itemToPickUp;
             
-            if(objectCarryingItem.transform.localScale.x < 0) {
-                itemBeingCarried.transform.localScale = new Vector3(itemBeingCarried.transform.localScale.x * -1, itemBeingCarried.transform.localScale.y, itemBeingCarried.transform.localScale.z);
-            }
             // Track the item's scale before it's set up
             Vector3 previousScale = itemToPickUp.transform.localScale;
             itemBeingCarried.transform.parent = carryItemAnchor.transform;
@@ -70,6 +69,9 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.transform.localScale = previousScale;
             ItemManager.Instance.Remove(itemToPickUp); // wtf is this doing? What was I thinking?
             
+            // Always update last
+            UpdatePickUpItemFacing(objectCarryingItem, item.gameObject);
+            
             FirePickUpItemEvents();
         }
     }
@@ -77,23 +79,20 @@ public class CarryItem : MonoBehaviour {
     public void DropItem(Vector3 itemVelocity) {
         Item item = itemBeingCarried.GetComponent<Item>();
         if(item != null) {
+            // Debug.Log("----------");
             // Debug.Log("dropping");
-            // item.EnableColliders();
+            
             item.EnableTriggers();
             
-            // Flips the item on drop so it looks the right way
-            if(this.gameObject.transform.localScale.x < 0) {
-                item.SetFacing(false);
-            }
-            else {
-                item.SetFacing(true);
-            }
             itemBeingCarried.transform.eulerAngles = Vector3.zero;
             
             ItemManager.Instance.Add(itemBeingCarried);
             itemBeingCarried.GetComponent<Rigidbody2D>().isKinematic = false;
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
+            
+            // Always update last
+            UpdateReleaseItemFacing(objectCarryingItem, item.gameObject);
             
             FireDropItemEvents();
         }
@@ -103,17 +102,11 @@ public class CarryItem : MonoBehaviour {
         itemVelocity.z = 0;
         Item item = itemBeingCarried.GetComponent<Item>();
         if(item != null) {
+            // Debug.Log("----------");
             // Debug.Log("throwing");
-            // item.EnableColliders();
+            
             item.EnableTriggers();
             
-            // Flips the item on drop so it looks the right way
-            if(this.gameObject.transform.localScale.x < 0) {
-                item.SetFacing(false);
-            }
-            else {
-                item.SetFacing(true);
-            }
             itemBeingCarried.transform.eulerAngles = Vector3.zero;
             
             ItemManager.Instance.Add(itemBeingCarried);
@@ -121,7 +114,132 @@ public class CarryItem : MonoBehaviour {
             itemBeingCarried.GetComponent<Rigidbody2D>().velocity = itemVelocity;
             itemBeingCarried = null;
             
+            // Always update last
+            UpdateReleaseItemFacing(objectCarryingItem, item.gameObject);
+            
             FireThrowItemEvents();
+        }
+    }
+    
+    // THIS IS SOFA KING DUMB
+    protected void UpdatePickUpItemFacing(GameObject objectCarryingItem, GameObject itemBeingCarried) {
+        Item item = itemBeingCarried.GetComponent<Item>();
+        
+        bool objectCarryingFacingRight = (objectCarryingItem.transform.localScale.x > 0) ? true : false;
+        bool itemFacingRight = (itemBeingCarried.transform.localScale.x > 0) ? true : false;
+        
+        // Debug.Log("-------------------");
+        if(objectCarryingFacingRight) {
+            // Debug.Log("Object carrying facing right");
+            if(itemFacingRight) {
+                // Debug.Log("item facing right");
+                item.SetFacing(true);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+            else {
+                // Debug.Log("item facing left");
+                item.SetFacing(false);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+        }
+        else {
+            // Debug.Log("Object carrying facing left");
+            if(itemFacingRight) {
+                // Debug.Log("item facing right");
+                item.SetFacing(false);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+            else {
+                // Debug.Log("item facing left");
+                item.SetFacing(true);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+        }
+    }
+    
+    // THIS IS SOFA KING DUMB
+    protected void UpdateReleaseItemFacing(GameObject objectCarryingItem, GameObject itemBeingCarried) {
+        Item item = itemBeingCarried.GetComponent<Item>();
+        
+        bool objectCarryingFacingRight = (objectCarryingItem.transform.localScale.x > 0) ? true : false;
+        bool itemFacingRight = (itemBeingCarried.transform.localScale.x > 0) ? true : false;
+        
+        // Debug.Log("-------------------");
+        if(objectCarryingFacingRight) {
+            // Debug.Log("Object carrying facing right");
+            if(itemFacingRight) {
+                // Debug.Log("item facing right");
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                    item.speechBubbleAnchor.transform.localPosition = new Vector3(item.speechBubbleAnchor.transform.localPosition.x * -1, item.speechBubbleAnchor.transform.localPosition.y * 1, item.speechBubbleAnchor.transform.localPosition.z * 1);
+                }
+            }
+            else {
+                // Debug.Log("item facing left");
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                    item.speechBubbleAnchor.transform.localPosition = new Vector3(item.speechBubbleAnchor.transform.localPosition.x * -1, item.speechBubbleAnchor.transform.localPosition.y * 1, item.speechBubbleAnchor.transform.localPosition.z * 1);
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+        }
+        else {
+            // Debug.Log("Object carrying facing left");
+            if(itemFacingRight) {
+                // Debug.Log("item facing right");
+                item.SetFacing(false);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                    item.speechBubbleAnchor.transform.localPosition = new Vector3(item.speechBubbleAnchor.transform.localPosition.x * -1, item.speechBubbleAnchor.transform.localPosition.y * 1, item.speechBubbleAnchor.transform.localPosition.z * 1);
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                }
+            }
+            else {
+                // Debug.Log("item facing left");
+                item.SetFacing(true);
+                bool itemSpeechBubbleAnchorOnRight = (item.speechBubbleAnchor.transform.localPosition.x > 0) ? true : false;
+                if(itemSpeechBubbleAnchorOnRight) {
+                    // Debug.Log("item speech bubble anchor on right");
+                }
+                else {
+                    // Debug.Log("item speech bubble anchor on left");
+                    item.speechBubbleAnchor.transform.localPosition = new Vector3(item.speechBubbleAnchor.transform.localPosition.x * -1, item.speechBubbleAnchor.transform.localPosition.y * 1, item.speechBubbleAnchor.transform.localPosition.z * 1);
+                }
+            }
         }
     }
     
