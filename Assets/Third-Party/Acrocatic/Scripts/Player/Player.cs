@@ -332,8 +332,8 @@ namespace Acrocatic {
                 // These if-statements are used to fix a bug where the player would be flipped before changing the animation.
                 // This caused a weird flicker.
                 AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-                if(stuckToWall &&
-                    (info.IsName("PlayerWallRun") || info.IsName("PlayerWallSlide"))) {
+                if(stuckToWall
+                    && (info.IsName("PlayerWallRun") || info.IsName("PlayerWallSlide"))) {
                     flipAgain = true;
                     if(playerWall.wallJump.enabled) {
                         animator.CrossFade("PlayerWallJump", 0f);

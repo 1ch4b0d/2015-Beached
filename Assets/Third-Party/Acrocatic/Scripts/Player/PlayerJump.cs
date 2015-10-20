@@ -87,13 +87,12 @@ namespace Acrocatic {
         private bool initialJump = false;                       // Used for holdToJumpHigher to make the player perform an initial jump.
         private float jumpTimer;                                // Used for the holdToJumpHigher jumps. Determines how long the player can jump.
         
+        //----------------------
+        // Custom Code
         protected void Awake() {
-            //----------------------
-            // Custom Code
             Initialize();
-            //----------------------
-            
         }
+        //----------------------
         
         // Use this for initialization.
         protected void Start() {

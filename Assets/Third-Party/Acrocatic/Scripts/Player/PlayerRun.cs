@@ -17,6 +17,22 @@ namespace Acrocatic {
         // Private variables.
         private Player player;                  // Get the Player class.
         
+        //---------------------------------------------------
+        // Custom Code
+        public CustomPlayerActions customPlayerActions;
+        
+        protected void Awake() {
+            Initialize();
+        }
+        
+        protected void Initialize() {
+            // Custom Player Actions
+            if(customPlayerActions == null) {
+                this.gameObject.LogComponentError("customPlayerActions", this.GetType());
+            }
+        }
+        //----------------------
+        
         // Use this for initialization.
         void Start() {
             // Setting up references.
@@ -26,7 +42,8 @@ namespace Acrocatic {
         // This function is called every fixed framerate frame.
         void FixedUpdate() {
             // Cache the run input.
-            bool running = SimpleInputManager.Instance.GetButton("Run");
+            // bool running = SimpleInputManager.Instance.GetButton("Run");
+            bool running = customPlayerActions.GetCustomPlayerActionSet().Interact.IsPressed;
             
             // Get the current speed.
             float speed = GetSpeed();
@@ -52,7 +69,8 @@ namespace Acrocatic {
         // Get the current speed for the player.
         public float GetSpeed(bool withPlatform = true) {
             // Cache the horizontal input, run input and speed.
-            bool running = SimpleInputManager.Instance.GetButton("Run");
+            // bool running = SimpleInputManager.Instance.GetButton("Run");
+            bool running = customPlayerActions.GetCustomPlayerActionSet().Interact.IsPressed;
             float speed = runSpeed;
             
             // If a button needs to be pressed to run...
