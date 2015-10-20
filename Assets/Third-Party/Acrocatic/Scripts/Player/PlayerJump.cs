@@ -113,7 +113,7 @@ namespace Acrocatic {
             // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
             if(!jump
                 && customPlayerActions.GetCustomPlayerActionSet().Jump.WasPressed
-                && jumps > 0
+                // && jumps > 0         // Remove 2015/10/20 - Fixes slope jump bug....
                 && !player.dashing
                 && !player.sliding
                 && !player.onLadder
