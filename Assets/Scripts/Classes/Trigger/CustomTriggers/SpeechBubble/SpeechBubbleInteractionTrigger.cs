@@ -140,7 +140,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         if(speechBubble != null
             && speechBubble.enabled
             && speechBubble.IsDisplayed()) {
-            Debug.Log("Hiding");
+            // Debug.Log("Hiding");
             speechBubble.Hide(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }

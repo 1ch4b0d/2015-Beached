@@ -72,14 +72,16 @@ public class PlayerInteractionController : InteractionController {
     
     public override void FinishInteraction() {
         isInteracting = false;
-        SpeechBubbleInteractionTrigger speechBubbleInteractionTrigger = triggerBeingInteractedWith.GetComponent<SpeechBubbleInteractionTrigger>();
-        if(speechBubbleInteractionTrigger != null) {
-            Debug.Log("Was interacting with speech bubble.");
-            if(!triggers.Contains(speechBubbleInteractionTrigger)) {
-                Debug.Log("don't contain it bruh");
-                speechBubbleInteractionTrigger.HideSpeechBubble(speechBubbleInteractionTrigger.horizontalScaleInDuration, speechBubbleInteractionTrigger.verticalScaleInDuration);
+        if(triggerBeingInteractedWith != null) {
+            SpeechBubbleInteractionTrigger speechBubbleInteractionTrigger = triggerBeingInteractedWith.GetComponent<SpeechBubbleInteractionTrigger>();
+            if(speechBubbleInteractionTrigger != null) {
+                // Debug.Log("Was interacting with speech bubble.");
+                if(!triggers.Contains(speechBubbleInteractionTrigger)) {
+                    // Debug.Log("don't contain it bruh");
+                    speechBubbleInteractionTrigger.HideSpeechBubble(speechBubbleInteractionTrigger.horizontalScaleInDuration, speechBubbleInteractionTrigger.verticalScaleInDuration);
+                }
             }
+            triggerBeingInteractedWith = null;
         }
-        triggerBeingInteractedWith = null;
     }
 }
