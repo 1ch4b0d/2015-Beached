@@ -23,16 +23,18 @@ public class NPCInteractionTrigger : SpeechBubbleInteractionTrigger {
     
     public override void Entered(GameObject gameObjectEntering) {
         // Debug.Log("SpeechBubble Trigger Entered");
-        Player playerReference = gameObjectEntering.GetComponent<Player>();
-        if(playerReference != null) {
+        Player playerRef = gameObjectEntering.GetComponent<Player>();
+        if(playerRef != null
+            && !playerRef.GetInteractionController().IsInteracting()) {
             ShowSpeechBubble(horizontalScaleOutDuration, verticalScaleOutDuration);
         }
     }
     
     public override void Exited(GameObject gameObjectExiting) {
-        // Debug.Log("SpeechBubble Trigger Exited");
-        Player playerReference = gameObjectExiting.GetComponent<Player>();
-        if(playerReference != null) {
+        Player playerRef = gameObjectExiting.GetComponent<Player>();
+        if(playerRef != null//) {
+            // && !playerRef.GetInteractionController().IsInteracting()) {
+            && this != playerRef.GetInteractionController().GetTriggerBeingInteractedWith()) {
             HideSpeechBubble(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }

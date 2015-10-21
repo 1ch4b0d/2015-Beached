@@ -5,7 +5,10 @@ using InControl;
 
 public class InteractionController : MonoBehaviour {
     public List<InteractionTrigger> triggers = new List<InteractionTrigger>();
+    public InteractionTrigger triggerBeingInteractedWith = null;
     public bool interactionButtonPressed = false;
+    public bool isInteracting = false;
+    public bool isPaused = false;
     
     // Use this for initialization
     protected virtual void Awake() {
@@ -24,6 +27,14 @@ public class InteractionController : MonoBehaviour {
     }
     
     protected virtual void Initialize() {
+    }
+    
+    public bool IsInteracting() {
+        return isInteracting;
+    }
+    
+    public InteractionTrigger GetTriggerBeingInteractedWith() {
+        return triggerBeingInteractedWith;
     }
     
     public InteractionTrigger GetNewestTrigger() {
@@ -67,7 +78,7 @@ public class InteractionController : MonoBehaviour {
         triggers.Remove(trigger);
     }
     
-    public void OnTriggerEnter2D(Collider2D collider) {
+    public virtual void OnTriggerEnter2D(Collider2D collider) {
         InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
         if(interactionTrigger != null) {
             AddTrigger(interactionTrigger);
@@ -77,10 +88,29 @@ public class InteractionController : MonoBehaviour {
     // public void OnTrigger2D(Collider2D collider) {
     // }
     
-    public void OnTriggerExit2D(Collider2D collider) {
+    public virtual void OnTriggerExit2D(Collider2D collider) {
         InteractionTrigger interactionTrigger = collider.gameObject.GetComponent<InteractionTrigger>();
         if(interactionTrigger) {
             RemoveTrigger(interactionTrigger);
         }
+    }
+    
+    public virtual void StartInteraction() {
+        interactionButtonPressed = false;
+        isInteracting = true;
+        triggerBeingInteractedWith = GetNewestTrigger();
+    }
+    
+    public virtual void FinishInteraction() {
+        isInteracting = false;
+        triggerBeingInteractedWith = null;
+    }
+    
+    public void Pause() {
+        isPaused = true;
+    }
+    
+    public void Unpause() {
+        isPaused = false;
     }
 }

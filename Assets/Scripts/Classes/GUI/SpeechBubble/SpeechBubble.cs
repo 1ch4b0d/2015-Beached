@@ -624,6 +624,8 @@ public class SpeechBubble : MonoBehaviour {
     public SpeechBubble Show(float horizontalScaleDuration, float verticalScaleDuration) {
         // Debug.Log("Show");
         
+        uiLabelText.text = "";
+        
         // clears the tweens
         this.gameObject.DestroyGoTweens();
         
@@ -648,7 +650,7 @@ public class SpeechBubble : MonoBehaviour {
     }
     
     public SpeechBubble Hide(float horizontalScaleDuration, float verticalScaleDuration) {
-        // Debug.Log("Hide");
+        Debug.Log("Hide");
         
         // clears the tweens
         this.gameObject.DestroyGoTweens();

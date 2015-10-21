@@ -91,7 +91,10 @@ public class Player : BasePlayer {
     public void PerformInteractionCheck() {
         if(interactionController.IsActionButtonPressed()) {
             // Debug.Log("Action button pressed");
-            InteractionTrigger currentInteractionTrigger = interactionController.GetNewestTrigger();
+            InteractionTrigger currentInteractionTrigger = interactionController.GetTriggerBeingInteractedWith();
+            if(currentInteractionTrigger == null) {
+                currentInteractionTrigger = interactionController.GetNewestTrigger();
+            }
             if(currentInteractionTrigger != null) {
                 // Debug.Log("currentInteractionTrigger is not null");
                 if(carryItem.IsCarryingItem()) {
@@ -284,10 +287,28 @@ public class Player : BasePlayer {
     }
     
     public void StartInteraction() {
-        Pause();
+        // Pause();
+        // Rigidbody2D rigidbody2D = this.gameObject.GetComponent<Rigidbody2D>();
+        // rigidbody2DSnapshot.Capture(rigidbody2D);
+        // rigidbody2D.isKinematic = true;
+        //------
+        // ToggleColliders(colliders, false);
+        //------
+        // ToggleController(this.gameObject, false);
+        // playerController.StartInteraction();
+        // playerController.enabled = false;
+        playerController.Pause();
+        playerController.GetPlayerJump().Pause();
+        playerController.GetAnimator().Play("PlayerIdle");
+        interactionController.StartInteraction();
     }
     
     public void StartGameplayState() {
-        Unpause();
+        // Unpause();
+        // ToggleController(this.gameObject, true);
+        // playerController.enabled = true;
+        playerController.Unpause();
+        playerController.GetPlayerJump().Unpause();
+        interactionController.FinishInteraction();
     }
 }

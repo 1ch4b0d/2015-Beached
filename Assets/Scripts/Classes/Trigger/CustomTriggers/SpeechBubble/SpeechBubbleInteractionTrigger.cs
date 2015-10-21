@@ -110,11 +110,8 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
                     if(speechBubble.IsDisplayingText()) {
                         // Debug.Log("Finished");
                         
-                        // Start playerRef gamestate first so that if events are fired
-                        // at the end of the speech bubble they can override any
-                        // changes that could occur in the playerRef's state
-                        playerRef.StartGameplayState();
                         speechBubble.FinishInteraction();
+                        playerRef.StartGameplayState();
                         
                         currentIteration++;
                     }
@@ -143,7 +140,7 @@ public class SpeechBubbleInteractionTrigger : InteractionTrigger {
         if(speechBubble != null
             && speechBubble.enabled
             && speechBubble.IsDisplayed()) {
-            // Debug.Log("Hiding");
+            Debug.Log("Hiding");
             speechBubble.Hide(horizontalScaleInDuration, verticalScaleInDuration);
         }
     }

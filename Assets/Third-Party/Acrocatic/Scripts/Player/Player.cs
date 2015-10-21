@@ -34,8 +34,6 @@ namespace Acrocatic {
         [HideInInspector]
         public bool onLadder = false;               // Determines if the player is on a ladder.
         [HideInInspector]
-        public bool facingUp = false;               // Determines if the player is looking up
-        [HideInInspector]
         public GameObject frontCheckTop;            // A position marking to check if the player's front.
         [HideInInspector]
         public GameObject frontCheckBot;            // A position marking to check if the player's front.
@@ -93,6 +91,7 @@ namespace Acrocatic {
         
         //-----------------------------------------------
         // Custom Code
+        public bool isPaused = false;
         public CustomPlayerActions customPlayerActions;
         public List<CustomEventsManager> onLandEvents = null;
         
@@ -156,7 +155,8 @@ namespace Acrocatic {
         // This function is called every fixed framerate frame.
         void FixedUpdate() {
             // Set the player's hitbox.
-            if(grounded && !dashing) {
+            if(grounded
+                && !dashing) {
                 if(crouching) {
                     ChangeHitbox("crouch");
                 }
@@ -188,23 +188,9 @@ namespace Acrocatic {
         // Update is called once per frame.
         void Update() {
             // Cache the horizontal input.
-            hor = customPlayerActions.GetCustomPlayerActionSet().Move.Value;
-            
-            // Set the animator values.
-            animator.SetBool("grounded", grounded);
-            animator.SetBool("walking", walking);
-            animator.SetBool("crouching", crouching);
-            animator.SetBool("sliding", sliding);
-            animator.SetBool("dashing", dashing);
-            animator.SetBool("falling", falling);
-            animator.SetBool("wall", stuckToWall);
-            animator.SetBool("onLadder", onLadder);
-            animator.SetBool("jumpingThrough", jumpingThrough);
-            animator.SetBool("facingUp", facingUp);
-            animator.SetFloat("horizontal", Mathf.Abs(hor));
-            animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody.velocity.x));
-            animator.SetFloat("ySpeed", rigidbody.velocity.y);
-            animator.SetBool("isDead", isDead);
+            if(!isPaused) {
+                hor = customPlayerActions.GetCustomPlayerActionSet().Move.Value;
+            }
             
             // The player is grounded if a circle at the groundcheck position overlaps anything on the ground layer.
             // Only perform the check if the player is not on a platform.
@@ -224,27 +210,12 @@ namespace Acrocatic {
                 }
             }
             
-            //------------------------------------------------------------------
-            // CUSTOM LOGIC
-            //------------------------------------------------------------------
-            // TO DETECT LANDING
-            if(groundCollider != null
-                && !jumpingThrough
-                && !grounded) {
-                // Ugh this is such a garbage solution and it calls get component
-                // way too often
-                // PlatformCollider platformCollider = groundCollider.GetComponent<PlatformCollider>();
-                // if(platformCollider != null) {
-                //     Debug.Log("landed");
-                // }
-                FireLandEvents();
-            }
-            //------------------------------------------------------------------
-            
             // If player is grounded and not jumping through a platform...
-            if(groundCollider && !jumpingThrough) {
+            if(groundCollider
+                && !jumpingThrough) {
                 // If the player isn't grounded yet and keepVelocityOnGround is activated...
-                if(keepVelocityOnGround && !grounded) {
+                if(keepVelocityOnGround
+                    && !grounded) {
                     // ... set the groundedXVelocity to the current X velocity.
                     groundedXVelocity = rigidbody.velocity.x;
                     // Start the groundedTimer.
@@ -277,6 +248,38 @@ namespace Acrocatic {
                 // ... flip the player.
                 Flip();
             }
+            
+            //------------------------------------------------------------------
+            // CUSTOM LOGIC
+            
+            // TO DETECT LANDING
+            if(groundCollider != null
+                && !jumpingThrough
+                && !grounded) {
+                // Ugh this is such a garbage solution and it calls get component
+                // way too often
+                // PlatformCollider platformCollider = groundCollider.GetComponent<PlatformCollider>();
+                // if(platformCollider != null) {
+                //     Debug.Log("landed");
+                // }
+                FireLandEvents();
+            }
+            //------------------------------------------------------------------
+            
+            // Set the animator values.
+            animator.SetBool("grounded", grounded);
+            animator.SetBool("walking", walking);
+            animator.SetBool("crouching", crouching);
+            animator.SetBool("sliding", sliding);
+            animator.SetBool("dashing", dashing);
+            animator.SetBool("falling", falling);
+            animator.SetBool("wall", stuckToWall);
+            animator.SetBool("onLadder", onLadder);
+            animator.SetBool("jumpingThrough", jumpingThrough);
+            animator.SetFloat("horizontal", Mathf.Abs(hor));
+            animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody.velocity.x));
+            animator.SetFloat("ySpeed", rigidbody.velocity.y);
+            animator.SetBool("isDead", isDead);
         }
         
         public PlayerJump GetPlayerJump() {
@@ -405,9 +408,13 @@ namespace Acrocatic {
         // Function to set the walking variable.
         public void Walk(bool walk) {
             // Don't change the walking variable if the player is jumping and can't change from walking to running in the air.
-            if(!grounded && playerJump && !playerJump.airMovement.resetOnWall && !CanWalkAndRunInAir())
+            if(!grounded
+                && playerJump
+                && !playerJump.airMovement.resetOnWall
+                && !CanWalkAndRunInAir()) {
                 return;
-                
+            }
+            
             walking = walk;
         }
         
@@ -678,7 +685,6 @@ namespace Acrocatic {
         
         //------------------------------------------------------------------
         // CUSTOM LOGIC
-        //------------------------------------------------------------------
         public bool IsDead() {
             return isDead;
         }
@@ -692,5 +698,14 @@ namespace Acrocatic {
                 customEventsManager.Execute();
             }
         }
+        
+        public void Pause() {
+            hor = 0f;
+            isPaused = true;
+        }
+        public void Unpause() {
+            isPaused = false;
+        }
+        //------------------------------------------------------------------
     }
 }

@@ -77,6 +77,7 @@ namespace Acrocatic {
         
         //---------------------------------------------------
         // Custom Code
+        public bool isPaused = false;
         public CustomPlayerActions customPlayerActions;
         public List<CustomEventsManager> onJumpEvents = null;
         //---------------------------------------------------
@@ -102,32 +103,34 @@ namespace Acrocatic {
         
         // Update is called once per frame.
         protected void Update() {
-            // Reset total jumps allowed when not performing a jump and grounded or when on a moving/sinking platform.
-            if(!jump
-                && (player.grounded || player.IsStuckToPlatform())
-                && ((Mathf.Round(player.rigidbody.velocity.y) == 0) || ((player.OnMovingPlatform() || player.OnSinkingPlatform()) && player.rigidbody.velocity.y == player.GetPlatform().GetComponent<Rigidbody2D>().velocity.y))) {
-                jumps = doubleJumping.totalJumps;
-            }
-            
-            // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
-            if(!jump
-                && customPlayerActions.GetCustomPlayerActionSet().Jump.WasPressed
-                // && jumps > 0         // Remove 2015/10/20 - Fixes slope jump bug....
-                && !player.dashing
-                && !player.sliding
-                && !player.onLadder
-                && (!player.crouching || (player.crouching && player.AllowedToStandUp()))) {
-                // If the player is grounded...
-                if(player.grounded) {
-                    // ... initialize jump.
-                    InitJump();
-                    // If the player is not grounded and totalJumps is higher than 1...
+            if(!isPaused) {
+                // Reset total jumps allowed when not performing a jump and grounded or when on a moving/sinking platform.
+                if(!jump
+                    && (player.grounded || player.IsStuckToPlatform())
+                    && ((Mathf.Round(player.rigidbody.velocity.y) == 0) || ((player.OnMovingPlatform() || player.OnSinkingPlatform()) && player.rigidbody.velocity.y == player.GetPlatform().GetComponent<Rigidbody2D>().velocity.y))) {
+                    jumps = doubleJumping.totalJumps;
                 }
-                else if(doubleJumping.totalJumps > 1) {
-                    // ... initialize jump if the Y velocity is inside the double jump window (or when there isn't a window).
-                    if(!doubleJumping.jumpWindow || (doubleJumping.jumpWindow && player.rigidbody.velocity.y > doubleJumping.jumpWindowMin && player.rigidbody.velocity.y < doubleJumping.jumpWindowMax)) {
-                        doubleJump = true;
+                
+                // If the jump button is pressed, jumps are allowed and the player is not dashing, sliding, on a ladder or crouching under an obstacle...
+                if(!jump
+                    && customPlayerActions.GetCustomPlayerActionSet().Jump.WasPressed
+                    // && jumps > 0         // Remove 2015/10/20 - Fixes slope jump bug....
+                    && !player.dashing
+                    && !player.sliding
+                    && !player.onLadder
+                    && (!player.crouching || (player.crouching && player.AllowedToStandUp()))) {
+                    // If the player is grounded...
+                    if(player.grounded) {
+                        // ... initialize jump.
                         InitJump();
+                        // If the player is not grounded and totalJumps is higher than 1...
+                    }
+                    else if(doubleJumping.totalJumps > 1) {
+                        // ... initialize jump if the Y velocity is inside the double jump window (or when there isn't a window).
+                        if(!doubleJumping.jumpWindow || (doubleJumping.jumpWindow && player.rigidbody.velocity.y > doubleJumping.jumpWindowMin && player.rigidbody.velocity.y < doubleJumping.jumpWindowMax)) {
+                            doubleJump = true;
+                            InitJump();
+                        }
                     }
                 }
             }
@@ -300,6 +303,14 @@ namespace Acrocatic {
             foreach(CustomEventsManager customEventsManager in onJumpEvents) {
                 customEventsManager.Execute();
             }
+        }
+        
+        public void Pause() {
+            isPaused = true;
+        }
+        
+        public void Unpause() {
+            isPaused = false;
         }
         //----------------------
     }

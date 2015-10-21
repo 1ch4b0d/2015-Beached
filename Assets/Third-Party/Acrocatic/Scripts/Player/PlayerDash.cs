@@ -151,7 +151,8 @@ namespace Acrocatic {
                 cooldownTimer = cooldownTime;
                 
                 // If there is an air dash limit, make sure it gets decreased.
-                if(airDashLimit && airDashTotal > 0) {
+                if(airDashLimit
+                    && airDashTotal > 0) {
                     totalAirDashes--;
                 }
             }
@@ -179,11 +180,13 @@ namespace Acrocatic {
         // Set the dashAllowed variable.
         void SetDashAllowed() {
             // Make sure dashing in the air isn't allowed when airDash is set to false.
-            if(!player.grounded && !airDash) {
+            if(!player.grounded
+                && !airDash) {
                 dashAllowed = false;
                 // Or else if air dashing is allowed and player is currently in the air and there is an air dash limit...
             }
-            else if(!player.grounded && airDashLimit) {
+            else if(!player.grounded
+                    && airDashLimit) {
                 // ... only allow a dash if totalAirDashes is higher than 0.
                 if(totalAirDashes > 0) {
                     dashAllowed = true;

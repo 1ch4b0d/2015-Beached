@@ -3,7 +3,7 @@ using System.Collections;
 using InControl;
 
 public class CustomPlayerActions : MonoBehaviour {
-    static CustomPlayerActionSet characterActions;
+    CustomPlayerActionSet characterActions;
     
     protected void Awake() {
         Initialize();
@@ -19,7 +19,7 @@ public class CustomPlayerActions : MonoBehaviour {
     protected void LateUpdate() {
     }
     
-    protected static void Initialize() {
+    protected void Initialize() {
         characterActions = new CustomPlayerActionSet();
         //---------------------------------------------
         // Left
