@@ -45,46 +45,6 @@ public class TranslateObjectEvent : CustomEventObject {
     }
     
     public override void ExecuteLogic() {
-        // if(translationTween != null) {
-        //     translationTween.destroy();
-        //     translationTween = null; // because I'm cautious like that
-        // }
-        
-        // Vector3 finalPosition = Vector3.zero;
-        
-        // //-----------------------------------------
-        // // Translate Tween
-        // //-----------------------------------------
-        // GoTweenConfig tweenConfig = null;
-        // if(useLocal) {
-        //     finalPosition = new Vector3((excludeXComponent) ? objectToTranslate.transform.localPosition.x : targetPosition.localPosition.x,
-        //                                 (excludeYComponent) ? objectToTranslate.transform.localPosition.y : targetPosition.localPosition.y,
-        //                                 (excludeZComponent) ? objectToTranslate.transform.localPosition.z : targetPosition.localPosition.z);
-        //     finalPosition += offset;
-        //     tweenConfig = new GoTweenConfig().localPosition(finalPosition);
-        // }
-        // else {
-        //     finalPosition = new Vector3((excludeXComponent) ? objectToTranslate.transform.position.x : targetPosition.position.x,
-        //                                 (excludeYComponent) ? objectToTranslate.transform.position.y : targetPosition.position.y,
-        //                                 (excludeZComponent) ? objectToTranslate.transform.position.z : targetPosition.position.z);
-        //     finalPosition += offset;
-        //     tweenConfig = new GoTweenConfig().position(finalPosition);
-        // }
-        // tweenConfig.setDelay(delay)
-        // .setEaseType(easingType)
-        // .onComplete(complete => {
-        //     FireFinishEvents();
-        // });
-        
-        // translationTween = Go.to(objectToTranslate.transform,
-        //                          duration,
-        //                          tweenConfig);
-        //----------------------------------------------------------------------
-        // if(translationTween != null) {
-        //     translationTween.destroy();
-        //     translationTween = null; // because I'm cautious like that
-        // }
-        
         GoTweenConfig tweenConfig = new GoTweenConfig();
         Vector3 finalPosition = Vector3.zero;
         
@@ -115,8 +75,5 @@ public class TranslateObjectEvent : CustomEventObject {
         objectToTranslate.AddGoTween(Go.to(objectToTranslate.transform,
                                            duration,
                                            tweenConfig));
-        // translationTween = Go.to(objectToTranslate.transform,
-        //                          duration,
-        //                          tweenConfig);
     }
 }

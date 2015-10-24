@@ -56,6 +56,10 @@ public class AudioSourceManager : MonoBehaviour {
         }
     }
     
+    public AudioSource GetAudioSource() {
+        return audioSourceReference;
+    }
+    
     public void PerformStateLogic() {
         if(hasStartedPlaying == false
             && audioSourceReference.isPlaying) {
