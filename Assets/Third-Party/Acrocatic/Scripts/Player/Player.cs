@@ -17,7 +17,7 @@ namespace Acrocatic {
         public float hor;                           // Get the Horizontal input.
         [HideInInspector]
         public bool facingRight;                    // For determining which way the player is currently facing.
-        [HideInInspector]
+        // [HideInInspector]    // Disabled to fix weird one off bug
         public bool grounded = true;                // Whether or not the player is grounded.
         [HideInInspector]
         public bool walking = false;                // Determines if the player is walking.
@@ -210,6 +210,19 @@ namespace Acrocatic {
                 }
             }
             
+            // This needs to go before the ground check below it in order to fire correctly.
+            //------------------------------------------------------------------
+            // CUSTOM LOGIC
+            
+            // TO DETECT LANDING
+            if(groundCollider != null
+                && !jumpingThrough
+                && !grounded) {
+                // Debug.Log("landed");
+                FireLandEvents();
+            }
+            //------------------------------------------------------------------
+            
             // If player is grounded and not jumping through a platform...
             if(groundCollider
                 && !jumpingThrough) {
@@ -248,23 +261,6 @@ namespace Acrocatic {
                 // ... flip the player.
                 Flip();
             }
-            
-            //------------------------------------------------------------------
-            // CUSTOM LOGIC
-            
-            // TO DETECT LANDING
-            if(groundCollider != null
-                && !jumpingThrough
-                && !grounded) {
-                // Ugh this is such a garbage solution and it calls get component
-                // way too often
-                // PlatformCollider platformCollider = groundCollider.GetComponent<PlatformCollider>();
-                // if(platformCollider != null) {
-                //     Debug.Log("landed");
-                // }
-                FireLandEvents();
-            }
-            //------------------------------------------------------------------
             
             // Set the animator values.
             animator.SetBool("grounded", grounded);
