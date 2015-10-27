@@ -39,6 +39,8 @@ public class DetonatorCameraZoomTrigger : CameraZoomTrigger {
     
     public override void Exited(GameObject gameObjectExiting) {
         FireExitEvents();
-        EndZoom();
+        if(detonator.IsPrimed()) {
+            EndZoom();
+        }
     }
 }

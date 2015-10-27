@@ -63,7 +63,8 @@ public class PrefabGenerator : MonoBehaviour {
     
     public virtual GameObject PerformGeneration() {
         GameObject objectToGenerate = GenerateGameObject();
-        objectToGenerate.transform.parent = this.gameObject.transform;
+        // objectToGenerate.transform.parent = this.gameObject.transform;
+        // objectToGenerate.transform.parent = null;
         objectToGenerate.transform.position = generationTransform.position;
         
         foreach(PrefabGeneratorRule prefabGeneratorRule in prefabGeneratorRules) {

@@ -31,7 +31,8 @@ public class BlubberCollision : CustomCollision {
         if(enterIteration < 1
             || loopEnter) {
             // filters blubber from responding
-            if(gameObjectEntering.GetComponent<Blubber>() == null) {
+            if(gameObjectEntering.GetComponent<Blubber>() == null
+                && gameObjectEntering.GetComponent<Boundary>() == null) {
                 EnterLogic(gameObjectEntering);
                 FireEnterEvents();
                 enterIteration++;
