@@ -21,6 +21,9 @@ public class PrefabGenerator : MonoBehaviour {
     
     // Use this for initialization
     protected virtual void Start() {
+        if(timerIsStochastic) {
+            timerMax = Random.Range(timerBounds.x, timerBounds.y);
+        }
     }
     
     // Update is called once per frame
