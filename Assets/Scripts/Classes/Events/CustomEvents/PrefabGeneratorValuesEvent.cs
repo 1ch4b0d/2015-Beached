@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PrefabGeneratorValuesEvent : CustomEventObject {
-    public bool? isGenerating = null;
+    public bool isGenerating = false;
     public List<PrefabGenerator> prefabGeneratorsToModify = null;
     
     // Use this for initialization
@@ -30,9 +30,7 @@ public class PrefabGeneratorValuesEvent : CustomEventObject {
     
     public override void ExecuteLogic() {
         foreach(PrefabGenerator prefabGenerator in prefabGeneratorsToModify) {
-            if(isGenerating != null) {
-                prefabGenerator.isGenerating = (bool)isGenerating;
-            }
+            prefabGenerator.isGenerating = isGenerating;
         }
     }
 }
