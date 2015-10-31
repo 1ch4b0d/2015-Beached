@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PrefabGenerator : MonoBehaviour {
     public GameObject prefabToGenerate = null;
     public Transform generationTransform = null;
+    public bool isGenerating = true;
     public bool timerIsStochastic = false;
     public float timer = 0f;
     public float timerMax = 1f;
@@ -28,7 +29,9 @@ public class PrefabGenerator : MonoBehaviour {
     
     // Update is called once per frame
     protected virtual void Update() {
-        PerformLogic();
+        if(isGenerating) {
+            PerformLogic();
+        }
     }
     
     protected virtual void Initialize() {

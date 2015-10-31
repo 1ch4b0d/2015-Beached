@@ -55,8 +55,15 @@ public class Player : BasePlayer {
     public bool IsDead() {
         return playerController.IsDead();
     }
-    public void SetIsDead(bool newIsDead) {
-        playerController.SetIsDead(newIsDead);
+    public void SetIsDead(bool isDead) {
+        if(isDead) {
+            if(!playerController.IsDead()) {
+                playerController.Dead();
+            }
+        }
+        else {
+            playerController.SetIsDead(isDead);
+        }
     }
     
     public Rigidbody2D GetRigidbody() {

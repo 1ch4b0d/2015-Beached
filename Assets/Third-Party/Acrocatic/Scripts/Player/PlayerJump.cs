@@ -107,7 +107,7 @@ namespace Acrocatic {
                 // Reset total jumps allowed when not performing a jump and grounded or when on a moving/sinking platform.
                 if(!jump
                     && (player.grounded || player.IsStuckToPlatform())
-                    && ((Mathf.Round(player.rigidbody.velocity.y) == 0) || ((player.OnMovingPlatform() || player.OnSinkingPlatform()) && player.rigidbody.velocity.y == player.GetPlatform().GetComponent<Rigidbody2D>().velocity.y))) {
+                    && ((Mathf.Round(player.GetComponent<Rigidbody2D>().velocity.y) == 0) || ((player.OnMovingPlatform() || player.OnSinkingPlatform()) && player.GetComponent<Rigidbody2D>().velocity.y == player.GetPlatform().GetComponent<Rigidbody2D>().velocity.y))) {
                     jumps = doubleJumping.totalJumps;
                 }
                 
@@ -127,7 +127,8 @@ namespace Acrocatic {
                     }
                     else if(doubleJumping.totalJumps > 1) {
                         // ... initialize jump if the Y velocity is inside the double jump window (or when there isn't a window).
-                        if(!doubleJumping.jumpWindow || (doubleJumping.jumpWindow && player.rigidbody.velocity.y > doubleJumping.jumpWindowMin && player.rigidbody.velocity.y < doubleJumping.jumpWindowMax)) {
+                        if(!doubleJumping.jumpWindow
+                            || (doubleJumping.jumpWindow && player.GetComponent<Rigidbody2D>().velocity.y > doubleJumping.jumpWindowMin && player.GetComponent<Rigidbody2D>().velocity.y < doubleJumping.jumpWindowMax)) {
                             doubleJump = true;
                             InitJump();
                         }
@@ -144,7 +145,7 @@ namespace Acrocatic {
                 if(player.jumpDown
                     && jumps == doubleJumping.totalJumps) {
                     // ... add a small Y force.
-                    player.rigidbody.AddForce(new Vector2(0f, 200f));
+                    player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, 200f));
                     
                     // If the player is on a platform...
                     if(player.OnPlatform()) {
@@ -222,7 +223,7 @@ namespace Acrocatic {
                         jumpTimer -= Time.deltaTime;
                         
                         // Set the Y Force for the player.
-                        player.rigidbody.AddForce(new Vector2(0f, jumpFactor * (doubleJump ? holdToJumpHigher.doubleJumpForce : holdToJumpHigher.jumpForce)));
+                        player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpFactor * (doubleJump ? holdToJumpHigher.doubleJumpForce : holdToJumpHigher.jumpForce)));
                         // When the timer is finished or the jump button isn't being pressed...
                     }
                     else {
@@ -233,7 +234,7 @@ namespace Acrocatic {
                 }
                 else {
                     // Add a vertical force to the player.
-                    player.rigidbody.AddForce(new Vector2(0f, jumpFactor * (doubleJump ? singlePressToJump.doubleJumpForce : singlePressToJump.jumpForce)));
+                    player.GetComponent<Rigidbody2D>().AddForce(new Vector2(0f, jumpFactor * (doubleJump ? singlePressToJump.doubleJumpForce : singlePressToJump.jumpForce)));
                     
                     // If the player is on a platform...
                     if(player.OnPlatform()) {

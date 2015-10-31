@@ -106,7 +106,7 @@ namespace Acrocatic {
                     player.SetYVelocity(0);
                     
                     // Add an X and Y force to the rigid body to actually perform the slide.
-                    player.rigidbody.AddForce(new Vector2((player.facingRight ? 1 : -1) * airSlideForce.x, airSlideForce.y));
+                    player.GetComponent<Rigidbody>().AddForce(new Vector2((player.facingRight ? 1 : -1) * airSlideForce.x, airSlideForce.y));
                     // Or else...
                 }
                 else {
@@ -114,7 +114,7 @@ namespace Acrocatic {
                     player.SetXVelocity(0);
                     
                     // Add an X force to the rigid body to actually perform the slide.
-                    player.rigidbody.AddForce(new Vector2((player.facingRight ? 1 : -1) * slideForce, 0f));
+                    player.GetComponent<Rigidbody>().AddForce(new Vector2((player.facingRight ? 1 : -1) * slideForce, 0f));
                 }
                 
                 // Reset the slide timers.

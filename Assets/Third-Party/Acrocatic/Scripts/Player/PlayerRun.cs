@@ -53,14 +53,14 @@ namespace Acrocatic {
             // If the player is not stuck to the wall and the player is not dashing, sliding, crouching and/or on a ladder...
             if(!player.stuckToWall && !player.dashing && !player.sliding && !player.crouching && !player.onLadder) {
                 // ... if the player is changing direction (h has a different sign to velocity.x) or hasn't reached speed yet...
-                if(player.hor * player.rigidbody.velocity.x < speed) {
+                if(player.hor * player.GetComponent<Rigidbody2D>().velocity.x < speed) {
                     // ... add a force to the player.
-                    player.rigidbody.AddForce(transform.rotation * Vector2.right * player.hor * player.GetMovementForce(moveForce));
+                    player.GetComponent<Rigidbody2D>().AddForce(transform.rotation * Vector2.right * player.hor * player.GetMovementForce(moveForce));
                 }
                 // If the player's horizontal velocity is greater than the speed and the player isn't stuck to the X of a platform...
-                if(Mathf.Abs(player.rigidbody.velocity.x) > speed && !player.IsStuckToPlatformX()) {
+                if(Mathf.Abs(player.GetComponent<Rigidbody2D>().velocity.x) > speed && !player.IsStuckToPlatformX()) {
                     // ... set the player's velocity to the speed in the x axis.
-                    player.SetXVelocity(Mathf.Sign(player.rigidbody.velocity.x) * speed);
+                    player.SetXVelocity(Mathf.Sign(player.GetComponent<Rigidbody2D>().velocity.x) * speed);
                 }
             }
         }

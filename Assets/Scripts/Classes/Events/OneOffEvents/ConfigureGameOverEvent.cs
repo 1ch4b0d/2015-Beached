@@ -77,7 +77,8 @@ public class ConfigureGameOverEvent : CustomEventObject {
         Vector3 spotlightStartPosition = new Vector3(CameraManager.Instance.GetMainCamera().GetLeftBoundWorldPosition() + (spotlightGameObject.transform.localScale.x),
                                                      playerGameObject.transform.position.y,
                                                      spotlightGameObject.transform.position.z);
-        Player player = playerGameObject.GetComponent<Player>();
+        // Acrocatic.Player acrocaticPlayer = playerGameObject.GetComponent<Acrocatic.Player>();
+        // Player player = playerGameObject.GetComponent<Player>();
         GhostPlayer ghostPlayer = ghostPlayerGameObject.GetComponent<GhostPlayer>();
         
         if(!isThortonOnScreen) {
@@ -89,7 +90,9 @@ public class ConfigureGameOverEvent : CustomEventObject {
         ghostPlayerGameObject.transform.position = ghostPlayerStartPosition;
         ghostPlayer.Unpause();
         //----------------------------------------------
-        player.Pause();
+        // acrocaticPlayer.Pause();
+        //----------------------------------------------
+        // player.Pause();
         //----------------------------------------------
         spotlightGameObject.SetActive(true);
         spotlightGameObject.transform.position = spotlightStartPosition;

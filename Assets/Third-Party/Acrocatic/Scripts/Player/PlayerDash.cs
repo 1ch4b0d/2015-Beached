@@ -76,7 +76,7 @@ namespace Acrocatic {
                 dashAllowed = false;
                 
                 // Reset the dash timer if the X velocity is 0.
-                if(player.rigidbody.velocity.x == 0) {
+                if(player.GetComponent<Rigidbody>().velocity.x == 0) {
                     dashTimer = 0;
                 }
                 
@@ -144,7 +144,7 @@ namespace Acrocatic {
                 player.SetXVelocity(0);
                 
                 // Add an X force to the rigid body to actually perform the dash.
-                player.rigidbody.AddForce(new Vector2((player.facingRight ? 1 : -1) * dashForce, 0f));
+                player.GetComponent<Rigidbody>().AddForce(new Vector2((player.facingRight ? 1 : -1) * dashForce, 0f));
                 
                 // Reset the dash timers.
                 dashTimer = dashTime;

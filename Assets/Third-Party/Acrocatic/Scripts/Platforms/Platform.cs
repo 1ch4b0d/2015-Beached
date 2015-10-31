@@ -6,7 +6,7 @@ namespace Acrocatic {
         [HideInInspector]
         public bool playerOnPlatform = false;       // Check if the player is standing on the platform.
         [HideInInspector]
-        public Rigidbody2D rigidbody;               // Cache the rigidbody of the platform.
+        public Rigidbody2D rigidbodyRef;               // Cache the rigidbodyRef of the platform.
         
         // Public variables.
         [Tooltip("Select the platform's types (more than one can be chosen).")]
@@ -19,7 +19,7 @@ namespace Acrocatic {
         // Use this for initialization.
         void Start() {
             // Setting up references.
-            rigidbody = GetComponent<Rigidbody2D>();
+            rigidbodyRef = GetComponent<Rigidbody2D>();
             sinking = GetComponent<PlatformSink>();
             initialPosition = transform.position;
         }
@@ -48,9 +48,9 @@ namespace Acrocatic {
         // Sink the platform.
         public void Sink() {
             // Make sure the platform stops.
-            rigidbody.velocity = new Vector2(0, 0);
+            rigidbodyRef.velocity = new Vector2(0, 0);
             // Make sure the platform is kinematic, so it falls down.
-            rigidbody.isKinematic = false;
+            rigidbodyRef.isKinematic = false;
             // If the platform is a moving platform...
             if(PlatformTypeIs(PlatformTypes.Moving)) {
                 // ... make sure the movement stops.
@@ -61,9 +61,9 @@ namespace Acrocatic {
         // Reset the platform's position.
         public void ResetPosition() {
             // Make sure the platform stops.
-            rigidbody.velocity = new Vector2(0, 0);
+            rigidbodyRef.velocity = new Vector2(0, 0);
             // Make the platform kinematic again.
-            rigidbody.isKinematic = true;
+            rigidbodyRef.isKinematic = true;
             // Set the platform's initial position.
             transform.position = initialPosition;
             // If the platform is a moving platform...

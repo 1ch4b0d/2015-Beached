@@ -121,12 +121,12 @@ namespace Acrocatic {
             // Make the player sticky to the moving platform.
             if(OnMovingPlatform()) {
                 // Cache the platform's velocity.
-                Vector2 platformVelocity = platformClass.rigidbody.velocity;
+                Vector2 platformVelocity = platformClass.GetComponent<Rigidbody>().velocity;
                 
                 // If the player should stick to the X velocity of the platform...
                 if(movingPlatform.stickToX && !unstick) {
                     // ... cache the player's X velocity.
-                    float xVel = player.rigidbody.velocity.x;
+                    float xVel = player.GetComponent<Rigidbody>().velocity.x;
                     // Get the player's speed.
                     float speed = player.GetSpeed(false);
                     // Set the min and max velocity.

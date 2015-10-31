@@ -25,6 +25,11 @@ public class GameObjectValuesEvent : CustomEventObject {
         if(gameObjectsToModify == null) {
             this.gameObject.LogComponentError("gameObjectsToModify", this.GetType());
         }
+        foreach(GameObject gameObj in gameObjectsToModify) {
+            if(gameObj == null) {
+                this.gameObject.LogComponentError("gameObjectsToModify", this.GetType());
+            }
+        }
     }
     
     public override void Execute() {

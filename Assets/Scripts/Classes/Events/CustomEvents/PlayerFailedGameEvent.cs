@@ -29,7 +29,6 @@ public class PlayerFailedGameEvent : CustomEventObject {
     }
     
     public override void ExecuteLogic() {
-        player.Pause();
         GameOverManager.Instance.TriggerGameOver();
     }
 }

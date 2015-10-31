@@ -48,7 +48,7 @@ namespace Acrocatic {
         [HideInInspector]
         public bool jumpingThrough = false;         // Determines if the player is jumping through a platform.
         [HideInInspector]
-        public Rigidbody2D rigidbody;               // Cache the rigidbody of the player.
+        public Rigidbody2D rigidbody2DRef;               // Cache the rigidbody2DRef of the player.
         
         // Public variables.
         [Tooltip("Select the direction in which the sprites are facing.")]
@@ -120,7 +120,7 @@ namespace Acrocatic {
         // Use this for initialization.
         void Start() {
             // Setting up references.
-            rigidbody = GetComponent<Rigidbody2D>();
+            rigidbody2DRef = GetComponent<Rigidbody2D>();
             groundCheck = transform.Find("groundCheck");
             frontCheckTop = new GameObject("frontCheckTop");
             frontCheckBot = new GameObject("frontCheckBot");
@@ -133,7 +133,7 @@ namespace Acrocatic {
             playerPlatform = GetComponent<PlayerPlatform>();
             normalRotation = transform.localRotation;
             animator = GetComponent<Animator>();
-            gravityScale = rigidbody.gravityScale;
+            gravityScale = rigidbody2DRef.gravityScale;
             
             // Set the frontCheck and backCheck transform parent to the player's transform.
             frontCheckTop.transform.parent = transform;
@@ -171,11 +171,11 @@ namespace Acrocatic {
             // If the player is stuck to a wall or on a ladder.
             if(stuckToWall || onLadder) {
                 // ... set the gravity scale to 0.
-                rigidbody.gravityScale = 0;
+                rigidbody2DRef.gravityScale = 0;
             }
             else {
                 // Reset the gravity scale.
-                rigidbody.gravityScale = gravityScale;
+                rigidbody2DRef.gravityScale = gravityScale;
             }
             
             // If the groundedXVelocity is active and keepVelocityOnGround is activated...
@@ -230,7 +230,7 @@ namespace Acrocatic {
                 if(keepVelocityOnGround
                     && !grounded) {
                     // ... set the groundedXVelocity to the current X velocity.
-                    groundedXVelocity = rigidbody.velocity.x;
+                    groundedXVelocity = rigidbody2DRef.velocity.x;
                     // Start the groundedTimer.
                     groundedTimer = groundedVelocityTime;
                 }
@@ -273,8 +273,8 @@ namespace Acrocatic {
             animator.SetBool("onLadder", onLadder);
             animator.SetBool("jumpingThrough", jumpingThrough);
             animator.SetFloat("horizontal", Mathf.Abs(hor));
-            animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody.velocity.x));
-            animator.SetFloat("ySpeed", rigidbody.velocity.y);
+            animator.SetFloat("xSpeed",  Mathf.Abs(rigidbody2DRef.velocity.x));
+            animator.SetFloat("ySpeed", rigidbody2DRef.velocity.y);
             animator.SetBool("isDead", isDead);
         }
         
@@ -308,6 +308,7 @@ namespace Acrocatic {
         
         // Make sure the player is dead.
         public void Dead() {
+            Debug.Log("Derp");
             isDead = true;
             SetJumps(0);
             falling = true;
@@ -325,7 +326,9 @@ namespace Acrocatic {
         // Function to flip the character.
         void Flip() {
             // Only flip the player when not dashing or sliding and the player isn't dead and not allowed to move while dead.
-            if(!dashing && !sliding && !(isDead && !moveAfterDeath)) {
+            if(!dashing
+                && !sliding
+                && !(isDead && !moveAfterDeath)) {
                 flipAgain = false;
                 
                 // These if-statements are used to fix a bug where the player would be flipped before changing the animation.
@@ -368,12 +371,12 @@ namespace Acrocatic {
             }
             
             // Set X velocity.
-            rigidbody.velocity = new Vector2(xVel, rigidbody.velocity.y);
+            rigidbody2DRef.velocity = new Vector2(xVel, rigidbody2DRef.velocity.y);
         }
         
         // Set the Y velocity for the player.
         public void SetYVelocity(float yVel) {
-            rigidbody.velocity = new Vector2(rigidbody.velocity.x, yVel);
+            rigidbody2DRef.velocity = new Vector2(rigidbody2DRef.velocity.x, yVel);
         }
         
         // Check if the player is allowed to change between walking and running while in the air.
