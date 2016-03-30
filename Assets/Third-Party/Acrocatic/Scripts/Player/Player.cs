@@ -308,7 +308,7 @@ namespace Acrocatic {
         
         // Make sure the player is dead.
         public void Dead() {
-            Debug.Log("Derp");
+            // Debug.Log("Derp");
             isDead = true;
             SetJumps(0);
             falling = true;
