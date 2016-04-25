@@ -1,0 +1,398 @@
+fileFormatVersion: 2
+guid: 4715de7ccb04f426d874bfd743b89e79
+timeCreated: 1461394627
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: grass animated spritesheet set new edited_0
+    21300002: grass animated spritesheet set new edited_1
+    21300004: grass animated spritesheet set new edited_2
+    21300006: grass animated spritesheet set new edited_3
+    21300008: grass animated spritesheet set new edited_4
+    21300010: grass animated spritesheet set new edited_5
+    21300012: grass animated spritesheet set new edited_6
+    21300014: grass animated spritesheet set new edited_7
+    21300016: grass animated spritesheet set new edited_8
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 193
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: grass animated spritesheet set new edited_0
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 239
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 88.44, y: 28.5}
+        - {x: 71.44, y: 12.5}
+        - {x: 65.44, y: 9.5}
+        - {x: 73.44, y: 15.5}
+        - {x: 71.44, y: 20.5}
+        - {x: 66.44, y: 21.5}
+        - {x: 79.44, y: 62.5}
+        - {x: 66.44, y: 63.5}
+        - {x: 36.440002, y: 40.5}
+        - {x: 40.440002, y: 91.5}
+        - {x: 38.440002, y: 93.5}
+        - {x: -100.56, y: 93.5}
+        - {x: -113.56, y: 86.5}
+        - {x: -113.56, y: -49.5}
+        - {x: -37.559998, y: -93.5}
+        - {x: 116.44, y: -93.5}
+        - {x: 116.44, y: -4.5}
+        - {x: 108.44, y: 11.5}
+      - - {x: 108.44, y: -0.5}
+        - {x: 106.44, y: -3.5}
+        - {x: 106.44, y: -5.5}
+        - {x: 111.44, y: -9.5}
+        - {x: 116.44, y: -9.5}
+        - {x: 116.44, y: -2.5}
+        - {x: 111.44, y: -0.5}
+      - - {x: 21.440002, y: 44.5}
+        - {x: 21.440002, y: 43.5}
+        - {x: 24.440002, y: 40.5}
+        - {x: 27.440002, y: 41.5}
+        - {x: 27.440002, y: 45.5}
+        - {x: 25.440002, y: 47.5}
+        - {x: 24.440002, y: 47.5}
+    - name: grass animated spritesheet set new edited_1
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 0
+        width: 247
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -104.985016, y: 90.5}
+        - {x: -118.985016, y: 88.5}
+        - {x: -118.985016, y: -74.5}
+        - {x: -61.985016, y: -95.5}
+        - {x: 120.014984, y: -95.5}
+        - {x: 120.014984, y: 26.5}
+        - {x: 70.014984, y: 90.5}
+      - - {x: -103.985016, y: -81.5}
+        - {x: -95.985016, y: -81.5}
+        - {x: -92.985016, y: -80.5}
+        - {x: -92.985016, y: -76.5}
+        - {x: -95.985016, y: -70.5}
+        - {x: -103.985016, y: -70.5}
+      - - {x: -111.985016, y: -15.5}
+        - {x: -112.985016, y: -17.5}
+        - {x: -112.985016, y: -20.5}
+        - {x: -110.985016, y: -21.5}
+        - {x: -107.985016, y: -21.5}
+        - {x: -106.985016, y: -19.5}
+        - {x: -106.985016, y: -17.5}
+        - {x: -109.985016, y: -15.5}
+    - name: grass animated spritesheet set new edited_2
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 62.625, y: 26.5}
+        - {x: 59.625, y: 32.5}
+        - {x: 55.625, y: 33.5}
+        - {x: 21.625, y: 33.5}
+        - {x: 9.625, y: 30.5}
+        - {x: -55.375, y: 21.5}
+        - {x: -78.375, y: -7.5}
+        - {x: -81.375, y: -26.5}
+        - {x: -88.375, y: -28.5}
+        - {x: -91.375, y: -35.5}
+        - {x: -81.375, y: -40.5}
+        - {x: -96.375, y: -59.5}
+        - {x: -96.375, y: -83.5}
+        - {x: 97.625, y: -83.5}
+        - {x: 97.625, y: -51.5}
+        - {x: 82.625, y: 7.5}
+        - {x: 71.625, y: 18.5}
+        - {x: 60.625, y: 28.5}
+      - - {x: -96.375, y: -73.5}
+        - {x: -96.375, y: -82.5}
+        - {x: -92.375, y: -82.5}
+        - {x: -91.375, y: -80.5}
+        - {x: -91.375, y: -76.5}
+        - {x: -93.375, y: -73.5}
+    - name: grass animated spritesheet set new edited_3
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 0
+        width: 208
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 72.69, y: 20.5}
+        - {x: 59.690002, y: 17.5}
+        - {x: 61.690002, y: 29.5}
+        - {x: 60.690002, y: 32.5}
+        - {x: 49.690002, y: 32.5}
+        - {x: 41.690002, y: 28.5}
+        - {x: 31.690002, y: 21.5}
+        - {x: 24.690002, y: 30.5}
+        - {x: 22.690002, y: 30.5}
+        - {x: 10.690002, y: 20.5}
+        - {x: -43.309998, y: 14.5}
+        - {x: -57.309998, y: 9.5}
+        - {x: -73.31, y: -12.5}
+        - {x: -69.31, y: -26.5}
+        - {x: -64.31, y: -24.5}
+        - {x: -60.309998, y: -20.5}
+        - {x: -55.309998, y: -26.5}
+        - {x: -94.31, y: -28.5}
+        - {x: -96.31, y: -36.5}
+        - {x: -100.31, y: -50.5}
+        - {x: -100.31, y: -78.5}
+        - {x: -99.31, y: -79.5}
+        - {x: -67.31, y: -87.5}
+        - {x: 70.69, y: -87.5}
+        - {x: 100.69, y: -85.5}
+        - {x: 100.69, y: -52.5}
+        - {x: 80.69, y: 19.5}
+    - name: grass animated spritesheet set new edited_4
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 0
+        width: 184
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 85.20996, y: -65.5}
+        - {x: 83.20996, y: -67.5}
+        - {x: 75.20996, y: -67.5}
+        - {x: 71.20996, y: -64.5}
+        - {x: 76.20996, y: -67.5}
+        - {x: 79.20996, y: -67.5}
+        - {x: 84.20996, y: -65.5}
+        - {x: 89.20996, y: -64.5}
+        - {x: 89.20996, y: 6.5}
+        - {x: 86.20996, y: 9.5}
+        - {x: -38.79004, y: 9.5}
+        - {x: -45.79004, y: 7.5}
+        - {x: -88.79004, y: -32.5}
+        - {x: -88.79004, y: -35.5}
+        - {x: -86.79004, y: -40.5}
+        - {x: -85.79004, y: -43.5}
+        - {x: -78.79004, y: -41.5}
+        - {x: -88.79004, y: -45.5}
+        - {x: -88.79004, y: -77.5}
+        - {x: -87.79004, y: -78.5}
+        - {x: -0.79003906, y: -84.5}
+        - {x: 32.20996, y: -85.5}
+        - {x: 70.20996, y: -85.5}
+        - {x: 88.20996, y: -77.5}
+        - {x: 89.20996, y: -76.5}
+        - {x: 89.20996, y: -64.5}
+      - - {x: 86.20996, y: -27.5}
+        - {x: 88.20996, y: -29.5}
+        - {x: 89.20996, y: -29.5}
+        - {x: 89.20996, y: -24.5}
+        - {x: 87.20996, y: -24.5}
+      - - {x: -87.79004, y: -11.5}
+        - {x: -87.79004, y: -26.5}
+        - {x: -85.79004, y: -27.5}
+        - {x: -83.79004, y: -27.5}
+        - {x: -79.79004, y: -25.5}
+        - {x: -79.79004, y: -12.5}
+        - {x: -80.79004, y: -11.5}
+    - name: grass animated spritesheet set new edited_5
+      rect:
+        serializedVersion: 2
+        x: 1201
+        y: 0
+        width: 211
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 96.464966, y: -57.5}
+        - {x: 95.464966, y: -54.5}
+        - {x: 87.464966, y: -47.5}
+        - {x: 103.464966, y: -30.5}
+        - {x: 103.464966, y: -9.5}
+        - {x: 92.464966, y: -6.5}
+        - {x: 86.464966, y: -16.5}
+        - {x: 91.464966, y: -18.5}
+        - {x: 93.464966, y: -18.5}
+        - {x: 87.464966, y: -18.5}
+        - {x: 78.464966, y: -19.5}
+        - {x: 84.464966, y: -0.5}
+        - {x: 63.464966, y: 10.5}
+        - {x: 27.464966, y: 10.5}
+        - {x: 14.464966, y: -0.5}
+        - {x: -100.535034, y: -8.5}
+        - {x: -100.535034, y: -76.5}
+        - {x: -28.535034, y: -94.5}
+        - {x: 3.4649658, y: -94.5}
+        - {x: 4.464966, y: -88.5}
+        - {x: 101.464966, y: -94.5}
+        - {x: 101.464966, y: -80.5}
+      - - {x: 99.464966, y: -50.5}
+        - {x: 99.464966, y: -53.5}
+        - {x: 101.464966, y: -55.5}
+        - {x: 103.464966, y: -55.5}
+        - {x: 103.464966, y: -48.5}
+        - {x: 101.464966, y: -48.5}
+    - name: grass animated spritesheet set new edited_6
+      rect:
+        serializedVersion: 2
+        x: 1414
+        y: 0
+        width: 216
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 89.01001, y: -47.5}
+        - {x: 105.01001, y: -29.5}
+        - {x: 105.01001, y: -7.5}
+        - {x: 93.01001, y: -5.5}
+        - {x: 67.01001, y: -25.5}
+        - {x: 49.01001, y: -29.5}
+        - {x: 63.01001, y: -15.5}
+        - {x: 65.01001, y: -15.5}
+        - {x: 63.01001, y: -15.5}
+        - {x: 59.01001, y: -20.5}
+        - {x: 60.01001, y: -23.5}
+        - {x: 64.01001, y: -23.5}
+        - {x: 70.01001, y: -21.5}
+        - {x: 80.01001, y: -11.5}
+        - {x: 89.01001, y: 0.5}
+        - {x: -15.98999, y: 0.5}
+        - {x: -102.98999, y: -10.5}
+        - {x: -102.98999, y: -28.5}
+        - {x: -101.98999, y: -29.5}
+        - {x: -102.98999, y: -54.5}
+        - {x: -100.98999, y: -56.5}
+        - {x: -90.98999, y: -56.5}
+        - {x: -95.98999, y: -64.5}
+        - {x: -99.98999, y: -71.5}
+        - {x: -88.98999, y: -79.5}
+        - {x: -36.98999, y: -94.5}
+        - {x: 87.01001, y: -94.5}
+        - {x: 105.01001, y: -91.5}
+        - {x: 105.01001, y: -75.5}
+        - {x: 99.01001, y: -54.5}
+      - - {x: -76.98999, y: -27.5}
+        - {x: -73.98999, y: -26.5}
+        - {x: -73.98999, y: -23.5}
+        - {x: -76.98999, y: -22.5}
+        - {x: -78.98999, y: -24.5}
+      - - {x: -69.98999, y: -20.5}
+        - {x: -72.98999, y: -24.5}
+        - {x: -70.98999, y: -27.5}
+        - {x: -63.98999, y: -27.5}
+        - {x: -62.98999, y: -25.5}
+        - {x: -62.98999, y: -20.5}
+    - name: grass animated spritesheet set new edited_7
+      rect:
+        serializedVersion: 2
+        x: 1643
+        y: 0
+        width: 188
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33.494995, y: 7.5}
+        - {x: -89.505005, y: -16.5}
+        - {x: -89.505005, y: -78.5}
+        - {x: -88.505005, y: -79.5}
+        - {x: -1.5050049, y: -86.5}
+        - {x: 13.494995, y: -87.5}
+        - {x: 91.494995, y: -87.5}
+        - {x: 91.494995, y: -11.5}
+        - {x: 64.494995, y: 7.5}
+    - name: grass animated spritesheet set new edited_8
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 0
+        width: 252
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 123.46997, y: -14.5}
+        - {x: 99.46997, y: -12.5}
+        - {x: 67.46997, y: -19.5}
+        - {x: 52.46997, y: -31.5}
+        - {x: 123.46997, y: 26.5}
+        - {x: 123.46997, y: 57.5}
+        - {x: 74.46997, y: 90.5}
+        - {x: -87.53003, y: 90.5}
+        - {x: -119.53003, y: 67.5}
+        - {x: -119.53003, y: -81.5}
+        - {x: 1.4699707, y: -95.5}
+        - {x: 31.46997, y: -95.5}
+        - {x: 123.46997, y: -83.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
